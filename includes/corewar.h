@@ -15,8 +15,7 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
-# include "./op.h"
-#include "./asm.h"
+# include "op.h"
 
 # include "../libft/includes/libft.h"
 
@@ -39,6 +38,5 @@ typedef struct l_str
 t_str   *create_tstr(char *str);
 t_champ   *create_lchamp();
 int valid_magic(char *magic);
-t_bytes   *create_byte();
 
 #endif
