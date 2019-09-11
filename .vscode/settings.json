@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "op.h": "c",
+        "corewar.h": "c",
+        "unistd.h": "c",
+        "fcntl.h": "c"
+    }
+}
