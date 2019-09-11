@@ -1,57 +1,26 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pdemian <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/03/10 12:32:00 by pdemian           #+#    #+#              #
-#    Updated: 2019/06/28 16:36:37 by pdemian          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	=	compile
 
-NAME :=		corewar
+LIBFT_PATH	= ./libft
+VM_PATH	= ./src/vm
+ASM_PATH	= ./src/assembler
 
-SRCDIR :=	src/vm/
-INCDIR :=	includes/
-LIBDIR :=	libft/
-OBJDIR :=	.obj/
+all:	$(NAME)
 
-CC :=		clang
-CFLAGS :=	-g #-Wall -Wextra -Werror
-IFLAGS :=	-I $(INCDIR)
-LFLAGS :=	-lft -L $(LIBDIR)
+$(NAME):
+	@make -C $(LIBFT_PATH)
+	@make -C $(VM_PATH)
+	@make -C $(ASM_PATH)
 
-LIB :=		$(LIBDIR)libft.a	
-INC :=		corewar
-SRC :=		list_worker main
+clean:
+	@make -C $(LIBFT_PATH) clean
+	@make -C $(VM_PATH) clean
+	@make -C $(ASM_PATH) clean
 
-INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
-SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))
-OBJS :=		$(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
+fclean:	clean
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(VM_PATH) fclean
+	@make -C $(ASM_PATH) fclean
 
-all: $(NAME)
+re:		fclean all
 
-$(NAME):	$(LIB) $(OBJDIR) $(OBJS)
-	@ $(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(OBJS) -o $(NAME)
-$(LIB):
-	@ make -C $(LIBDIR) libft.a
-
-$(OBJDIR):
-	mkdir -p $(OBJDIR)$(SRCDIR)
-$(OBJDIR)%.o:		%.c $(INCS)
-	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
-
-mclean:
-	rm -rf $(OBJDIR)
-mfclean: mclean
-	rm -rf $(NAME)
-mre: mfclean all
-
-clean: mclean
-	make clean -C $(LIBDIR)
-fclean: clean mfclean
-	make fclean -C $(LIBDIR)
-re: fclean all
-
-.PHONY: $(LIB) all clean fclean re
+.PHONY:		all clean fclean re

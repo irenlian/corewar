@@ -108,7 +108,7 @@ OBJS :=		$(addprefix $(OBJDIR), $(SRCS:%.c=%.o))
 all:		$(NAME)
 
 $(NAME): 	$(OBJDIR) $(OBJS)
-	ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $(OBJS)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
