@@ -10,11 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME :=		corewar
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pdemian <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/03/10 12:32:00 by pdemian           #+#    #+#              #
+#    Updated: 2019/06/28 16:36:37 by pdemian          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME :=		../corewar
 
 SRCDIR :=	src/
-INCDIR :=	includes/
-LIBDIR :=	libft/
+INCDIR :=	../includes/
+LIBDIR :=	../libft/
 OBJDIR :=	.obj/
 
 CC :=		clang
@@ -23,8 +35,8 @@ IFLAGS :=	-I $(INCDIR)
 LFLAGS :=	-lft -L $(LIBDIR)
 
 LIB :=		$(LIBDIR)libft.a	
-INC :=		lemin	
-SRC :=		main parser paths ultis movement validator
+INC :=		corewar op	
+SRC :=		main list_worker
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))
