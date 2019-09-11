@@ -12,19 +12,19 @@
 
 #include "../../includes/corewar.h"
 
-t_str   *read_file(char *path)
+t_list   *read_file(char *path)
 {
-    t_str *str;
-    t_str *tmp;
-    char *line;
-    int fd;
+    t_list	*str;
+    t_list	*tmp;
+    char	*line;
+    int		fd;
 
     str = NULL;
     line = NULL;
     fd = open(path, O_RDONLY);
     while (get_next_line(fd, &line) > 0)
     {
-        tmp = create_tstr(line);
+        tmp = ft_lstnew(line, ft_strlen(line));
         if (!str)
             str = tmp;
         tmp = tmp->next;
@@ -95,12 +95,38 @@ t_champ *sort_champs(t_champ *champ, int argc, char **argv)
     return (champ);
 }
 
-t_champ *get_champ(t_str *str_champ)
+t_champ *get_champ(t_list *str_champ, int id)
 {
     t_champ *champ;
+	char	*name;
+	char	*code;
+	unsigned int		*magic;
+	int		magic2;
+	int		res;
+	char	*tmp;
+	t_header	*header;
+	int		i;
 
-    (void)str_champ;
-    champ = create_lchamp();
+	tmp = (char*)(str_champ->content);
+	// tmp = ft_strsub(tmp, 0, 4);
+	magic = (unsigned int*)malloc(sizeof(int));
+	ft_memcpy(magic, str_champ->content, sizeof(int));
+	// if (*magic != COREWAR_EXEC_MAGIC)
+	// 	return NULL;
+	// tmp = (char*)(str_champ->content);
+	// tmp = ft_strsub(tmp, 4, 4 + );
+	magic2 = ft_strlen(tmp);
+    header = (t_header*)malloc(sizeof(t_header));
+    *header = (t_header){*magic, 0, get_code_size(code), 0};
+	i = 3;
+	ft_memcpy(header->prog_name, &(str_champ->content[i]), PROG_NAME_LENGTH);
+	i += PROG_NAME_LENGTH + 4;
+	ft_memcpy(&(header->prog_size), &(str_champ->content[i]), sizeof(int));
+	i += 4;
+	ft_memcpy(header->comment, &(str_champ->content[i]), COMMENT_LENGTH);
+	i += COMMENT_LENGTH + 4;
+    champ = (t_champ*)malloc(sizeof(t_champ));
+    *champ = (t_champ){id, header, code, NULL};
     return (champ);
 }
 
@@ -116,19 +142,20 @@ t_champ *get_champs(int argc, char **argv)
     {
         if (ft_strlen(argv[i]) >= 4 && ft_strequ(argv[i] + (ft_strlen(argv[i]) - 4), ".cor"))
         {
+			ft_printf("%s\n", argv[i]);
             if (champ)
             {
-                tmp->next_champ = get_champ(read_file(argv[i]));
+                tmp->next_champ = get_champ(read_file(argv[i]), i);
                 tmp = tmp->next_champ;
             }
             else
             {
-                tmp = get_champ(read_file(argv[i]));
+                tmp = get_champ(read_file(argv[i]), i);
                 champ = tmp;
             }
         }
     }
-    champ = sort_champs(champ, argc, argv);
+    // champ = sort_champs(champ, argc, argv);
     return (champ);
 }
 
@@ -169,10 +196,10 @@ int     main(int argc, char **argv)
     t_champ *champ;
     
     champ = get_champs(argc, argv);
-    pl_dist = MEM_SIZE * 2 / (get_quantity_players(champ) - 1);
-    arena = ft_memalloc(MEM_SIZE * 2 + 1);
-    arena = ft_memset(arena, '0', MEM_SIZE * 2);
-    set_players_to_arena(champ, &arena);
-    ft_printf("%s", arena);
+    // pl_dist = MEM_SIZE * 2 / (get_quantity_players(champ) - 1);
+    // arena = ft_memalloc(MEM_SIZE * 2 + 1);
+    // arena = ft_memset(arena, '0', MEM_SIZE * 2);
+    // set_players_to_arena(champ, &arena);
+    // ft_printf("%s", arena);
     return (0);
 }

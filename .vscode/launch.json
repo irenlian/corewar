@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/corewar",
-            "args": ["vm_champs/champs/42.cor", "vm_champs/champs/barriere.cor"],
+            "args": ["vm_champs/champs/barriere.cor", "vm_champs/champs/del.cor"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
