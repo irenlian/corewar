@@ -19,24 +19,24 @@
 
 # include "../libft/includes/libft.h"
 
-typedef struct l_champ
+typedef struct			s_champ
 {
-    int              id;
-    char            *name;
-    char            *coment;
-    int             *champ_size;
-    char            *code;
-    struct l_champ  *next_champ;
-}                   t_champ;
+	int					id;
+	char				*name;
+	char				*coment;
+	int					*champ_size;
+	char				*code;
+	struct s_champ		*next_champ;
+}						t_champ;
 
-typedef struct l_str
+typedef struct			s_str
 {
-    char            *line;
-    struct l_str    *next;
-}                   t_str;
+	char				*line;
+	struct s_str		*next;
+}						t_str;
 
-t_str   *create_tstr(char *str);
-t_champ   *create_lchamp();
-int valid_magic(char *magic);
+t_str					*create_tstr(char *str);
+t_champ					*create_lchamp();
+int						valid_magic(char *magic);
 
 #endif
