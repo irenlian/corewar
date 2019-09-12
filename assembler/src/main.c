@@ -67,7 +67,7 @@ void set_name(int fd, char *name)
 int     main(int argc, char **argv)
 {
     // t_bytes *cor;
-    t_str *champ;
+    // t_str *champ;
     int fd;
     
     // cor = set_magic();

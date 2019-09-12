@@ -19,6 +19,8 @@
 
 # include "../libft/includes/libft.h"
 
+# define MAX_FILE_LENGTH		(CHAMP_MAX_SIZE + PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 8)
+
 typedef struct		s_champ
 {
     int				id;
@@ -27,18 +29,37 @@ typedef struct		s_champ
     struct s_champ	*next_champ;
 }					t_champ;
 
-<<<<<<< HEAD
-typedef struct l_str
+typedef struct		s_carriage
 {
-    char            *line;
-    struct l_str    *next;
-}                   t_str;
+    int				id;
+	int				location;
+	int				carry;
+	unsigned int	registers[16];
+	int				live;
+	void			(*func)();
+	int				cycles_to_run;
+}					t_carriage;
 
-t_str   *create_tstr(char *str);
-t_champ   *create_lchamp();
-int valid_magic(char *magic);
-=======
-int					get_code_size(char *code);
->>>>>>> Getting champs
+typedef struct		s_vm
+{
+    t_champ			*champs;
+	char			*arena;
+	t_champ			*last_live;
+	int				cycles_to_die;
+	int				cycles_counter;
+	int				live_counter;
+	int				check_counter;
+}					t_vm;
+
+typedef struct		s_byte_code
+{
+    int				length;
+    char			*code;
+}					t_byte_code;
+
+t_vm				*create_game();
+t_champ				*get_champs(int argc, char **argv);
+int					get_quantity_players(t_champ *champ);
+int					byte_to_int(char *str);
 
 #endif

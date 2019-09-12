@@ -10,18 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: pdemian <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/03/10 12:32:00 by pdemian           #+#    #+#              #
-#    Updated: 2019/06/28 16:36:37 by pdemian          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME :=		../corewar
 
 SRCDIR :=	src/
@@ -36,7 +24,7 @@ LFLAGS :=	-lft -L $(LIBDIR)
 
 LIB :=		$(LIBDIR)libft.a	
 INC :=		corewar op	
-SRC :=		main list_worker
+SRC :=		main initializator arena reading utils
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))
