@@ -21,11 +21,19 @@
 
 # define MAX_FILE_LENGTH		(CHAMP_MAX_SIZE + PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 8)
 
+
+typedef struct		s_byte_code
+{
+    int				length;
+    char			*code;
+}					t_byte_code;
+
 typedef struct		s_champ
 {
     int				id;
 	t_header		*header;
-    char			*code;
+    t_byte_code		*byte_code;
+	t_list			*asm_code;
     struct s_champ	*next_champ;
 }					t_champ;
 
@@ -50,12 +58,6 @@ typedef struct		s_vm
 	int				live_counter;
 	int				check_counter;
 }					t_vm;
-
-typedef struct		s_byte_code
-{
-    int				length;
-    char			*code;
-}					t_byte_code;
 
 t_vm				*create_game();
 t_champ				*get_champs(int argc, char **argv);
