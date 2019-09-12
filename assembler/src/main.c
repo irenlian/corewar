@@ -34,17 +34,35 @@
 
 void set_magic(int fd)
 {
+    char c = 0;
     int magic = COREWAR_EXEC_MAGIC;
 	
-    write(fd, &magic, 4);
+    c = magic >> (3 * 8);
+    write(fd, &c, 1);
+    c = magic >> (2 * 8);    
+    write(fd, &c, 1);
+    c = magic >> (8);    
+    write(fd, &c, 1);
+    c = magic;
+    write(fd, &c, 1);
 }
 
 void set_name(int fd, char *name)
 {
-    
-    write(fd, &name, PROG_NAME_LENGTH);
-    
-}
+    int i;
+    char c;
+
+    c = 0;
+    i = 0;
+    // write(fd, &name[0], 1);
+    // write(fd, &name[1], 1);
+    write(fd, name, i = ft_strlen(name));
+    while(i < PROG_NAME_LENGTH + 4)
+    {
+        write(fd, &c, 1);
+        i++;
+    }
+}   
 
 int     main(int argc, char **argv)
 {
@@ -53,11 +71,10 @@ int     main(int argc, char **argv)
     int fd;
     
     // cor = set_magic();
-    
-    fd = open("champ.cor", O_WRONLY);
+    fd = open("champ.cor", O_RDWR | O_CREAT | O_TRUNC, 777);
     set_magic(fd);
     // champ = read_file(argv[1]);
-    set_name(fd, "testit");
+    set_name(fd, "Batman");
     // printf("%d", COREWAR_EXEC_MAGIC);
     return (0);
 }
