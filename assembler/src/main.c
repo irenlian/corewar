@@ -12,6 +12,38 @@
 
 #include "corewar.h"
 
+// void		print_file(t_champ *champ)
+// {
+// 	t_list 	*list;
+
+// 	list = champ->asm_code;
+// 	while (list)
+// 	{
+// 		printf("%s\n", list->content);
+// 		list = list->next;
+// 	}
+// }
+
+// t_str   *read_file(char *path)
+// {
+//     t_str *str;
+//     t_str *tmp;
+//     char *line;
+//     int fd;
+
+//     str = NULL;
+//     line = NULL;
+//     fd = open(path, O_RDONLY);
+//     while (get_next_line(fd, &line) > 0)
+//     {
+//         tmp = create_tstr(line);
+//         if (!str)
+//             str = tmp;
+//         tmp = tmp->next;
+//     }
+//     return (str);
+// }
+
 void set_magic(int fd)
 {
     char c = 0;
@@ -105,17 +137,24 @@ void    count_bytes(t_list *str)
     }
 }
 
+
 int     main(int argc, char **argv)
 {
-    // t_bytes *cor;
+    t_champ     *champ;
     int fd;
     
+    champ = (t_champ*)malloc(sizeof(t_champ));
+
     // cor = set_magic();
+	
+    read_code(champ, argv[1]);
+
     fd = open("champ.cor", O_RDWR | O_CREAT | O_TRUNC, 777);
     set_magic(fd);
     // champ = read_file(argv[1]);
     set_name(fd, "This city needs me", COMMENT_LENGTH);
     int result = get_byte_size("sti r1, %:live, %1");
     // printf("%d", COREWAR_EXEC_MAGIC);
+    // system("leaks asm");
     return (0);
 }
