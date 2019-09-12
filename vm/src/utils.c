@@ -35,15 +35,14 @@ void	*ft_memrev(const void *src, size_t n)
 
 int	byte_to_int(char *str)
 {
-	char	*sub;
 	char	*tmp;
 	int		*num;
-	int t = sizeof(int);
 
-	sub = ft_strnew(sizeof(int));
-	ft_memcpy(sub, str, sizeof(int));
-	tmp = ft_memrev(sub, sizeof(int));
-	free(sub);
+	tmp = ft_strnew(sizeof(int) - 1);
+	tmp[0] = str[3];
+	tmp[1] = str[2];
+	tmp[2] = str[1];
+	tmp[3] = str[0];
 	num = (int*)ft_memalloc(sizeof(int));
 	ft_memcpy(num, tmp, sizeof(int));
 	free(tmp);

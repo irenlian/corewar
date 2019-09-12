@@ -10,18 +10,13 @@ t_byte_code   *read_file(char *path)
 
 	bytes = (t_byte_code*)ft_memalloc(sizeof(t_byte_code));
 	*bytes = (t_byte_code){0, ft_strnew(MAX_FILE_LENGTH)};
-	// bytes->code = ft_strnew(MAX_FILE_LENGTH);
 	tmp = bytes->code;
     fd = open(path, O_RDONLY);
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		// buf[ret] = '\0';
 		ft_memcpy(tmp, buf, ret);
 		bytes->length += ret;
 		tmp += ret;
-		// tmp = ft_strjoin(str, buf);
-		// free(str);
-		// str = tmp;
 	}
     return (bytes);
 }
@@ -101,13 +96,9 @@ t_champ *get_champ(t_byte_code *str_champ, int id)
 	t_header	*header;
 	int		i;
 
-	// tmp = ft_strsub(tmp, 0, 4);
 	magic = byte_to_int(str_champ->code);
-	// ft_memcpy(magic, str_champ, sizeof(int));
-	// if (magic != COREWAR_EXEC_MAGIC)
-	// 	return NULL;
-	// tmp = (char*)(str_champ->content);
-	// tmp = ft_strsub(tmp, 4, 4 + );
+	if (magic != COREWAR_EXEC_MAGIC)
+		return NULL;
 	magic2 = ft_strlen(tmp);
     header = (t_header*)malloc(sizeof(t_header));
     *header = (t_header){magic, 0, 0, 0};
@@ -119,7 +110,7 @@ t_champ *get_champ(t_byte_code *str_champ, int id)
 	ft_memcpy(header->comment, &(str_champ[i]), COMMENT_LENGTH);
 	i += COMMENT_LENGTH + 4;
     champ = (t_champ*)malloc(sizeof(t_champ));
-    *champ = (t_champ){id, header, code, NULL};
+    *champ = (t_champ){id, header, str_champ, NULL};
     return (champ);
 }
 
