@@ -31,6 +31,7 @@ typedef struct		s_byte_code
 typedef struct		s_champ
 {
     int				id;
+	char			*name;
 	t_header		*header;
     t_byte_code		*byte_code;
 	t_list			*asm_code;

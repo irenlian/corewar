@@ -154,7 +154,6 @@ int     main(int argc, char **argv)
     // champ = read_file(argv[1]);
     set_name(fd, "This city needs me", COMMENT_LENGTH);
     int result = get_byte_size("sti r1, %:live, %1");
-    // printf("%d", COREWAR_EXEC_MAGIC);
     // system("leaks asm");
     return (0);
 }
