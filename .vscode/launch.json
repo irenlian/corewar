@@ -8,7 +8,7 @@
             "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/corewar",
+            "program": "${workspaceFolder}/asm",
             "args": ["vm_champs/champs/barriere.cor", "vm_champs/champs/del.cor"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

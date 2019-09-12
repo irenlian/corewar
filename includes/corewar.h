@@ -37,31 +37,7 @@ typedef struct		s_champ
     struct s_champ	*next_champ;
 }					t_champ;
 
-typedef struct		s_carriage
-{
-    int				id;
-	int				location;
-	int				carry;
-	unsigned int	registers[16];
-	int				live;
-	void			(*func)();
-	int				cycles_to_run;
-}					t_carriage;
-
-typedef struct		s_vm
-{
-    t_champ			*champs;
-	char			*arena;
-	t_champ			*last_live;
-	int				cycles_to_die;
-	int				cycles_counter;
-	int				live_counter;
-	int				check_counter;
-}					t_vm;
-
-t_vm				*create_game();
-t_champ				*get_champs(int argc, char **argv);
-int					get_quantity_players(t_champ *champ);
-int					byte_to_int(char *str);
+int					get_code_size(char *code);
+int valid_magic(char *magic);
 
 #endif
