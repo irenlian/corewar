@@ -33,10 +33,10 @@ void			get_name(t_champ *champ, char *line)
 			break ;
 		}
 	}
-	champ->name = ft_strnew(i - s - 1);
+	// champ->header->prog_name = ft_strnew(i - s - 1);
 	i = -1;
 	while (line[++s] != '"')
-		champ->name[++i] = line[s];
+		champ->header->prog_name[++i] = line[s];
 }
 
 /*

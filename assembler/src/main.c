@@ -49,86 +49,87 @@ void set_name(int fd, char *name, int max_length)
     write(fd, &c, 1);
 }
 
-char    *get_code_name(char *code)
-{
-     char name[6];
-     int i;
+// char    *get_code_name(char *code)
+// {
+//      char name[6];
+//      int i;
 
-     i = 0;
-     while (i < 6 && code[i] != '\0')
-     {
-         if (code[i] == ' ')
-         {
-            name[i] = '\0';
-            break ;
-         }
-         name[i] = code[i];
-         i++;
-     }
-}
+//      i = 0;
+//      while (i < 6 && code[i] != '\0')
+//      {
+//          if (code[i] == ' ')
+//          {
+//             name[i] = '\0';
+//             break ;
+//          }
+//          name[i] = code[i];
+//          i++;
+//      }
+//      return (&(name[0]));
+// }
 
-int     get_arg_byte_size(char *code, char *arg)
-{
-    int i;
-    t_command *com;
+// int     get_arg_byte_size(char *code, char *arg)
+// {
+//     int i;
+//     t_command *com;
 
-    i = 0;
-    while(arg[i] != '\0' && arg[i] == ' ')
-        i++;
-    if (arg[i] == '\0')
-        return (0);
-    if (arg[i] == 'r')
-        return (1);
-    if (arg[i] == DIRECT_CHAR)
-    {
-       com = get_com_byname(catalog, get_code_name(code));
-       return (com->dir_size);
-    }
-    else
-        return (2);
+//     i = 0;
+//     while(arg[i] != '\0' && arg[i] == ' ')
+//         i++;
+//     if (arg[i] == '\0')
+//         return (0);
+//     if (arg[i] == 'r')
+//         return (1);
+//     if (arg[i] == DIRECT_CHAR)
+//     {
+//        com = get_com_byname(catalog, get_code_name(code));
+//        return (com->dir_size);
+//     }
+//     else
+//         return (2);
     
-}
+// }
 
-int     get_byte_size(char *code)
-{
-    int i;
-    int count;
+// int     get_byte_size(char *code)
+// {
+//     int i;
+//     int count;
 
-    i = -1;
-    count = 0;
-    while(code[++i] != '\0')
-    {
-        if (code[i] == ' ')
-            break;
-    }
-    while(code[i] != '\0')
-    {
-        if (ft_strchr("r0123456789", code[i]) || code[i] == DIRECT_CHAR || code[i] == LABEL_CHAR)
-        {
-            count += get_arg_byte_size(code, &code[i]);
-            while (code[i] != '\0' && code[i] != SEPARATOR_CHAR)
-                i++;
-        }
-        if (code[i] == '\0')
-            break ;
-        i++;
-    }
-    return(count);
-}
+//     i = -1;
+//     count = 0;
+//     while(code[++i] != '\0')
+//     {
+//         if (code[i] == ' ')
+//             break;
+//     }
+//     while(code[i] != '\0')
+//     {
+//         if (ft_strchr("r0123456789", code[i]) || code[i] == DIRECT_CHAR || code[i] == LABEL_CHAR)
+//         {
+//             count += get_arg_byte_size(code, &code[i]);
+//             while (code[i] != '\0' && code[i] != SEPARATOR_CHAR)
+//                 i++;
+//         }
+//         if (code[i] == '\0')
+//             break ;
+//         i++;
+//     }
+//     return(count);
+// }
 
-void    count_bytes(t_list *str)
-{
-    int count;
+// int    count_bytes(t_list *str)
+// {
+//     int count;
 
-    count = 0;
-    while (str)
-    {
-        if (((char*)str->content)[ft_strlen(str->content) - 1] == ':')
-            count += get_byte_size(str->content);
-        str = str->next;
-    }
-    return (count);
-}
+//     count = 0;
+//     while (str)
+//     {
+//         if (((char*)str->content)[ft_strlen(str->content) - 1] == ':')
+//             count += get_byte_size(str->content);
+//         str = str->next;
+//     }
+//     return (count);
+// }
 
 
 int     main(int argc, char **argv)
@@ -142,6 +143,6 @@ int     main(int argc, char **argv)
     fd = open("champ.cor", O_RDWR | O_CREAT | O_TRUNC, 777);
     set_magic(fd);
     set_name(fd, "This city needs me", COMMENT_LENGTH);
-    int result = get_byte_size("sti r1, %:live, %1");
+    // int result = get_byte_size("sti r1, %:live, %1");
     return (0);
 }

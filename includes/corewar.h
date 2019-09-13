@@ -31,7 +31,6 @@ typedef struct		s_byte_code
 typedef struct		s_champ
 {
     int				id;
-	char			*name;
 	t_header		*header;
     t_byte_code		*byte_code;
 	t_list			*asm_code;
@@ -65,14 +64,23 @@ typedef struct		s_vm
 typedef struct		s_command
 {
     char            *name;
-    int             dir_size;
     int             code;
-    int             is_code_type;
+    int             dir_size;
     int             cycles;
     int             carry;
     int             codage_octal;
-    struct s_oper	*next;
+    struct s_command    *next;
 }					t_command;
+
+typedef struct		s_code
+{
+    char            *mark;
+    char            *name;
+    char            *arg1;
+    char            *arg2;
+    char            *arg3;
+    struct s_code   *next;
+}					t_code;
 /*
 **	VM functions
 */
