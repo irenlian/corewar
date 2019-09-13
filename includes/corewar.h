@@ -42,16 +42,18 @@ typedef struct		s_carriage
     int				id;
 	int				location;
 	int				carry;
-	unsigned int	registers[16];
+	unsigned int	registers[REG_NUMBER];
 	int				live;
 	void			(*func)();
 	int				cycles_to_run;
+	struct s_carriage	*next;
 }					t_carriage;
 
 typedef struct		s_vm
 {
     t_champ			*champs;
 	char			*arena;
+	t_carriage			*cars;
 	t_champ			*last_live;
 	int				cycles_to_die;
 	int				cycles_counter;
@@ -60,6 +62,9 @@ typedef struct		s_vm
 }					t_vm;
 
 t_vm				*create_game();
+void				create_arena(t_vm *vm);
+t_champ 			*create_champ(t_byte_code *str_champ, int id);
+void				create_carriages(t_vm *vm);
 t_champ				*get_champs(int argc, char **argv);
 int					get_quantity_players(t_champ *champ);
 int					byte_to_int(char *str);

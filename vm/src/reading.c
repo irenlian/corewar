@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reading.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilian <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/13 13:46:07 by ilian             #+#    #+#             */
+/*   Updated: 2019/09/13 13:46:09 by ilian            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/corewar.h"
 
 t_byte_code   *read_file(char *path)
@@ -84,36 +96,6 @@ t_byte_code   *read_file(char *path)
 //     return (champ);
 // }
 
-t_champ *get_champ(t_byte_code *str_champ, int id)
-{
-    t_champ *champ;
-	char	*name;
-	char	*code;
-	unsigned int		magic;
-	int		magic2;
-	int		res;
-	char	*tmp;
-	t_header	*header;
-	int		i;
-
-	magic = byte_to_int(str_champ->code);
-	if (magic != COREWAR_EXEC_MAGIC)
-		return NULL;
-	magic2 = ft_strlen(tmp);
-    header = (t_header*)malloc(sizeof(t_header));
-    *header = (t_header){magic, 0, 0, 0};
-	i = 3;
-	i += PROG_NAME_LENGTH + 4;
-	ft_memcpy(header->prog_name, &(str_champ[i]), PROG_NAME_LENGTH);
-	ft_memcpy(&(header->prog_size), &(str_champ[i]), sizeof(int));
-	i += 4;
-	ft_memcpy(header->comment, &(str_champ[i]), COMMENT_LENGTH);
-	i += COMMENT_LENGTH + 4;
-    champ = (t_champ*)malloc(sizeof(t_champ));
-    *champ = (t_champ){id, header, str_champ, NULL};
-    return (champ);
-}
-
 t_champ	*get_champs(int argc, char **argv)
 {
     t_champ *champ;
@@ -129,12 +111,13 @@ t_champ	*get_champs(int argc, char **argv)
 			ft_printf("%s\n", argv[i]);
             if (champ)
             {
-                tmp->next_champ = get_champ(read_file(argv[i]), i);
-                tmp = tmp->next_champ;
+                tmp->next_champ = create_champ(read_file(argv[i]), i);
+				if (tmp->next_champ)
+                	tmp = tmp->next_champ;
             }
             else
             {
-                tmp = get_champ(read_file(argv[i]), i);
+                tmp = create_champ(read_file(argv[i]), i);
                 champ = tmp;
             }
         }
