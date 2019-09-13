@@ -1,5 +1,6 @@
-.obj
-corewar
+.obj/*
+champ.cor
+.vscode/*
 asm
-lauch.json
+corewar
 .DS_Store

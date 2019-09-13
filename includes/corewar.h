@@ -62,6 +62,17 @@ typedef struct		s_vm
 	int				check_counter;
 }					t_vm;
 
+typedef struct		s_command
+{
+    char            *name;
+    int             dir_size;
+    int             code;
+    int             is_code_type;
+    int             cycles;
+    int             carry;
+    int             codage_octal;
+    struct s_oper	*next;
+}					t_command;
 /*
 **	VM functions
 */
@@ -80,6 +91,8 @@ int					byte_to_int(char *str);
 
 int				show_error(const char *error);
 int				read_code(t_champ *champ, char *f_name);
-
+t_command       *get_commad_catalog();
+t_command       *get_com_byname(t_command *all, char *name);
+void            free_com_catalog(t_command *all);
 
 #endif

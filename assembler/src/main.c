@@ -12,37 +12,7 @@
 
 #include "corewar.h"
 
-// void		print_file(t_champ *champ)
-// {
-// 	t_list 	*list;
-
-// 	list = champ->asm_code;
-// 	while (list)
-// 	{
-// 		printf("%s\n", list->content);
-// 		list = list->next;
-// 	}
-// }
-
-// t_str   *read_file(char *path)
-// {
-//     t_str *str;
-//     t_str *tmp;
-//     char *line;
-//     int fd;
-
-//     str = NULL;
-//     line = NULL;
-//     fd = open(path, O_RDONLY);
-//     while (get_next_line(fd, &line) > 0)
-//     {
-//         tmp = create_tstr(line);
-//         if (!str)
-//             str = tmp;
-//         tmp = tmp->next;
-//     }
-//     return (str);
-// }
+static t_command   *catalog;
 
 void set_magic(int fd)
 {
@@ -79,23 +49,28 @@ void set_name(int fd, char *name, int max_length)
     write(fd, &c, 1);
 }
 
-int     get_dir_size(char *code)
+char    *get_code_name(char *code)
 {
-    if(
-        ft_strnequ(code, "zjmp", ft_strchr(code, ' ') - code - 2) ||
-        ft_strnequ(code, "ldi", ft_strchr(code, ' ') - code - 2) ||
-        ft_strnequ(code, "sti", ft_strchr(code, ' ') - code - 2) ||
-        ft_strnequ(code, "fork", ft_strchr(code, ' ') - code - 2) ||
-        ft_strnequ(code, "lldi", ft_strchr(code, ' ') - code - 2) ||
-        ft_strnequ(code, "lfork", ft_strchr(code, ' ') - code - 2))
-        return (2);
-    else
-        return (4);
+     char name[6];
+     int i;
+
+     i = 0;
+     while (i < 6 && code[i] != '\0')
+     {
+         if (code[i] == ' ')
+         {
+            name[i] = '\0';
+            break ;
+         }
+         name[i] = code[i];
+         i++;
+     }
 }
 
 int     get_arg_byte_size(char *code, char *arg)
 {
     int i;
+    t_command *com;
 
     i = 0;
     while(arg[i] != '\0' && arg[i] == ' ')
@@ -105,7 +80,10 @@ int     get_arg_byte_size(char *code, char *arg)
     if (arg[i] == 'r')
         return (1);
     if (arg[i] == DIRECT_CHAR)
-        return (get_dir_size(code));
+    {
+       com = get_com_byname(catalog, get_code_name(code));
+       return (com->dir_size);
+    }
     else
         return (2);
     
@@ -121,39 +99,49 @@ int     get_byte_size(char *code)
     while(code[++i] != '\0')
     {
         if (code[i] == ' ')
-            continue;
-        if (code[i] == SEPARATOR_CHAR)
-            count += get_arg_byte_size(code, &code[i + 1]);
+            break;
+    }
+    while(code[i] != '\0')
+    {
+        if (ft_strchr("r0123456789", code[i]) || code[i] == DIRECT_CHAR || code[i] == LABEL_CHAR)
+        {
+            count += get_arg_byte_size(code, &code[i]);
+            while (code[i] != '\0' && code[i] != SEPARATOR_CHAR)
+                i++;
+        }
+        if (code[i] == '\0')
+            break ;
+        i++;
     }
     return(count);
 }
 
 void    count_bytes(t_list *str)
 {
+    int count;
+
+    count = 0;
     while (str)
     {
-        get_byte_size(str->content);
+        if (((char*)str->content)[ft_strlen(str->content) - 1] == ':')
+            count += get_byte_size(str->content);
         str = str->next;
     }
+    return (count);
 }
 
 
 int     main(int argc, char **argv)
 {
-    t_champ     *champ;
     int fd;
+    t_champ     *champ;
     
     champ = (t_champ*)malloc(sizeof(t_champ));
-
-    // cor = set_magic();
-	
     read_code(champ, argv[1]);
-
+    catalog = get_commad_catalog();
     fd = open("champ.cor", O_RDWR | O_CREAT | O_TRUNC, 777);
     set_magic(fd);
-    // champ = read_file(argv[1]);
     set_name(fd, "This city needs me", COMMENT_LENGTH);
     int result = get_byte_size("sti r1, %:live, %1");
-    // system("leaks asm");
     return (0);
 }
