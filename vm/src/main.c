@@ -23,6 +23,17 @@ void	introducing(t_champ *ch)
 	}
 	
 }
+
+
+
+void	game(t_vm *vm)
+{
+	int		res;
+	
+	while (cycle(vm))
+		res = check(vm);
+}
+
 int     main(int argc, char **argv)
 {
 	t_vm	*vm;
@@ -33,5 +44,6 @@ int     main(int argc, char **argv)
 	create_carriages(vm);
 	// system("leaks -q corewar");
 	introducing(vm->champs);
+	game(vm);
     return (0);
 }

@@ -49,6 +49,17 @@ typedef struct		s_carriage
 	struct s_carriage	*next;
 }					t_carriage;
 
+/*
+**	VM - is a basic structure with main variables to hold the game
+**
+**	cycles_to_die - number of cycles that should past till check and is decreasing during game
+**	cycles_till_next_check - number of cycles that should past till next check
+**	cycles_counter - number of cycles from the beginning
+**	live_counter - number of live command from all carriages from last check
+**	check_counter - number of checks from the last decreasing of cycles_to_die
+**	checks_from_start - number of checks from the beginning
+*/
+
 typedef struct		s_vm
 {
     t_champ			*champs;
@@ -56,9 +67,11 @@ typedef struct		s_vm
 	t_carriage			*cars;
 	t_champ			*last_live;
 	int				cycles_to_die;
+	int				cycles_till_next_check;
 	int				cycles_counter;
 	int				live_counter;
 	int				check_counter;
+	int				checks_from_start;
 }					t_vm;
 
 typedef struct		s_command
@@ -94,6 +107,8 @@ void				create_carriages(t_vm *vm);
 t_champ				*get_champs(int argc, char **argv);
 int					get_quantity_players(t_champ *champ);
 int					byte_to_int(char *str);
+int					check(t_vm *vm);
+int					cycle(t_vm *vm);
 
 /*
 **	Assembler functions

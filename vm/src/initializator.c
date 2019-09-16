@@ -18,7 +18,7 @@ t_vm	*create_game()
 	
 	vm = (t_vm*)ft_memalloc(sizeof(t_vm));
 	vm->cycles_to_die = CYCLE_TO_DIE;
-	
+	vm->cycles_till_next_check = CYCLE_TO_DIE;
 	return (vm);
 }
 
