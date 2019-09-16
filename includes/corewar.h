@@ -74,6 +74,8 @@ typedef struct		s_command
 
 typedef struct		s_code
 {
+    int             id;
+    int             byte_size;
     char            *mark;
     char            *name;
     char            *arg1;
@@ -102,5 +104,11 @@ int				read_code(t_champ *champ, char *f_name);
 t_command       *get_commad_catalog();
 t_command       *get_com_byname(t_command *all, char *name);
 void            free_com_catalog(t_command *all);
+int             valid_champ_name(char *name);
+void            set_int(int fd, int code, int bytes);
+void            set_name(int fd, char *name, int max_length);
+t_code          *get_code_by_mark(t_code  *code, char *mark);
+void            write_exec_code(int fd, t_code *code, t_command *catalog);
+int             get_int_from_bytes(char *byte_code);
 
 #endif

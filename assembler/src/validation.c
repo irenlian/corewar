@@ -13,3 +13,13 @@ int valid_magic(char *magic)
         return (1);
     return (0);
 }
+
+int valid_champ_name(char *name)
+{
+    int len;
+
+    len = ft_strlen(name);
+    if (len < 2 || name[len - 1] != 's' || name[len - 2] != '.')
+        return (0);
+    return (1);
+}

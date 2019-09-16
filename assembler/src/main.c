@@ -12,137 +12,100 @@
 
 #include "corewar.h"
 
-static t_command   *catalog;
+// static t_command   *catalog;
 
-void set_magic(int fd)
+int     get_arg_byte_size(t_command *com, char *arg)
 {
-    char c = 0;
-    int magic = COREWAR_EXEC_MAGIC;
-	
-    c = magic >> (3 * 8);
-    write(fd, &c, 1);
-    c = magic >> (2 * 8);    
-    write(fd, &c, 1);
-    c = magic >> (8);    
-    write(fd, &c, 1);
-    c = magic;
-    write(fd, &c, 1);
+    if (arg[0] == 'r')
+        return (1);
+    if (arg[0] == DIRECT_CHAR) 
+       return (com->dir_size);
+    return (2);
 }
 
-void set_name(int fd, char *name, int max_length)
+int     get_byte_size(t_code *code, t_command *catalog)
 {
-    int i;
-    char c;
+    int count;
+    t_command *com;
 
-    c = 0;
-    i = 0;
-    write(fd, name, ((i = ft_strlen(name)) < max_length) ? i : max_length);
-    while(i < max_length)
+    com = get_com_byname(catalog, code->name);
+    if (!com)
+        return (0);
+    count = 1;
+	if (code->arg1)
+		count += get_arg_byte_size(com, code->arg1);
+	if (code->arg2)
+		count += get_arg_byte_size(com, code->arg2);
+	if (code->arg3)
+		count += get_arg_byte_size(com, code->arg3);
+    if (com->codage_octal)
+        count++;
+    return(count);
+}
+
+int    count_bytes(t_code *code, t_command *catalog)
+{
+    int count;
+
+    count = 0;
+    while (code)
     {
-        write(fd, &c, 1);
-        i++;
+        code->byte_size = get_byte_size(code, catalog);
+        count += code->byte_size;
+        code = code->next;
     }
-    i = 0;
-    write(fd, &c, 1);
-    write(fd, &c, 1);
-    write(fd, &c, 1);
-    write(fd, &c, 1);
+    return (count);
 }
 
-// char    *get_code_name(char *code)
-// {
-//      char name[6];
-//      int i;
+char *get_corname(char *file_name)
+{
+    int len;
+    char    *result;
 
-//      i = 0;
-//      while (i < 6 && code[i] != '\0')
-//      {
-//          if (code[i] == ' ')
-//          {
-//             name[i] = '\0';
-//             break ;
-//          }
-//          name[i] = code[i];
-//          i++;
-//      }
-//      return (&(name[0]));
-// }
+    len = ft_strlen(file_name);
+    result = ft_memalloc(len + 3);
+    ft_memcpy(result, file_name, len - 1);
+    ft_strcat(result, "cor");
+    return (result);
+}
 
-// int     get_arg_byte_size(char *code, char *arg)
-// {
-//     int i;
-//     t_command *com;
+void    delete_before_relize(t_code *code)
+{
+    t_code  *tmp;
+    t_code  *tmp2;
 
-//     i = 0;
-//     while(arg[i] != '\0' && arg[i] == ' ')
-//         i++;
-//     if (arg[i] == '\0')
-//         return (0);
-//     if (arg[i] == 'r')
-//         return (1);
-//     if (arg[i] == DIRECT_CHAR)
-//     {
-//        com = get_com_byname(catalog, get_code_name(code));
-//        return (com->dir_size);
-//     }
-//     else
-//         return (2);
-    
-// }
-
-// int     get_byte_size(char *code)
-// {
-//     int i;
-//     int count;
-
-//     i = -1;
-//     count = 0;
-//     while(code[++i] != '\0')
-//     {
-//         if (code[i] == ' ')
-//             break;
-//     }
-//     while(code[i] != '\0')
-//     {
-//         if (ft_strchr("r0123456789", code[i]) || code[i] == DIRECT_CHAR || code[i] == LABEL_CHAR)
-//         {
-//             count += get_arg_byte_size(code, &code[i]);
-//             while (code[i] != '\0' && code[i] != SEPARATOR_CHAR)
-//                 i++;
-//         }
-//         if (code[i] == '\0')
-//             break ;
-//         i++;
-//     }
-//     return(count);
-// }
-
-// int    count_bytes(t_list *str)
-// {
-//     int count;
-
-//     count = 0;
-//     while (str)
-//     {
-//         if (((char*)str->content)[ft_strlen(str->content) - 1] == ':')
-//             count += get_byte_size(str->content);
-//         str = str->next;
-//     }
-//     return (count);
-// }
-
+    tmp = (t_code*)malloc(sizeof(t_code));
+    *tmp = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
+    tmp2 = (t_code*)malloc(sizeof(t_code));
+    *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, tmp};
+    tmp = (t_code*)malloc(sizeof(t_code));
+    *tmp = (t_code){2, 0, "live", "live", "%0", NULL, NULL, tmp2};
+    *code = (t_code){1, 0, "loop", "sti", "r1", "%:live", "%1", tmp};
+}
 
 int     main(int argc, char **argv)
 {
     int fd;
     t_champ     *champ;
+	t_code		*code;
+    char        *champ_cor_name;
+    t_command   *catalog;
     
+    if (argc != 2 || !valid_champ_name(argv[1]))
+        return (0);
     champ = (t_champ*)malloc(sizeof(t_champ));
+	code = (t_code*)malloc(sizeof(t_code));
+    //TODO fill t_code here
+    delete_before_relize(code);
     read_code(champ, argv[1]);
     catalog = get_commad_catalog();
-    fd = open("champ.cor", O_RDWR | O_CREAT | O_TRUNC, 777);
-    set_magic(fd);
-    set_name(fd, "This city needs me", COMMENT_LENGTH);
-    // int result = get_byte_size("sti r1, %:live, %1");
+    champ->header->prog_size = count_bytes(code, catalog);
+    champ_cor_name = get_corname(argv[1]);
+    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
+    free(champ_cor_name);
+    set_int(fd, champ->header->magic, 4);
+    set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
+    set_int(fd, champ->header->prog_size, 4);
+    set_name(fd, champ->header->comment, COMMENT_LENGTH);
     return (0);
 }
