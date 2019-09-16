@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/corewar.h"
+#include "corewar.h"
 
 int get_quantity_players(t_champ *champ)
 {
@@ -41,5 +41,105 @@ int	byte_to_int(char *str)
 	free(tmp);
 	res = *num;
 	free(num);
+	return (res);
+}
+
+char	*get_bits(unsigned char octet)
+{
+	char	*res;
+	int		i;
+
+	i = 7;
+	res = ft_strnew(8);
+	while (octet > 1)
+	{
+		if (octet % 2 == 0)
+			res[i] = '0';
+		else
+			res[i] = '1';
+		octet = octet / 2;
+		i--;
+	}
+	if (octet == 1)
+		res[i] = '1';
+	else
+		res[i] = '0';
+	while (--i >= 0)
+		res[i] = '0';
+	return (res);
+}
+
+int		calc_i(int i)
+{
+	if (i >= 0 && i < MEM_SIZE)
+		return (i);
+	i %= MEM_SIZE;
+	if (i < 0)
+		i = MEM_SIZE + i;
+	return (i);
+}
+
+char	get_i(char *arena, int i)
+{
+	return (arena[calc_i(i)]);
+}
+
+int		is_t_ind(char *arg_code, int arg_pos)
+{
+	if (arg_pos == 1 && arg_code[0] == 1 && arg_code[1] == 1)
+		return (1);
+	if (arg_pos == 2 && arg_code[2] == 1 && arg_code[3] == 1)
+		return (1);
+	if (arg_pos == 3 && arg_code[4] == 1 && arg_code[5] == 1)
+		return (1);
+	return (0);
+}
+
+int		is_t_dir(char *arg_code, int arg_pos)
+{
+	if (arg_pos == 1 && arg_code[0] == 1 && arg_code[1] == 0)
+		return (1);
+	if (arg_pos == 2 && arg_code[2] == 1 && arg_code[3] == 0)
+		return (1);
+	if (arg_pos == 3 && arg_code[4] == 1 && arg_code[5] == 0)
+		return (1);
+	return (0);
+}
+
+int		is_t_reg(char *arg_code, int arg_pos)
+{
+	if (arg_pos == 1 && arg_code[0] == 0 && arg_code[1] == 1)
+		return (1);
+	if (arg_pos == 2 && arg_code[2] == 0 && arg_code[3] == 1)
+		return (1);
+	if (arg_pos == 3 && arg_code[4] == 0 && arg_code[5] == 1)
+		return (1);
+	return (0);
+}
+
+// int		is_valid_reg(unsigned char reg)
+// {
+// 	return (reg < REG_NUMBER);
+// }
+
+int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
+{
+	int		res;
+	int		i;
+
+	res = 0;
+	i = 1;
+	if (num > 3)
+		return (res);
+	while (num >= i)
+	{
+		if (is_t_ind(arg_code, i))
+			res += 2;
+		if (is_t_reg(arg_code, i))
+			res++;
+		if (is_t_dir(arg_code, i))
+			res += dir_size;
+		i++;
+	}
 	return (res);
 }

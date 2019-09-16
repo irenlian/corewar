@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/corewar.h"
+#include "corewar.h"
 
 t_vm	*create_game()
 {
@@ -19,6 +19,7 @@ t_vm	*create_game()
 	vm = (t_vm*)ft_memalloc(sizeof(t_vm));
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->cycles_till_next_check = CYCLE_TO_DIE;
+	vm->catalog = get_commad_catalog();
 	return (vm);
 }
 
@@ -53,9 +54,12 @@ void	create_carriages(t_vm *vm)
 	while (ch)
 	{
 		car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
+		car->location = i * MEM_SIZE / get_quantity_players(vm->champs);
 		car->id = i++;
-		car->registers[0] = ch->id * -1;
+		car->registers[1] = ch->id * -1;
 		car->next = tmp;
+		car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
+		car->cycles_to_run = car->op->cycles;
 		tmp = car;
 		ch = ch->next_champ;
 	}
