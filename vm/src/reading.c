@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/corewar.h"
+#include "corewar.h"
 
 t_byte_code   *read_file(char *path)
 {
