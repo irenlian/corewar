@@ -117,10 +117,10 @@ int		is_t_reg(char *arg_code, int arg_pos)
 	return (0);
 }
 
-// int		is_valid_reg(unsigned char reg)
-// {
-// 	return (reg < REG_NUMBER);
-// }
+int		is_valid_reg(t_vm *vm, int loc)
+{
+	return (get_i(vm->arena, loc) < REG_NUMBER);
+}
 
 int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
 {
@@ -143,3 +143,10 @@ int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
 	}
 	return (res);
 }
+
+void	invalid_op(t_carriage *car, char *arg_code)
+{
+	car->location = calc_i(car->location + 1 + car->op->codage_octal + 
+		calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
+}
+

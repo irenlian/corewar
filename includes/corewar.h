@@ -20,7 +20,21 @@
 # include "../libft/includes/libft.h"
 
 # define MAX_FILE_LENGTH		(CHAMP_MAX_SIZE + PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 8)
+#define OP						1
+#define ARG						1
+#define REG						1
+#define IND						2
+#define DIR						4
 
+#define FIRST					1
+#define SECOND					2
+#define THIRD					3
+
+struct		s_byte_code;
+struct		s_champ;
+struct		s_command;
+struct		s_carriage;
+struct		s_vm;
 
 typedef struct		s_byte_code
 {
@@ -37,14 +51,27 @@ typedef struct		s_champ
     struct s_champ	*next_champ;
 }					t_champ;
 
+typedef struct		s_command
+{
+    char            *name;
+    int             code;
+    int             dir_size;
+    int             cycles;
+    int             carry;
+    int             codage_octal;
+    int             args_num;
+	void			(*func)(struct s_vm *, struct s_carriage *);
+    struct s_command    *next;
+}					t_command;
+
 typedef struct		s_carriage
 {
     int				id;
-	int				location;
+	unsigned int	location;
 	int				carry;
 	unsigned int	registers[REG_NUMBER];
 	int				live;
-	void			(*func)();
+	t_command		*op;
 	int				cycles_to_run;
 	struct s_carriage	*next;
 }					t_carriage;
@@ -72,18 +99,8 @@ typedef struct		s_vm
 	int				live_counter;
 	int				check_counter;
 	int				checks_from_start;
+	t_command		*catalog;
 }					t_vm;
-
-typedef struct		s_command
-{
-    char            *name;
-    int             code;
-    int             dir_size;
-    int             cycles;
-    int             carry;
-    int             codage_octal;
-    struct s_command    *next;
-}					t_command;
 
 typedef struct		s_code
 {
@@ -107,6 +124,27 @@ int					get_quantity_players(t_champ *champ);
 int					byte_to_int(char *str);
 int					check(t_vm *vm);
 int					cycle(t_vm *vm);
+char				*get_bits(unsigned char octet);
+char				get_i(char *arena, int i);
+int					calc_i(int i);
+unsigned int		read_t_dir(char *arena, int arg_location);
+short				read_t_ind(char *arena, int arg_location);
+void				write_t_ind(char *arena, int arg_location, short value);
+int					is_t_dir(char *arg_code, int arg_pos);
+int					is_t_ind(char *arg_code, int arg_pos);
+int					is_t_reg(char *arg_code, int arg_pos);
+int					calc_args_length(char *arg_code, unsigned int num, int dir_size);
+void				invalid_op(t_carriage *car, char *arg_code);
+int					is_valid_reg(t_vm *vm, int loc);
+
+void				live(t_vm *vm, t_carriage *car);
+void				store(t_vm *vm, t_carriage *car);
+
+int					to_codage(t_carriage *car);
+int					to_first_arg(t_carriage *car);
+int					to_second_arg(t_carriage *car, char *arg_code);
+int					to_third_arg(t_carriage *car, char *arg_code);
+int					arg_index(t_carriage *car, char *arg_code, int arg_pos);
 
 /*
 **	Assembler functions
@@ -116,6 +154,7 @@ int				show_error(const char *error);
 int				read_code(t_champ *champ, char *f_name);
 t_command       *get_commad_catalog();
 t_command       *get_com_byname(t_command *all, char *name);
+t_command 		*get_com_by_code(t_command *all, char code);
 void            free_com_catalog(t_command *all);
 
 #endif
