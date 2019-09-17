@@ -33,10 +33,31 @@ void			get_name(t_champ *champ, char *line)
 			break ;
 		}
 	}
-	// champ->header->prog_name = ft_strnew(i - s - 1);
 	i = -1;
 	while (line[++s] != '"')
 		champ->header->prog_name[++i] = line[s];
+}
+
+void			get_comment(t_champ *champ, char *line)
+{
+	int		i;
+	int		s;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '"')
+		{
+			s = i;
+			i++;
+			while (line[i] != '"')
+				i++;
+			break ;
+		}
+	}
+	i = -1;
+	while (line[++s] != '"')
+		champ->header->comment[++i] = line[s];
 }
 
 /*
@@ -64,6 +85,8 @@ int				read_asm(t_champ *champ, int fd)
 	{
 		if (ft_strstr(line, ".name"))
 			get_name(champ, line);
+		if (ft_strstr(line, ".comment"))
+			get_comment(champ, line);
 		ft_lstpush(&champ->asm_code,
 			ft_lstnew(line, sizeof(char) * ft_strlen(line) + 1));
 		ft_strdel(&line);

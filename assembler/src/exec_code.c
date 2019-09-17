@@ -4,7 +4,7 @@ int     get_code_arg_types(t_code *code_line)
 {
     char args_byte_code[9];
 
-    ft_memset(args_byte_code, '0', 7);
+    ft_memset(args_byte_code, '0', 8);
     if (code_line->arg1[0] == 'r' || code_line->arg1[0] != DIRECT_CHAR)
         args_byte_code[1] = '1';
     else
@@ -23,7 +23,6 @@ int     get_code_arg_types(t_code *code_line)
         else
             args_byte_code[4] = '1';
     }
-    ft_memset(args_byte_code, '\0', 8);
     return (get_int_from_bytes(args_byte_code));
 }
 
@@ -71,6 +70,8 @@ int     get_arg_code(t_code *codes, t_code *code, char *arg)
         marked_code = get_code_by_mark(codes, label);
         res = (unsigned int)get_byte_size_to_marked(code, marked_code);
     }
+    else if (arg[0] == 'r' || arg[0] == DIRECT_CHAR)
+        res = ft_atoi(arg + 1);
     else
         res = ft_atoi(arg);
     return (res);

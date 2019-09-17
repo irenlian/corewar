@@ -25,9 +25,9 @@ int     get_int_from_bytes(char *byte_code)
 
     while(--len >= 0)
     {
-        i++;
-        if (byte_code[len])
+        if (byte_code[len] == '1')
             res += ft_power(2, i);
+        i++;
     }
     return (res);
 }

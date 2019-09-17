@@ -90,13 +90,17 @@ int     main(int argc, char **argv)
 	t_code		*code;
     char        *champ_cor_name;
     t_command   *catalog;
+    t_header   *header; // delete
     
     if (argc != 2 || !valid_champ_name(argv[1]))
         return (0);
     champ = (t_champ*)malloc(sizeof(t_champ));
+    header = (t_header*)malloc(sizeof(t_header)); // delete
+    champ->header = header; // delete
+    champ->header->magic = COREWAR_EXEC_MAGIC; // delete
 	code = (t_code*)malloc(sizeof(t_code));
     //TODO fill t_code here
-    delete_before_relize(code);
+    delete_before_relize(code); // delete
     read_code(champ, argv[1]);
     catalog = get_commad_catalog();
     champ->header->prog_size = count_bytes(code, catalog);
@@ -107,5 +111,6 @@ int     main(int argc, char **argv)
     set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
     set_int(fd, champ->header->prog_size, 4);
     set_name(fd, champ->header->comment, COMMENT_LENGTH);
+    write_exec_code(fd, code, catalog);
     return (0);
 }
