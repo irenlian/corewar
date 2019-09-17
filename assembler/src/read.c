@@ -77,6 +77,7 @@ int				read_cor(t_champ *champ, int fd)
 int				read_asm(t_champ *champ, int fd)
 {
 	char	*line;
+	char	*trim_line;
 
 	champ->asm_code = NULL;
 	if (read(fd, NULL, 0) < 0)
@@ -87,8 +88,9 @@ int				read_asm(t_champ *champ, int fd)
 			get_name(champ, line);
 		if (ft_strstr(line, ".comment"))
 			get_comment(champ, line);
-		ft_lstpush(&champ->asm_code,
-			ft_lstnew(line, sizeof(char) * ft_strlen(line) + 1));
+		trim_line = ft_strtrim(line);
+		if (trim_line)
+			ft_lstpush(&champ->asm_code, trim_line);
 		ft_strdel(&line);
 	}
 	return (1);

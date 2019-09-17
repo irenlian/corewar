@@ -12,8 +12,6 @@
 
 #include "corewar.h"
 
-// static t_command   *catalog;
-
 int     get_arg_byte_size(t_command *com, char *arg)
 {
     if (arg[0] == 'r')

@@ -74,8 +74,8 @@ typedef struct		s_command
 
 typedef struct		s_code
 {
-    int             id;
-    int             byte_size;
+    int             id; //порядковый номер
+    int             byte_size; // размер кода в байтах (Дем*яну не заполнять)
     char            *mark;
     char            *name;
     char            *arg1;
