@@ -35,3 +35,9 @@ short		read_t_ind(char *arena, int arg_location)
 	free(num);
 	return (res);
 }
+
+void		write_t_ind(char *arena, int arg_location, short value)
+{
+	arena[arg_location] = value >> (8);
+	arena[++arg_location] = value;
+}
