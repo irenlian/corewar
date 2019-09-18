@@ -55,10 +55,12 @@ int		make_move(t_vm *vm, t_carriage *car)
 	if (car->op && car->op->func)
 	{
 		car->op->func(vm, car);
+		if (!(ft_strequ(car->op->name, "zjmp") && car->carry == 1))
+			pass_op(vm, car);
 	}
 	else
 		car->location = calc_i(car->location + 1);
-	car->op = get_com_by_code(vm->catalog, vm->arena[car->location]);
+	car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
 	car->cycles_to_run = car->op ? car->op->cycles : 0;
 	return (1);
 }
@@ -128,5 +130,9 @@ int		check(t_vm *vm)
 	vm->checks_from_start++;
 	vm->live_counter = 0;
 	clean_carriages(vm);
-	return (0);
+	if (!vm->cars)
+		return (0);
+	vm->cycles_till_next_check = vm->cycles_to_die;
+	ft_printf("Carriages number: %i\n", calc_carriages(vm));
+	return (1);
 }

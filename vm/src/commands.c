@@ -25,13 +25,10 @@ void	load(t_vm *vm, t_carriage *car)
 	short			arg_sh_int;
 
 	arg_sh_int = 0;
-	arg_code = get_bits(get_i(vm->arena, to_codage(car->location)));
-	if (!(is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
-	!(is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))))
-	{
-		invalid_op(car, arg_code);
+	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
+	if (!((is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
+	(is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND)))))
 		return ;
-	}
 	if (is_t_ind(arg_code, FIRST))
 	{
 		arg_sh_int = ft_strequ(car->op->name, "lld") ? read_clean_t_ind(vm->arena, arg_index(car, arg_code, FIRST)) : read_t_ind(vm->arena, arg_index(car, arg_code, FIRST));
@@ -53,22 +50,16 @@ void	store(t_vm *vm, t_carriage *car)
 
 	arg_sh_int = 0;
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
-	if (is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST)))
+	if (!((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) &&
+	((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_ind(arg_code, SECOND))))
+		return ;
+	if (is_t_ind(arg_code, SECOND))
 	{
-		if (is_t_ind(arg_code, SECOND))
-		{
-			arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, SECOND));
-			write_t_dir(vm->arena, calc_i(car->location + arg_sh_int), car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST))]);
-		}
-		else if (is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND)))
-		{
-			car->registers[get_i(vm->arena, arg_index(car, arg_code, SECOND))] = car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST))];
-		}
-		else
-			invalid_op(car, arg_code);
+		arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, SECOND));
+		write_t_dir(vm->arena, calc_i(car->location + arg_sh_int), car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST))]);
 	}
-	else
-		invalid_op(car, arg_code);
+	else if (is_t_reg(arg_code, SECOND))
+		car->registers[get_i(vm->arena, arg_index(car, arg_code, SECOND))] = car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST))];
 }
 
 void	addition(t_vm *vm, t_carriage *car)
@@ -85,8 +76,6 @@ void	addition(t_vm *vm, t_carriage *car)
 		car->registers[get_i(vm->arena, arg_index(car, arg_code, THIRD))] = res;
 		car->carry = (res == 0) ? 1 : 0;
 	}
-	else
-		invalid_op(car, arg_code);
 }
 
 void	substraction(t_vm *vm, t_carriage *car)
@@ -103,8 +92,6 @@ void	substraction(t_vm *vm, t_carriage *car)
 		car->registers[get_i(vm->arena, arg_index(car, arg_code, THIRD))] = res;
 		car->carry = (res == 0) ? 1 : 0;
 	}
-	else
-		invalid_op(car, arg_code);
 }
 
 void	and_or_xor(t_vm *vm, t_carriage *car)
@@ -114,13 +101,10 @@ void	and_or_xor(t_vm *vm, t_carriage *car)
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	res = 0;
-	if (!((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) || is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
-	!((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND) || is_t_ind(arg_code, SECOND)) &&
-	!(is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD))))
-	{
-		invalid_op(car, arg_code);
+	if (!(((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) || is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
+	((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND) || is_t_ind(arg_code, SECOND)) &&
+	(is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD)))))
 		return ;
-	}
 	res = get_arg(vm, car, FIRST, arg_code);
 	if (ft_strequ(car->op->name, "and"))
 		res = res & get_arg(vm, car, SECOND, arg_code);
@@ -150,13 +134,10 @@ void	load_index(t_vm *vm, t_carriage *car)
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	pos = 0;
-	if (!((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) || is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
-	!((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND)) &&
-	!(is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD))))
-	{
-		invalid_op(car, arg_code);
+	if (!(((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) || is_t_dir(arg_code, FIRST) || is_t_ind(arg_code, FIRST)) &&
+	((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND)) &&
+	(is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD)))))
 		return ;
-	}
 	pos = get_arg(vm, car, FIRST, arg_code) + get_arg(vm, car, SECOND, arg_code);
 	if (ft_strequ(car->op->name, "ldi"))
 		pos %= IDX_MOD;
@@ -175,18 +156,15 @@ void	store_index(t_vm *vm, t_carriage *car)
 
 	arg_sh_int = 0;
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
-	if (!(is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) &&
-	!((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND) || is_t_ind(arg_code, SECOND)) &&
-	!((is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD)) || is_t_dir(arg_code, THIRD))))
-	{
-		invalid_op(car, arg_code);
+	if (!((is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))) &&
+	((is_t_reg(arg_code, SECOND) && is_valid_reg(vm, arg_index(car, arg_code, SECOND))) || is_t_dir(arg_code, SECOND) || is_t_ind(arg_code, SECOND)) &&
+	((is_t_reg(arg_code, THIRD) && is_valid_reg(vm, arg_index(car, arg_code, THIRD))) || is_t_dir(arg_code, THIRD))))
 		return ;
-	}
 	pos = calc_i(((get_arg(vm, car, SECOND, arg_code) + get_arg(vm, car, THIRD, arg_code)) % IDX_MOD) + car->location);
 	write_t_dir(vm->arena, pos, get_arg(vm, car, FIRST, arg_code));
 }
 
-void	fork(t_vm *vm, t_carriage *car)
+void	lfork(t_vm *vm, t_carriage *car)
 {
 	unsigned int	pos;
 	t_carriage		*fork;
@@ -195,7 +173,8 @@ void	fork(t_vm *vm, t_carriage *car)
 	if (ft_strequ(car->op->name, "fork"))
 		pos %= IDX_MOD;
 	fork = copy_carriage(vm, car);
-	fork->location = pos;
+	fork->location = calc_i(pos);
+	fork->op = get_com_by_code(vm->catalog, get_i(vm->arena, fork->location));
 }
 
 void	aff(t_vm *vm, t_carriage *car)
@@ -206,11 +185,8 @@ void	aff(t_vm *vm, t_carriage *car)
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	if (!(is_t_reg(arg_code, FIRST) && is_valid_reg(vm, arg_index(car, arg_code, FIRST))))
-	{
-		invalid_op(car, arg_code);
 		return ;
-	}
 	arg_int = get_arg(vm, car, FIRST, arg_code);
 	res = arg_int % 256;
-	write(1, res, 1);
+	write(1, &res, 1);
 }

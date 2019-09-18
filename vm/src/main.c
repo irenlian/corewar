@@ -30,13 +30,31 @@ void	game(t_vm *vm)
 {
 	int		res;
 	
-	while (cycle(vm))
+	res = 1;
+	while (cycle(vm) && res)
 		res = check(vm);
+}
+
+void	winner(t_vm *vm)
+{
+	int		i;
+
+	if (vm->last_live)
+	{
+		i = 0;
+		ft_printf("Winner iiisss ...\n");
+		while (i++ < 15)
+			ft_printf("...\n");
+		ft_printf("%s\n", &(vm->last_live->header->prog_name[0]));
+	}
+	else
+		ft_printf("There is no winner.\n");
 }
 
 int     main(int argc, char **argv)
 {
 	t_vm	*vm;
+	int		i;
     
 	vm = create_game();
 	vm->champs = get_champs(argc, argv);
@@ -45,5 +63,6 @@ int     main(int argc, char **argv)
 	// system("leaks -q corewar");
 	introducing(vm->champs);
 	game(vm);
+	winner(vm);
     return (0);
 }

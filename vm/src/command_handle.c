@@ -8,13 +8,13 @@ t_command    *add_command_catalog()
     tmp = (t_command*)malloc(sizeof(t_command));
     *tmp = (t_command){"aff", 16, 4, 2, 0, 1, 1, aff, NULL};
     tmp2 = (t_command*)malloc(sizeof(t_command));
-    *tmp2 = (t_command){"lfork", 15, 2, 1000, 0, 0, 1, fork, tmp};
+    *tmp2 = (t_command){"lfork", 15, 2, 1000, 0, 0, 1, lfork, tmp};
     tmp = (t_command*)malloc(sizeof(t_command));
     *tmp = (t_command){"lldi", 14, 2, 50, 1, 1, 3, load_index, tmp2};
     tmp2 = (t_command*)malloc(sizeof(t_command));
     *tmp2 = (t_command){"lld", 13, 4, 10, 1, 1, 2, load, tmp};
     tmp = (t_command*)malloc(sizeof(t_command));
-    *tmp = (t_command){"fork", 12, 2, 800, 0, 0, 1, fork, tmp2};
+    *tmp = (t_command){"fork", 12, 2, 800, 0, 0, 1, lfork, tmp2};
     tmp2 = (t_command*)malloc(sizeof(t_command));
     *tmp2 = (t_command){"sti", 11, 2, 25, 0, 1, 3, store_index, tmp};
     tmp = (t_command*)malloc(sizeof(t_command));
@@ -43,7 +43,7 @@ t_command *get_commad_catalog()
     tmp2 = (t_command*)malloc(sizeof(t_command));
     *tmp2 = (t_command){"st", 3, 4, 5, 0, 1, 2, store, tmp};
     tmp = (t_command*)malloc(sizeof(t_command));
-    *tmp = (t_command){"ld", 2, 4, 5, 1, 1, 1, load, tmp2};
+    *tmp = (t_command){"ld", 2, 4, 5, 1, 1, 2, load, tmp2};
     tmp2 = (t_command*)malloc(sizeof(t_command));
     *tmp2 = (t_command){"live", 1, 4, 10, 0, 0, 1, live, tmp};
     return (tmp2);
