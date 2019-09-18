@@ -53,17 +53,23 @@ int valid_head(t_list *champ)
 }
 
 
+
 int valid_command_line(char *line)
 {
     int i;
+    int j;
 
     i = -1;
-    while (line[++i] != '\0')
+    j = -1;
+    while (line[++j] != '\0')
     {
-        if (line[i] == COMMENT_CHAR)
+        if (line[j] == ' ' || line[j] == '\t' || !ft_strchr(LABEL_CHARS, line[j]))
             break;
-        if (line[i] == ' ' || line[i] == '\t')
-            continue;
+        if (line[j] == LABEL_CHAR)
+        {
+            i = j;
+            break;
+        }
     }
     return (1);
 }
