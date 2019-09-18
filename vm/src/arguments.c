@@ -19,7 +19,7 @@ unsigned int	read_t_dir(char *arena, int arg_location)
 	return (res);
 }
 
-short		read_t_ind(char *arena, int arg_location)
+short		read_clean_t_ind(char *arena, int arg_location)
 {
 	char	*tmp;
 	short	*num;
@@ -31,13 +31,49 @@ short		read_t_ind(char *arena, int arg_location)
 	num = (short*)ft_memalloc(sizeof(short));
 	ft_memcpy(num, tmp, sizeof(short));
 	free(tmp);
-	res = *num % IDX_MOD;
+	res = *num;
 	free(num);
 	return (res);
 }
 
-void		write_t_ind(char *arena, int arg_location, short value)
+short		read_t_ind(char *arena, int arg_location)
 {
-	arena[arg_location] = value >> (8);
-	arena[++arg_location] = value;
+	return (read_clean_t_ind(arena, arg_location) % IDX_MOD);
+}
+
+void		write_t_ind(char *arena, unsigned int arg_location, short value)
+{
+	arg_location %= MEM_SIZE;
+	arena[arg_location++] = value >> (8);
+	arg_location %= MEM_SIZE;
+	arena[arg_location] = value;
+}
+
+void		write_t_dir(char *arena, unsigned int arg_location, unsigned int value)
+{
+	arg_location %= MEM_SIZE;
+	arena[arg_location++] = value >> (3 * 8);
+	arg_location %= MEM_SIZE;
+	arena[arg_location++] = value >> (2 * 8);
+	arg_location %= MEM_SIZE;
+	arena[arg_location++] = value >> (8);
+	arg_location %= MEM_SIZE;
+	arena[arg_location] = value;
+}
+
+unsigned int	get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
+{
+	short			arg_sh_int;
+
+	if (is_t_reg(arg_code, arg_i) && is_valid_reg(vm, arg_index(car, arg_code, arg_i)))
+		return (car->registers[get_i(vm->arena, arg_index(car, arg_code, arg_i))]);
+	else if (is_t_dir(arg_code, arg_i))
+		return (read_t_dir(vm->arena, arg_index(car, arg_code, arg_i)));
+	else if (is_t_ind(arg_code, arg_i))
+	{
+		arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, arg_i));
+		return (read_t_dir(vm->arena, calc_i(car->location + arg_sh_int)));
+	}
+	else
+		return (0);
 }
