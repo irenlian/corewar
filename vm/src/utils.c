@@ -86,33 +86,33 @@ char	get_i(char *arena, int i)
 
 int		is_t_ind(char *arg_code, int arg_pos)
 {
-	if (arg_pos == 1 && arg_code[0] == 1 && arg_code[1] == 1)
+	if (arg_pos == 1 && arg_code[0] == '1' && arg_code[1] == '1')
 		return (1);
-	if (arg_pos == 2 && arg_code[2] == 1 && arg_code[3] == 1)
+	if (arg_pos == 2 && arg_code[2] == '1' && arg_code[3] == '1')
 		return (1);
-	if (arg_pos == 3 && arg_code[4] == 1 && arg_code[5] == 1)
+	if (arg_pos == 3 && arg_code[4] == '1' && arg_code[5] == '1')
 		return (1);
 	return (0);
 }
 
 int		is_t_dir(char *arg_code, int arg_pos)
 {
-	if (arg_pos == 1 && arg_code[0] == 1 && arg_code[1] == 0)
+	if (arg_pos == 1 && arg_code[0] == '1' && arg_code[1] == '0')
 		return (1);
-	if (arg_pos == 2 && arg_code[2] == 1 && arg_code[3] == 0)
+	if (arg_pos == 2 && arg_code[2] == '1' && arg_code[3] == '0')
 		return (1);
-	if (arg_pos == 3 && arg_code[4] == 1 && arg_code[5] == 0)
+	if (arg_pos == 3 && arg_code[4] == '1' && arg_code[5] == '0')
 		return (1);
 	return (0);
 }
 
 int		is_t_reg(char *arg_code, int arg_pos)
 {
-	if (arg_pos == 1 && arg_code[0] == 0 && arg_code[1] == 1)
+	if (arg_pos == 1 && arg_code[0] == '0' && arg_code[1] == '1')
 		return (1);
-	if (arg_pos == 2 && arg_code[2] == 0 && arg_code[3] == 1)
+	if (arg_pos == 2 && arg_code[2] == '0' && arg_code[3] == '1')
 		return (1);
-	if (arg_pos == 3 && arg_code[4] == 0 && arg_code[5] == 1)
+	if (arg_pos == 3 && arg_code[4] == '0' && arg_code[5] == '1')
 		return (1);
 	return (0);
 }
@@ -134,9 +134,9 @@ int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
 	while (num >= i)
 	{
 		if (is_t_ind(arg_code, i))
-			res += 2;
+			res += IND;
 		if (is_t_reg(arg_code, i))
-			res++;
+			res += REG;
 		if (is_t_dir(arg_code, i))
 			res += dir_size;
 		i++;
@@ -144,9 +144,26 @@ int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
 	return (res);
 }
 
-void	invalid_op(t_carriage *car, char *arg_code)
+void	pass_op(t_vm *vm, t_carriage *car)
 {
-	car->location = calc_i(car->location + 1 + car->op->codage_octal + 
+	char			*arg_code;
+
+	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
+	car->location = calc_i(car->location + OP + car->op->codage_octal + 
 		calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
 }
 
+int		calc_carriages(t_vm *vm)
+{
+	t_carriage	*car;
+	int			num;
+
+	car = vm->cars;
+	num = 0;
+	while (car)
+	{
+		num++;
+		car = car->next;
+	}
+	return (num);
+}

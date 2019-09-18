@@ -137,9 +137,10 @@ int					is_t_ind(char *arg_code, int arg_pos);
 int					is_t_reg(char *arg_code, int arg_pos);
 unsigned int		get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code);
 int					calc_args_length(char *arg_code, unsigned int num, int dir_size);
-void				invalid_op(t_carriage *car, char *arg_code);
+void				pass_op(t_vm *vm, t_carriage *car);
 int					is_valid_reg(t_vm *vm, int loc);
 t_carriage			*copy_carriage(t_vm *vm, t_carriage *car);
+int					calc_carriages(t_vm *vm);
 
 void				live(t_vm *vm, t_carriage *car);
 void				load(t_vm *vm, t_carriage *car);
@@ -150,7 +151,7 @@ void				and_or_xor(t_vm *vm, t_carriage *car);
 void				zjmp(t_vm *vm, t_carriage *car);
 void				load_index(t_vm *vm, t_carriage *car);
 void				store_index(t_vm *vm, t_carriage *car);
-void				fork(t_vm *vm, t_carriage *car);
+void				lfork(t_vm *vm, t_carriage *car);
 void				aff(t_vm *vm, t_carriage *car);
 
 int					to_codage(t_carriage *car);

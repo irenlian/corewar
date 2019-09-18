@@ -21,7 +21,7 @@ int		to_first_arg(t_carriage *car)
 
 	if (!car)
 		return (0);
-	res = car->location + OP + car->op->codage_octal ? ARG : 0;
+	res = car->location + OP + (car->op->codage_octal ? ARG : 0);
 	res %= MEM_SIZE;
 	return (res);
 }

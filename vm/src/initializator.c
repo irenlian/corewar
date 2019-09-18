@@ -75,19 +75,13 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	if (!vm || !car)
 		return (NULL);
 	new_car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-	*new_car = (t_carriage){car->id, car->location, car->carry, car->registers, car->live, car->op, car->cycles_to_run, NULL};
+	*new_car = (t_carriage){car->id, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0};
+	new_car->op = car->op;
+	new_car->next = vm->cars;
 	i = -1;
 	while (++i < REG_NUMBER)
 		new_car->registers[i] = car->registers[i];
-	if (!vm->cars)
-	{
-		vm->cars = new_car;
-		return (new_car);
-	}
-	tmp = vm->cars;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_car;
+	vm->cars = new_car;
 	return (new_car);
 }
 
