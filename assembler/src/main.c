@@ -100,6 +100,7 @@ int     main(int argc, char **argv)
     char        *champ_cor_name;
     t_command   *catalog;
     t_header   *header; // delete
+    t_code      *code;
     
     if (argc != 2 || !valid_champ_name(argv[1]))
         return (0);
@@ -111,7 +112,7 @@ int     main(int argc, char **argv)
     code = delete_before_relize(); // delete
 
     read_code(champ, argv[1]);
-    valid_champ_file(champ->asm_code);
+    parse_code(champ, code);
     catalog = get_commad_catalog();
     champ->header->prog_size = count_bytes(code, catalog);
     champ_cor_name = get_corname(argv[1]);
