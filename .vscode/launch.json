@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/corewar",
-            "args": ["vm_champs/champs/examples/bee_gees.cor", "vm_champs/examples/bigzork.cor"],
+            "args": ["vm_champs/champs/examples/fluttershy.cor", "vm_champs/champs/examples/zork.cor"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

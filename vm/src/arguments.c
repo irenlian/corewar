@@ -1,11 +1,13 @@
 #include "corewar.h"
 
-unsigned int	read_t_dir(char *arena, int arg_location)
+unsigned int	read_t_dir(char *arena, int arg_location, t_carriage *car)
 {
 	char			*tmp;
 	unsigned int	*num;
 	unsigned int	res;
 
+	if (car->op->dir_size == IND)
+		return (read_clean_t_ind(arena, arg_location));
 	tmp = ft_strnew(sizeof(unsigned int));
 	tmp[0] = get_i(arena, arg_location + 3);
 	tmp[1] = get_i(arena, arg_location + 2);
@@ -66,13 +68,13 @@ unsigned int	get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
 	short			arg_sh_int;
 
 	if (is_t_reg(arg_code, arg_i) && is_valid_reg(vm, arg_index(car, arg_code, arg_i)))
-		return (car->registers[get_i(vm->arena, arg_index(car, arg_code, arg_i))]);
+		return (car->registers[get_i(vm->arena, arg_index(car, arg_code, arg_i)) - 1]);
 	else if (is_t_dir(arg_code, arg_i))
-		return (read_t_dir(vm->arena, arg_index(car, arg_code, arg_i)));
+		return (read_t_dir(vm->arena, arg_index(car, arg_code, arg_i), car));
 	else if (is_t_ind(arg_code, arg_i))
 	{
 		arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, arg_i));
-		return (read_t_dir(vm->arena, calc_i(car->location + arg_sh_int)));
+		return (read_t_dir(vm->arena, calc_i(car->location + arg_sh_int), car));
 	}
 	else
 		return (0);
