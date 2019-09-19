@@ -23,13 +23,24 @@ t_byte_code   *read_file(char *path)
 	bytes = (t_byte_code*)ft_memalloc(sizeof(t_byte_code));
 	*bytes = (t_byte_code){0, ft_strnew(MAX_FILE_LENGTH)};
 	tmp = bytes->code;
-    fd = open(path, O_RDONLY);
+	if ((fd = open(path, O_RDONLY)) == -1)
+	{
+		free(bytes);
+		ft_printf("Doesn't open!\n");
+		return (NULL);
+	}
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
 		ft_memcpy(tmp, buf, ret);
 		bytes->length += ret;
 		tmp += ret;
 	}
+	if (ret == -1)
+	{
+		free(bytes);
+		return (NULL);
+	}
+	close(fd);
     return (bytes);
 }
 

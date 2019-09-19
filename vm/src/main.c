@@ -37,15 +37,9 @@ void	game(t_vm *vm)
 
 void	winner(t_vm *vm)
 {
-	int		i;
-
 	if (vm->last_live)
 	{
-		i = 0;
-		ft_printf("Winner iiisss ...\n");
-		while (i++ < 15)
-			ft_printf("...\n");
-		ft_printf("%s\n", &(vm->last_live->header->prog_name[0]));
+		ft_printf("Contestant %i, \"%s\", has won !\n", vm->last_live->id, &(vm->last_live->header->prog_name[0]));
 	}
 	else
 		ft_printf("There is no winner.\n");
@@ -54,10 +48,15 @@ void	winner(t_vm *vm)
 int     main(int argc, char **argv)
 {
 	t_vm	*vm;
+	t_champ	*last;
 	int		i;
     
 	vm = create_game();
 	vm->champs = get_champs(argc, argv);
+	last = vm->champs;
+	while (last->next_champ)
+		last = last->next_champ;
+	vm->last_live = last;
 	create_arena(vm);
 	create_carriages(vm);
 	// system("leaks -q corewar");

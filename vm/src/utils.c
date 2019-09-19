@@ -119,7 +119,7 @@ int		is_t_reg(char *arg_code, int arg_pos)
 
 int		is_valid_reg(t_vm *vm, int loc)
 {
-	return (get_i(vm->arena, loc) < REG_NUMBER);
+	return (get_i(vm->arena, loc) > 0 && get_i(vm->arena, loc) <= REG_NUMBER);
 }
 
 int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
