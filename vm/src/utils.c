@@ -148,9 +148,21 @@ void	pass_op(t_vm *vm, t_carriage *car)
 {
 	char			*arg_code;
 
-	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
-	car->location = calc_i(car->location + OP + car->op->codage_octal + 
-		calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
+	arg_code = NULL;
+	if (!car->op)
+		car->location = calc_i(car->location + 1);
+	else if (ft_strequ(car->op->name, "zjmp") && car->carry == 1)
+		return ;
+	else if (car->op->codage_octal)
+	{
+		arg_code = get_bits(get_i(vm->arena, to_codage(car)));
+		car->location = calc_i(car->location + OP + car->op->codage_octal + 
+			calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
+	}
+	else
+	{
+		car->location = calc_i(car->location + OP + car->op->dir_size);
+	}
 }
 
 int		calc_carriages(t_vm *vm)

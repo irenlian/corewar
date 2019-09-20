@@ -1,13 +1,11 @@
 #include "corewar.h"
 
-unsigned int	read_t_dir(char *arena, int arg_location, t_carriage *car)
+unsigned int	read_u_int(char *arena, int arg_location, t_carriage *car)
 {
 	char			*tmp;
 	unsigned int	*num;
 	unsigned int	res;
 
-	if (car->op->dir_size == IND)
-		return (read_clean_t_ind(arena, arg_location));
 	tmp = ft_strnew(sizeof(unsigned int));
 	tmp[0] = get_i(arena, arg_location + 3);
 	tmp[1] = get_i(arena, arg_location + 2);
@@ -19,6 +17,16 @@ unsigned int	read_t_dir(char *arena, int arg_location, t_carriage *car)
 	res = *num;
 	free(num);
 	return (res);
+}
+
+long			read_t_dir(char *arena, int arg_location, t_carriage *car)
+{
+	if (car->op->dir_size == IND)
+		return (read_clean_t_ind(arena, arg_location));
+	else if (car->op->dir_size == DIR)
+		return (read_u_int(arena, arg_location, car));
+	else
+		return (0);
 }
 
 short		read_clean_t_ind(char *arena, int arg_location)
