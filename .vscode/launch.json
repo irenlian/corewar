@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/asm",
-            "args": ["vm_champs/champs/Backward.s"],
+            "args": ["champ.s"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

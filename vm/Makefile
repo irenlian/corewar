@@ -24,11 +24,7 @@ LFLAGS :=	-lft -L $(LIBDIR)
 
 LIB :=		$(LIBDIR)libft.a
 INC :=		corewar op	
-<<<<<<< HEAD
 SRC :=		main game initializator arena reading utils command_handle commands arguments offset
-=======
-SRC :=		main initializator arena reading utils ../common/common.c
->>>>>>> reading .s files and saving to t_code
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))

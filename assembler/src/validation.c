@@ -117,3 +117,13 @@ void valid_champ_file(t_list *champ)
         i++;
     }
 }
+void valid_existing_labels(t_list *code_list)
+{
+    t_list *tmp;
+
+    tmp = code_list;
+    while (tmp)
+    {
+        tmp = tmp->next;
+    }
+}

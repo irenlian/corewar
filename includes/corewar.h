@@ -167,6 +167,7 @@ int					arg_index(t_carriage *car, char *arg_code, int arg_pos);
 
 int				show_error(const char *error, int err_line);
 int				read_code(t_champ *champ, char *f_name);
+void            parse_code(t_champ *champ, t_list **code);
 t_command       *get_commad_catalog();
 t_command       *get_com_byname(t_command *all, char *name);
 t_command 		*get_com_by_code(t_command *all, char code);

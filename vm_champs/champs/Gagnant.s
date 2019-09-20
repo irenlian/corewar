@@ -21,8 +21,7 @@ code:		live %42			# 5
 		zjmp %-200			# 3
 		sti  r15,%0,r14			# 6
 		zjmp %-200
-
-fdg:	
+	
 avantdebut:	sti   r1,%:code,%1  # 		#7	
 		sti   r1,%:code,%15 # 		#7	
 		sti   r1,%:code,%29 # 		#7	

@@ -1,12 +1,5 @@
 #include "corewar.h"
 
-int			show_error(const char *error)
-{
-    // system("leaks asm");
-	ft_printf("%t%s%t\n", B_RED, error, EOC);
-	exit(0);
-}
-
 void set_int(int fd, int code, int bytes)
 {
     char c;

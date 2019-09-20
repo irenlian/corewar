@@ -78,6 +78,21 @@ void		save_args(t_code *code, char *line)
 }
 
 /*
+**	Check command after label in line, return 1 or 0
+*/
+int				check_commad_after(char *line, int i)
+{
+	while (line[++i])
+	{
+		if (line[i] == '#')
+			return (0);
+		if (line[i] > 'a' && line[i] < 'z')
+			return (1);
+	}
+	return (0);
+}
+
+/*
 **	Save all marks if there are more than 1 to the list
 */
 void			save_all_marks(t_code *code, t_list **list, int *car)
@@ -96,6 +111,8 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 		end = 0;
 		car[0] = end;
 		if (!(*list)->next)
+			return ;
+		if (check_commad_after(line, car[1]))
 			return ;
 		while (((char*)(*list)->next->content)[end] && !is_whitespace(((char*)(*list)->next->content)[end]))
 			end++;

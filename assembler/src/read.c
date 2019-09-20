@@ -82,6 +82,7 @@ int				read_asm(t_champ *champ, int fd)
 		ft_strdel(&line);
 		ft_strdel(&trim_line);
 	}
+	champ->header->magic = COREWAR_EXEC_MAGIC;
 	return (1);
 }
 
