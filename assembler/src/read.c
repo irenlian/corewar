@@ -19,45 +19,33 @@
 void			get_name(t_champ *champ, char *line)
 {
 	int		i;
-	int		s;
+	int		start;
 
-	i = -1;
-	while (line[++i])
+	start = -1;
+	while (line[++start])
 	{
-		if (line[i] == '"')
-		{
-			s = i;
-			i++;
-			while (line[i] != '"')
-				i++;
+		if (line[start] == '"')
 			break ;
-		}
 	}
 	i = -1;
-	while (line[++s] != '"')
-		champ->header->prog_name[++i] = line[s];
+	while (line[++start] != '"')
+		champ->header->prog_name[++i] = line[start];
 }
 
 void			get_comment(t_champ *champ, char *line)
 {
 	int		i;
-	int		s;
+	int		start;
 
-	i = -1;
-	while (line[++i])
+	start = -1;
+	while (line[++start])
 	{
-		if (line[i] == '"')
-		{
-			s = i;
-			i++;
-			while (line[i] != '"')
-				i++;
+		if (line[start] == '"')
 			break ;
-		}
 	}
 	i = -1;
-	while (line[++s] != '"')
-		champ->header->comment[++i] = line[s];
+	while (line[++start] != '"')
+		champ->header->comment[++i] = line[start];
 }
 
 /*

@@ -3,6 +3,8 @@
         "op.h": "c",
         "corewar.h": "c",
         "unistd.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "typeinfo": "c",
+        "system_error": "c"
     }
 }

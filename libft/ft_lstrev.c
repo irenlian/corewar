@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*   ft_lstrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemian <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/03 18:19:34 by pdemian           #+#    #+#             */
-/*   Updated: 2019/07/03 18:19:37 by pdemian          ###   ########.fr       */
+/*   Created: 2019/09/19 15:07:46 by pdemian           #+#    #+#             */
+/*   Updated: 2019/09/19 15:07:49 by pdemian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-char	*ft_strcdup(const char *s, char c)
+t_list		*rev(t_list *old_list)
 {
-	char			*str;
-	unsigned int	i;
-	unsigned int	len;
+	t_list *new_list;
 
-	i = -1;
-	len = 0;
-	while (s && s[len] != c)
-		len++;
-	str = (char*)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	while (++i < len)
-		str[i] = s[i];
-	str[i] = '\0';
-	return (str);
+	if (!old_list || !old_list->next)
+		return (old_list);
+	new_list = rev(old_list->next);
+	old_list->next = NULL;
+	ft_lstpush(&new_list, old_list);
+	return (new_list);
+}
+
+void		ft_lstrev(t_list **alst)
+{
+	t_list *start;
+
+	if (!*alst || !(*alst)->next)
+		return ;
+	start = rev(*alst);
+	*alst = start;
 }

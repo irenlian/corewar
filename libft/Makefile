@@ -100,6 +100,7 @@ SRCS :=		ft_memset.c \
 				x_type.c \
 				manage.c \
 				parsing.c \
+				ft_lstrev.c \
 				ft_printf.c
 
 OBJS :=		$(addprefix $(OBJDIR), $(SRCS:%.c=%.o))

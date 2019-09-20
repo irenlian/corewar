@@ -24,7 +24,11 @@ LFLAGS :=	-lft -L $(LIBDIR)
 
 LIB :=		$(LIBDIR)libft.a	
 INC :=		corewar op
+<<<<<<< HEAD
 SRC :=		main validation read command_handle exec_code code_handle utils valid_operation
+=======
+SRC :=		main validation read parser utils #command_handle exec_code code_handle
+>>>>>>> reading .s files and saving to t_code
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))

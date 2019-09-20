@@ -111,7 +111,6 @@ typedef struct		s_code
     char            *arg1;
     char            *arg2;
     char            *arg3;
-    struct s_code   *next;
 }					t_code;
 /*
 **	VM functions
