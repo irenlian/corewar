@@ -78,8 +78,9 @@ int				read_asm(t_champ *champ, int fd)
 			get_comment(champ, line);
 		trim_line = ft_strtrim(line);
 		if (trim_line)
-			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line, ft_strlen(trim_line)));
+			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line, ft_strlen(trim_line) + 1));
 		ft_strdel(&line);
+		ft_strdel(&trim_line);
 	}
 	return (1);
 }

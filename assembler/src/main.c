@@ -12,12 +12,12 @@
 
 #include "corewar.h"
 
-// static t_command   *catalog;
-
 void	check_code(t_list *list)
 {
 	t_code	*code;
+    int     i;
 
+    i = 0;
 	while (list)
 	{
 		code = (t_code*)list->content;
@@ -65,16 +65,18 @@ void	check_code(t_list *list)
 //     return(count);
 // }
 
-// int    count_bytes(t_code *code, t_command *catalog)
+// int    count_bytes(t_list *code_list, t_command *catalog)
 // {
 //     int count;
+//     t_code * code;
 
 //     count = 0;
-//     while (code)
+//     while (code_list)
 //     {
+//         code = (t_code *)(code_list->content);
 //         code->byte_size = get_byte_size(code, catalog);
 //         count += code->byte_size;
-//         code = code->next;
+//         code_list = code_list->next;
 //     }
 //     return (count);
 // }
@@ -89,33 +91,42 @@ void	check_code(t_list *list)
 //     ft_memcpy(result, file_name, len - 1);
 //     ft_strcat(result, "cor");
 //     return (result);
-}
+// }
 
-// void    delete_before_relize(t_code *code)
+// t_list    *delete_before_relize()
 // {
-//     t_code  *tmp;
+//     t_list  *code;
+//     t_code  *tmp1;
 //     t_code  *tmp2;
+//     t_code  *tmp3;
+//     t_code  *tmp4;
 
-//     tmp = (t_code*)malloc(sizeof(t_code));
-//     *tmp = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
+//     tmp1 = (t_code*)malloc(sizeof(t_code));
+//     *tmp1 = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
 //     tmp2 = (t_code*)malloc(sizeof(t_code));
-//     *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, tmp};
-//     tmp = (t_code*)malloc(sizeof(t_code));
-//     *tmp = (t_code){2, 0, "live", "live", "%0", NULL, NULL, tmp2};
-//     *code = (t_code){1, 0, "loop", "sti", "r1", "%:live", "%1", tmp};
+//     *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, NULL};
+//     tmp3 = (t_code*)malloc(sizeof(t_code));
+//     *tmp3 = (t_code){2, 0, ft_lstnew("live", 5), "live", "%0", NULL, NULL, NULL};
+//     tmp4 = (t_code*)malloc(sizeof(t_code));
+//     *tmp4 = (t_code){1, 0, ft_lstnew("loop", 5), "sti", "r1", "%:live", "%1", NULL};
+//     code = ft_lstnew(tmp4, sizeof(t_code));
+//     ft_lstpush(&code, ft_lstnew(tmp3, sizeof(t_code)));
+//     ft_lstpush(&code, ft_lstnew(tmp2, sizeof(t_code)));
+//     ft_lstpush(&code, ft_lstnew(tmp1, sizeof(t_code)));
+//     return (code);
 // }
 
 int     main(int argc, char **argv)
 {
     int fd;
     t_champ     *champ;
-    t_list      *code;
+	t_list		*code;
     char        *champ_cor_name;
     t_command   *catalog;
     t_header   *header; // delete
     
-    if (argc != 2 || !valid_champ_name(argv[1]))
-        return (0);
+    // if (argc != 2 || !valid_champ_name(argv[1]))
+    //     return (0);
     champ = (t_champ*)ft_memalloc(sizeof(t_champ));
     champ->header = (t_header*)ft_memalloc(sizeof(t_header));
     read_code(champ, argv[1]);
@@ -131,5 +142,6 @@ int     main(int argc, char **argv)
     // set_int(fd, champ->header->prog_size, 4);
     // set_name(fd, champ->header->comment, COMMENT_LENGTH);
     // write_exec_code(fd, code, catalog);
+    // system("leaks asm");
     return (0);
 }
