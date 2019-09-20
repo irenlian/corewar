@@ -123,8 +123,8 @@ void	and_or_xor(t_vm *vm, t_carriage *car)
 
 void	zjmp(t_vm *vm, t_carriage *car)
 {
-	unsigned int	arg_int;
-	t_champ			*player;
+	short		arg_int;
+	t_champ		*player;
 
 	if (car->carry != 1)
 		return ;
@@ -135,8 +135,8 @@ void	zjmp(t_vm *vm, t_carriage *car)
 void	load_index(t_vm *vm, t_carriage *car)
 {
 	char			*arg_code;
-	unsigned int	pos;
-	unsigned int	res;
+	long			pos;
+	short			res;
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	pos = 0;
@@ -172,15 +172,16 @@ void	store_index(t_vm *vm, t_carriage *car)
 
 void	lfork(t_vm *vm, t_carriage *car)
 {
-	unsigned int	pos;
+	int				pos;
 	t_carriage		*fork;
 
 	pos = read_t_dir(vm->arena, to_codage(car), car);
 	if (ft_strequ(car->op->name, "fork"))
 		pos %= IDX_MOD;
+	pos += car->location;
 	fork = copy_carriage(vm, car);
 	fork->location = calc_i(pos);
-	fork->op = get_com_by_code(vm->catalog, get_i(vm->arena, fork->location));
+	// fork->op = get_com_by_code(vm->catalog, get_i(vm->arena, fork->location));
 }
 
 void	aff(t_vm *vm, t_carriage *car)

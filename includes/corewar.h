@@ -130,7 +130,7 @@ int					cycle(t_vm *vm);
 char				*get_bits(unsigned char octet);
 char				get_i(char *arena, int i);
 int					calc_i(int i);
-unsigned int		read_t_dir(char *arena, int arg_location, t_carriage *car);
+long				read_t_dir(char *arena, int arg_location, t_carriage *car);
 short				read_t_ind(char *arena, int arg_location);
 short				read_clean_t_ind(char *arena, int arg_location);
 void				write_t_ind(char *arena, unsigned int arg_location, short value);
