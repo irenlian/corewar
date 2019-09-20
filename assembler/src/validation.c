@@ -1,5 +1,16 @@
 #include "corewar.h"
 
+
+int			show_error(const char *error, int err_index)
+{
+    // system("leaks asm");
+    if (err_index < 0)
+	    ft_printf("%t%s%t\n", B_RED, error, EOC);
+    else
+        ft_printf("%t%s%i%t\n", B_RED, error, err_index + 1, EOC);
+	exit(0);
+}
+
 int valid_magic(char *magic)
 {
     if (magic[0] == '0' && (magic[1] == 'x' || magic[1] == 'X'))
@@ -45,7 +56,7 @@ int valid_head(t_list *champ)
     return (0);
 }
 
-void    valid_label(char *line, int pos_label_char)
+void    valid_label(char *line, int pos_label_char, int line_index)
 {
     int status;
 
@@ -57,11 +68,11 @@ void    valid_label(char *line, int pos_label_char)
         else if ((status == 1 || status == 2) && ft_strchr(" \t", line[pos_label_char]))
             status = 2;
         else
-            show_error("Label error");
+            show_error("Label error in line: ", line_index);
     }
 }
 
-int valid_command_line(char *line)
+void    valid_command_line(char *line, int line_index)
 {
     int i;
     int j;
@@ -80,15 +91,14 @@ int valid_command_line(char *line)
             is_print = 1;
         if (line[j] == LABEL_CHAR)
         {
-            valid_label(line, j);
+            valid_label(line, j, line_index);
             i = j;
             break;
         }
     }
     while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'));
     if (line[i] != COMMENT_CHAR && line[i] != '\0')
-        valid_operation(&line[i]);
-    return (1);
+        valid_operation(&line[i], line_index);
 }
 
 void valid_champ_file(t_list *champ)
@@ -97,13 +107,12 @@ void valid_champ_file(t_list *champ)
     int i;
 
     if (!valid_head(champ))
-        show_error("Head file error");
+        show_error("Head file error", -1);
     tmp = champ->next->next;
-    i = 0;
+    i = 2;
     while (tmp)
     {
-        if (!valid_command_line(tmp->content))
-            show_error("Syntax error");
+        valid_command_line(tmp->content, i);
         tmp = tmp->next;
         i++;
     }

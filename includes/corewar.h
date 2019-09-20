@@ -165,7 +165,7 @@ int					arg_index(t_carriage *car, char *arg_code, int arg_pos);
 **	Assembler functions
 */
 
-int				show_error(const char *error);
+int				show_error(const char *error, int err_line);
 int				read_code(t_champ *champ, char *f_name);
 t_command       *get_commad_catalog();
 t_command       *get_com_byname(t_command *all, char *name);
@@ -177,7 +177,7 @@ void            set_name(int fd, char *name, int max_length);
 t_list          *get_code_by_mark(t_list  *code_list, char *mark);
 void            write_exec_code(int fd, t_list *code_list, t_command *catalog);
 int             get_int_from_bytes(char *byte_code);
-void            valid_operation(char *line);
+void            valid_operation(char *line, int line_index);
 void            valid_champ_file(t_list *champ);
 
 #endif

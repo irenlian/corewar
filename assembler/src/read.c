@@ -54,7 +54,7 @@ void			get_comment(t_champ *champ, char *line)
 
 int				read_cor(t_champ *champ, int fd)
 {
-	show_error("It's .cor file");
+	show_error("It's .cor file", -1);
 	return (2);
 }
 
@@ -69,7 +69,7 @@ int				read_asm(t_champ *champ, int fd)
 
 	champ->asm_code = NULL;
 	if (read(fd, NULL, 0) < 0)
-		show_error("Something wrong with file");
+		show_error("Something wrong with file", -1);
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (ft_strstr(line, ".name"))
@@ -102,6 +102,6 @@ int				read_code(t_champ *champ, char *f_name)
 	else if (ft_strequ(f_name + 1, "cor"))
 		return (read_cor(champ, fd));
 	else
-		show_error("Wrong file format");
+		show_error("Wrong file format", -1);
 	return (0);
 }

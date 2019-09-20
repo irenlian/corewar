@@ -28,7 +28,7 @@ int    valid_dir_arg(char *dir)
     }
     while (dir[i] != '\0' && (dir[i] == ' ' || dir[i] == '\t'))
         i++;
-    if ((dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
+    if ((dir[i] != COMMENT_CHAR && dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
         return (0);
     return (1);
 }
@@ -57,7 +57,7 @@ int    valid_ind_arg(char *arg)
     }
     while (arg[i] != '\0' && (arg[i] == ' ' || arg[i] == '\t'))
         i++;
-    if ((arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || (status != 2 && status != 3))
+    if ((arg[i] != COMMENT_CHAR && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || (status != 2 && status != 3))
         return (0);
     return (1);
 }
@@ -82,145 +82,146 @@ int    valid_reg_arg(char *arg)
     }
     while (arg[i] != '\0' && (arg[i] == ' ' || arg[i] == '\t'))
         i++;
-    if ((arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || status != 2)
+    if ((arg[i] != COMMENT_CHAR && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || status != 2)
         return (0);
     return (1);
 }
 
-void    valid_type_live(char *args)
+void    valid_type_live(char *args, int line_index)
 {
     if (!valid_dir_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(args, SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_ld(char *args)
+void    valid_type_ld(char *args, int line_index)
 {
     int i;
 
     i = -1;
     if (!valid_dir_arg(args) && !valid_ind_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_st(char *args)
+void    valid_type_st(char *args, int line_index)
 {
     int i;
 
     i = -1;
     if (!valid_reg_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]) && !valid_ind_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
+    if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_add(char *args)
+void    valid_type_add(char *args, int line_index)
 {
     int i;
 
     i = -1;
     if (!valid_reg_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
+    if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_and(char *args)
+void    valid_type_and(char *args, int line_index)
 {
     int i;
 
     i = -1;
-    if (!valid_reg_arg(args) && !valid_ind_arg(args) && valid_dir_arg(args))
-        show_error("Arg error");
+    if (!valid_reg_arg(args) && !valid_ind_arg(args) && !valid_dir_arg(args))
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]) && !valid_ind_arg(&args[i + 1]) && !valid_dir_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_ldi(char *args)
+void    valid_type_ldi(char *args, int line_index)
 {
     int i;
 
     i = -1;
-    if (!valid_reg_arg(args) && !valid_ind_arg(args) && valid_dir_arg(args))
-        show_error("Arg error");
+    if (!valid_reg_arg(args) && !valid_ind_arg(args) && !valid_dir_arg(args))
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]) && !valid_dir_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_sti(char *args)
+void    valid_type_sti(char *args, int line_index)
 {
     int i;
 
     i = -1;
     if (!valid_reg_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]) && !valid_ind_arg(&args[i + 1]) && !valid_dir_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     while (args[++i] != '\0' && args[i] != SEPARATOR_CHAR);
     if (!valid_reg_arg(&args[i + 1]) && !valid_dir_arg(&args[i + 1]))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(&args[i + 1], SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_type_aff(char *args)
+void    valid_type_aff(char *args, int line_index)
 {
     if (!valid_reg_arg(args))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
     if (ft_strchr(args, SEPARATOR_CHAR))
-        show_error("Arg error");
+        show_error("Arg error at line: ", line_index);
 }
 
-void    valid_by_type_operation(char *name, char *args)
+void    valid_by_type_operation(char *name, char *args, int line_index)
 {
     if (ft_strequ(name, "live") || ft_strequ(name, "zjmp") || ft_strequ(name, "fork") || ft_strequ(name, "lfork"))
-        valid_type_live(args);
+        valid_type_live(args, line_index);
     else if (ft_strequ(name, "ld") || ft_strequ(name, "lld"))
-        valid_type_ld(args);
+        valid_type_ld(args, line_index);
     else if (ft_strequ(name, "st"))
-        valid_type_st(args);
+        valid_type_st(args, line_index);
     else if (ft_strequ(name, "add") || ft_strequ(name, "sub"))
-        valid_type_add(args);
+        valid_type_add(args, line_index);
     else if (ft_strequ(name, "and") || ft_strequ(name, "or") || ft_strequ(name, "xor"))
-        valid_type_and(args);
+        valid_type_and(args, line_index);
     else if (ft_strequ(name, "ldi") || ft_strequ(name, "lldi"))
-        valid_type_ldi(args);
+        valid_type_ldi(args, line_index);
     else if (ft_strequ(name, "sti"))
-        valid_type_sti(args);
+        valid_type_sti(args, line_index);
     else if (ft_strequ(name, "aff"))
-        valid_type_aff(args);
+        valid_type_aff(args, line_index);
     else
-    {
-        ft_printf("%s\n", "Syntax error at token [TOKEN] INSTRUCTION \"___\"");
-        exit(0);
-    }
+        show_error("Syntax error at token", line_index);
 }
 
-void valid_operation(char *line)
+void valid_operation(char *line, int line_index)
 {
     int i;
     int j;
@@ -238,8 +239,8 @@ void valid_operation(char *line)
         else if (line[i] == ' ' || line[i] == '\t')
             break;
         if (j == 6)
-            show_error("not valid operation");
+            show_error("Not valid operation in line:", line_index);
         operation_name[j++] = line[i];
     }
-    valid_by_type_operation(operation_name, &line[i]);
+    valid_by_type_operation(operation_name, &line[i], line_index);
 }
