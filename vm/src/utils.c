@@ -161,7 +161,6 @@ void	pass_op(t_vm *vm, t_carriage *car)
 	{
 		car->location = calc_i(car->location + OP + car->op->dir_size);
 	}
-	draw_cursor(vm, car);
 }
 
 int		calc_carriages(t_vm *vm)
