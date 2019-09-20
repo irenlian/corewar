@@ -41,16 +41,18 @@ int     get_byte_size(t_code *code, t_command *catalog)
     return(count);
 }
 
-int    count_bytes(t_code *code, t_command *catalog)
+int    count_bytes(t_list *code_list, t_command *catalog)
 {
     int count;
+    t_code * code;
 
     count = 0;
-    while (code)
+    while (code_list)
     {
+        code = (t_code *)(code_list->content);
         code->byte_size = get_byte_size(code, catalog);
         count += code->byte_size;
-        code = code->next;
+        code_list = code_list->next;
     }
     return (count);
 }
@@ -67,25 +69,34 @@ char *get_corname(char *file_name)
     return (result);
 }
 
-void    delete_before_relize(t_code *code)
+t_list    *delete_before_relize()
 {
-    t_code  *tmp;
+    t_list  *code;
+    t_code  *tmp1;
     t_code  *tmp2;
+    t_code  *tmp3;
+    t_code  *tmp4;
 
-    tmp = (t_code*)malloc(sizeof(t_code));
-    *tmp = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
+    tmp1 = (t_code*)malloc(sizeof(t_code));
+    *tmp1 = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
     tmp2 = (t_code*)malloc(sizeof(t_code));
-    *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, tmp};
-    tmp = (t_code*)malloc(sizeof(t_code));
-    *tmp = (t_code){2, 0, "live", "live", "%0", NULL, NULL, tmp2};
-    *code = (t_code){1, 0, "loop", "sti", "r1", "%:live", "%1", tmp};
+    *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, NULL};
+    tmp3 = (t_code*)malloc(sizeof(t_code));
+    *tmp3 = (t_code){2, 0, ft_lstnew("live", 5), "live", "%0", NULL, NULL, NULL};
+    tmp4 = (t_code*)malloc(sizeof(t_code));
+    *tmp4 = (t_code){1, 0, ft_lstnew("loop", 5), "sti", "r1", "%:live", "%1", NULL};
+    code = ft_lstnew(tmp4, sizeof(t_code));
+    ft_lstpush(&code, ft_lstnew(tmp3, sizeof(t_code)));
+    ft_lstpush(&code, ft_lstnew(tmp2, sizeof(t_code)));
+    ft_lstpush(&code, ft_lstnew(tmp1, sizeof(t_code)));
+    return (code);
 }
 
 int     main(int argc, char **argv)
 {
     int fd;
     t_champ     *champ;
-	t_code		*code;
+	t_list		*code;
     char        *champ_cor_name;
     t_command   *catalog;
     t_header   *header; // delete
@@ -96,10 +107,11 @@ int     main(int argc, char **argv)
     header = (t_header*)malloc(sizeof(t_header)); // delete
     champ->header = header; // delete
     champ->header->magic = COREWAR_EXEC_MAGIC; // delete
-	code = (t_code*)malloc(sizeof(t_code));
     //TODO fill t_code here
-    delete_before_relize(code); // delete
+    code = delete_before_relize(); // delete
+
     read_code(champ, argv[1]);
+    valid_champ_file(champ->asm_code);
     catalog = get_commad_catalog();
     champ->header->prog_size = count_bytes(code, catalog);
     champ_cor_name = get_corname(argv[1]);

@@ -1,12 +1,17 @@
 #include "corewar.h"
 
-t_code  *get_code_by_mark(t_code  *code, char *mark)
+t_list  *get_code_by_mark(t_list  *code_list, char *mark)
 {
-    while (code)
+    t_code *code;
+    t_list *iter;
+
+    while (code_list)
     {
-        if (ft_strequ(mark, code->mark))
-            return (code);
-        code = code->next;
+        code = (t_code *)(code_list->content);
+        iter = code->mark;
+        if (ft_strequ(mark, iter->content))
+            return (code_list);
+        code_list = code_list->next;
     }
     return (NULL);
 }

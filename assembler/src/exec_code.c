@@ -26,40 +26,40 @@ int     get_code_arg_types(t_code *code_line)
     return (get_int_from_bytes(args_byte_code));
 }
 
-int     get_byte_size_to_marked(t_code *code, t_code *marked_code)
+int     get_byte_size_to_marked(t_list *curr_code, t_list *marked_code)
 {
     int size;
 
     size = 0;
-    if (code->id > marked_code->id)
+    if (((t_code *)curr_code->content)->id > ((t_code *)marked_code->content)->id)
     {
         while (marked_code)
         {
-            if (marked_code->id == code->id)
+            if (((t_code *)marked_code->content)->id == ((t_code *)curr_code->content)->id)
                 break;
-            size += marked_code->byte_size;
+            size += ((t_code *)marked_code->content)->byte_size;
             marked_code = marked_code->next;
         }
         size *= -1;
     }
     else
     {
-        while (code)
+        while (curr_code)
         {
-            if (marked_code->id == code->id)
+            if (((t_code *)marked_code->content)->id == ((t_code *)curr_code->content)->id)
                 break;
-            size += code->byte_size;
-            code = code->next;
+            size += ((t_code *)curr_code->content)->byte_size;
+            curr_code = curr_code->next;
         }
     }
     return (size);
 }
 
-int     get_arg_code(t_code *codes, t_code *code, char *arg)
+int     get_arg_code(t_list *code_line, t_list *code, char *arg)
 {
     unsigned int res;
     char *label;
-    t_code *marked_code;
+    t_list *marked_code;
 
     if ((arg[0] == DIRECT_CHAR && arg[1] == LABEL_CHAR) || arg[0] == LABEL_CHAR)
     {
@@ -67,7 +67,7 @@ int     get_arg_code(t_code *codes, t_code *code, char *arg)
             label = ft_strsub(arg, 1, ft_strlen(arg) - 1);
         else
             label = ft_strsub(arg, 2, ft_strlen(arg) - 2);
-        marked_code = get_code_by_mark(codes, label);
+        marked_code = get_code_by_mark(code_line, label);
         res = (unsigned int)get_byte_size_to_marked(code, marked_code);
     }
     else if (arg[0] == 'r' || arg[0] == DIRECT_CHAR)
@@ -88,29 +88,31 @@ int     get_size_arg(char *arg, t_command *com)
     return (2);
 }
 
-void    write_command_line(int fd, t_code *codes, t_code *code_line, t_command *catalog)
+void    write_command_line(int fd, t_list *code_list, t_list *code_line, t_command *catalog)
 {
     t_command *com;
+    t_code      *code;
 
-    com = get_com_byname(catalog, code_line->name);
+    code = (t_code *)(code_line->content);
+    com = get_com_byname(catalog, code->name);
     set_int(fd, com->code, 1);
     if (com->codage_octal)
-        set_int(fd, get_code_arg_types(code_line), 1);
-    set_int(fd, get_arg_code(codes, code_line, code_line->arg1), get_size_arg(code_line->arg1, com));
-    if (code_line->arg2)
-        set_int(fd, get_arg_code(codes, code_line, code_line->arg2), get_size_arg(code_line->arg2, com));
-    if (code_line->arg3)
-        set_int(fd, get_arg_code(codes, code_line, code_line->arg3), get_size_arg(code_line->arg3, com));
+        set_int(fd, get_code_arg_types(code_line->content), 1);
+    set_int(fd, get_arg_code(code_list, code_line, code->arg1), get_size_arg(code->arg1, com));
+    if (code->arg2)
+        set_int(fd, get_arg_code(code_list, code_line, code->arg2), get_size_arg(code->arg2, com));
+    if (code->arg3)
+        set_int(fd, get_arg_code(code_list, code_line, code->arg3), get_size_arg(code->arg3, com));
 }
 
-void    write_exec_code(int fd, t_code *code, t_command *catalog)
+void    write_exec_code(int fd, t_list *code_list, t_command *catalog)
 {
-    t_code *tmp;
+    t_list *tmp;
 
-    tmp = code;
+    tmp = code_list;
     while (tmp)
     {
-        write_command_line(fd, code, tmp, catalog);
+        write_command_line(fd, code_list, tmp, catalog);
         tmp = tmp->next;
     }
 }

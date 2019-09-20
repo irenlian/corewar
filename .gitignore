@@ -1,6 +1,10 @@
-.obj/*
+/.obj/*
+/libft/.obj/*
+/assembler/.obj/*
+/vm/champs
+/vm/.obj/*
 champ.cor
-.vscode/*
+/.vscode/*
 asm
 corewar
 .DS_Store

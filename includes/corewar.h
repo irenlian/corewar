@@ -106,7 +106,7 @@ typedef struct		s_code
 {
     int             id; //порядковый номер
     int             byte_size; // размер кода в байтах (Дем*яну не заполнять)
-    char            *mark;
+    t_list          *mark;
     char            *name;
     char            *arg1;
     char            *arg2;
@@ -175,8 +175,10 @@ void            free_com_catalog(t_command *all);
 int             valid_champ_name(char *name);
 void            set_int(int fd, int code, int bytes);
 void            set_name(int fd, char *name, int max_length);
-t_code          *get_code_by_mark(t_code  *code, char *mark);
-void            write_exec_code(int fd, t_code *code, t_command *catalog);
+t_list          *get_code_by_mark(t_list  *code_list, char *mark);
+void            write_exec_code(int fd, t_list *code_list, t_command *catalog);
 int             get_int_from_bytes(char *byte_code);
+void            valid_operation(char *line);
+void            valid_champ_file(t_list *champ);
 
 #endif
