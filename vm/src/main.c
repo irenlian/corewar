@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include "visual.h"
 
 void	introducing(t_champ *ch)
 {
@@ -23,8 +24,6 @@ void	introducing(t_champ *ch)
 	}
 	
 }
-
-
 
 void	game(t_vm *vm)
 {
@@ -50,10 +49,11 @@ int     main(int argc, char **argv)
 	t_vm	*vm;
 	t_champ	*last;
 	int		i;
-    
+
 	vm = create_game();
 	vm->champs = get_champs(argc, argv);
 	last = vm->champs;
+	printf("first: \\%s/\n", argv[2] );
 	while (last->next_champ)
 		last = last->next_champ;
 	vm->last_live = last;
@@ -61,7 +61,12 @@ int     main(int argc, char **argv)
 	create_carriages(vm);
 	// system("leaks -q corewar");
 	introducing(vm->champs);
+	if(!ft_strcmp(argv[3], "-v"))
+	{
+		printf("%s\n", argv[3] );
+		vs_broach(vm);
+	}
 	game(vm);
 	winner(vm);
-    return (0);
+	return (0);
 }

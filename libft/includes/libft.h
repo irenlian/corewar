@@ -175,6 +175,12 @@ typedef struct		s_orgi
 	char			type;
 }					t_orgi;
 
+typedef enum
+{
+	true,
+	false
+}					t_bool;
+
 int					ft_printf(const char *format, ...);
 int					parse_this(va_list var, t_orgi *params);
 char				*s_type(char *str, t_orgi *params);

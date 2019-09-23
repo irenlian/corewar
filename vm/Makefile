@@ -20,11 +20,13 @@ OBJDIR :=	.obj/
 CC :=		clang
 CFLAGS :=	-g #-Wall -Wextra -Werror
 IFLAGS :=	-I $(INCDIR)
-LFLAGS :=	-lft -L $(LIBDIR)
+LFLAGS :=	-lft -lncurses -L $(LIBDIR)
 
-LIB :=		$(LIBDIR)libft.a	
-INC :=		corewar op	
-SRC :=		main game initializator arena reading utils command_handle commands arguments offset
+LIB :=		$(LIBDIR)libft.a
+INC :=		corewar op visual
+SRC :=		main game initializator arena reading utils command_handle commands arguments offset \
+			vs_broach carriage config draw_vs info_win init_visual map_win show_champs \
+			status_info show_help utils2 
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))

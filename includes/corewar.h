@@ -14,6 +14,7 @@
 # define COREWAR_H
 
 # include <stdlib.h>
+
 # include <fcntl.h>
 # include "op.h"
 
@@ -90,8 +91,8 @@ typedef struct		s_carriage
 typedef struct		s_vm
 {
     t_champ			*champs;
-	char			*arena;
-	t_carriage			*cars;
+	unsigned char	*arena;
+	t_carriage		*cars;
 	t_champ			*last_live;
 	int				cycles_to_die;
 	int				cycles_till_next_check;
@@ -99,6 +100,7 @@ typedef struct		s_vm
 	int				live_counter;
 	int				check_counter;
 	int				checks_from_start;
+    struct s_vs     *vs;
 	t_command		*catalog;
 }					t_vm;
 
