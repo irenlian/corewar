@@ -53,7 +53,7 @@ int		make_move(t_vm *vm, t_carriage *car)
 	t_command	*com;
 	
 	if (car->op && car->op->func)
-	{
+	{   
 		car->op->func(vm, car);
 		if (!(ft_strequ(car->op->name, "zjmp") && car->carry == 1))
 			pass_op(vm, car);
