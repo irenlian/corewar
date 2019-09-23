@@ -112,7 +112,7 @@ int     main(int argc, char **argv)
     valid_existing_labels(code);
     champ->header->prog_size = count_bytes(code, catalog);
     champ_cor_name = get_corname(argv[1]);
-    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
+    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
     free(champ_cor_name);
     set_int(fd, champ->header->magic, 4);
     set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
