@@ -71,7 +71,7 @@ void		write_t_dir(unsigned char *arena, unsigned int arg_location, unsigned int 
 	arena[arg_location] = value;
 }
 
-unsigned int	get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
+long		get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
 {
 	short			arg_sh_int;
 
