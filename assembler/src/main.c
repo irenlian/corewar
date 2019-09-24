@@ -93,29 +93,6 @@ char *get_corname(char *file_name)
     return (result);
 }
 
-// t_list    *delete_before_relize()
-// {
-//     t_list  *code;
-//     t_code  *tmp1;
-//     t_code  *tmp2;
-//     t_code  *tmp3;
-//     t_code  *tmp4;
-
-//     tmp1 = (t_code*)malloc(sizeof(t_code));
-//     *tmp1 = (t_code){4, 0, NULL, "zjmp", "%:loop", NULL, NULL, NULL};
-//     tmp2 = (t_code*)malloc(sizeof(t_code));
-//     *tmp2 = (t_code){3, 0, NULL, "ld", "%0", "r2", NULL, NULL};
-//     tmp3 = (t_code*)malloc(sizeof(t_code));
-//     *tmp3 = (t_code){2, 0, ft_lstnew("live", 5), "live", "%0", NULL, NULL, NULL};
-//     tmp4 = (t_code*)malloc(sizeof(t_code));
-//     *tmp4 = (t_code){1, 0, ft_lstnew("loop", 5), "sti", "r1", "%:live", "%1", NULL};
-//     code = ft_lstnew(tmp4, sizeof(t_code));
-//     ft_lstpush(&code, ft_lstnew(tmp3, sizeof(t_code)));
-//     ft_lstpush(&code, ft_lstnew(tmp2, sizeof(t_code)));
-//     ft_lstpush(&code, ft_lstnew(tmp1, sizeof(t_code)));
-//     return (code);
-// }
-
 int     main(int argc, char **argv)
 {
     int fd;
@@ -123,7 +100,6 @@ int     main(int argc, char **argv)
 	t_list		*code;
     char        *champ_cor_name;
     t_command   *catalog;
-    t_header   *header; // delete
     
     if (argc != 2 || !valid_champ_name(argv[1]))
         return (0);
@@ -133,9 +109,10 @@ int     main(int argc, char **argv)
     catalog = get_commad_catalog();
     valid_champ_file(champ->asm_code);
 	parse_code(champ, &code);
+    valid_existing_labels(code);
     champ->header->prog_size = count_bytes(code, catalog);
     champ_cor_name = get_corname(argv[1]);
-    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
+    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
     free(champ_cor_name);
     set_int(fd, champ->header->magic, 4);
     set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);

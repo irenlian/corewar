@@ -1,13 +1,11 @@
 #include "corewar.h"
 
-unsigned int	read_t_dir(char *arena, int arg_location, t_carriage *car)
+unsigned int	read_u_int(unsigned char *arena, int arg_location, t_carriage *car)
 {
 	char			*tmp;
 	unsigned int	*num;
 	unsigned int	res;
 
-	if (car->op->dir_size == IND)
-		return (read_clean_t_ind(arena, arg_location));
 	tmp = ft_strnew(sizeof(unsigned int));
 	tmp[0] = get_i(arena, arg_location + 3);
 	tmp[1] = get_i(arena, arg_location + 2);
@@ -21,7 +19,17 @@ unsigned int	read_t_dir(char *arena, int arg_location, t_carriage *car)
 	return (res);
 }
 
-short		read_clean_t_ind(char *arena, int arg_location)
+long			read_t_dir(unsigned char *arena, int arg_location, t_carriage *car)
+{
+	if (car->op->dir_size == IND)
+		return (read_clean_t_ind(arena, arg_location));
+	else if (car->op->dir_size == DIR)
+		return (read_u_int(arena, arg_location, car));
+	else
+		return (0);
+}
+
+short		read_clean_t_ind(unsigned char *arena, int arg_location)
 {
 	char	*tmp;
 	short	*num;
@@ -38,12 +46,12 @@ short		read_clean_t_ind(char *arena, int arg_location)
 	return (res);
 }
 
-short		read_t_ind(char *arena, int arg_location)
+short		read_t_ind(unsigned char *arena, int arg_location)
 {
 	return (read_clean_t_ind(arena, arg_location) % IDX_MOD);
 }
 
-void		write_t_ind(char *arena, unsigned int arg_location, short value)
+void		write_t_ind(unsigned char *arena, unsigned int arg_location, short value)
 {
 	arg_location %= MEM_SIZE;
 	arena[arg_location++] = value >> (8);
@@ -51,7 +59,7 @@ void		write_t_ind(char *arena, unsigned int arg_location, short value)
 	arena[arg_location] = value;
 }
 
-void		write_t_dir(char *arena, unsigned int arg_location, unsigned int value)
+void		write_t_dir(unsigned char *arena, unsigned int arg_location, unsigned int value)
 {
 	arg_location %= MEM_SIZE;
 	arena[arg_location++] = value >> (3 * 8);
@@ -63,7 +71,7 @@ void		write_t_dir(char *arena, unsigned int arg_location, unsigned int value)
 	arena[arg_location] = value;
 }
 
-unsigned int	get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
+long		get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code)
 {
 	short			arg_sh_int;
 

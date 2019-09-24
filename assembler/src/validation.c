@@ -28,32 +28,69 @@ int valid_champ_name(char *name)
     return (1);
 }
 
-int valid_head(t_list *champ)
+int count_char(char *line, char c)
 {
     int i;
-    int is_name;
+    int count;
+
+    i = -1;
+    count = 0;
+    while (line[++i] != '\0')
+    {
+        if (line[i] == c)
+            count++;
+    }
+    return (count);
+}
+
+t_list *valid_head(t_list *champ)
+{
+    int i;
+    int count_ch;
+    int is_head;
     int is_comment;
 
-    is_name = 0;
-    is_comment = 0;
     i = 0;
+    is_head = 0;
+    is_comment = 0;
     while (champ)
     {
-        if (ft_strstr(champ->content, NAME_CMD_STRING) && !is_name)
-            is_name = 1;
-        else if (ft_strstr(champ->content, COMMENT_CMD_STRING) && !is_comment)
-            is_comment = 1;
-        else
+        if (is_head == 2)
         {
-            ft_printf("%s %i\n", "Syntax error at line:", i);
-            return (0);
+            count_ch = count_char(champ->content, '"');
+            if (count_ch)
+                is_head = 3;
         }
-        if (is_name && is_comment)
-            return (1);
+        else if (is_comment == 2)
+        {
+            count_ch = count_char(champ->content, '"');
+            if (count_ch)
+                is_comment = 3;
+        }
+        else if (ft_strstr(champ->content, NAME_CMD_STRING))
+        {
+            is_head = 1;
+            count_ch = count_char(champ->content, '"');
+            if (count_ch == 2)
+                is_head = 3;
+            else if (count_ch == 1)
+                is_head = 2;
+        }
+        else if (ft_strstr(champ->content, COMMENT_CMD_STRING))
+        {
+            is_comment = 1;
+            count_ch = count_char(champ->content, '"');
+            if (count_ch == 2)
+                is_comment = 3;
+            else if (count_ch == 1)
+                is_comment = 2;
+        }
+        if (is_head == 3 && is_comment == 3)
+            return (champ->next);
         champ = champ->next;
         i++;
     }
-    return (0);
+    return (champ);
 }
 
 void    valid_label(char *line, int pos_label_char, int line_index)
@@ -106,24 +143,53 @@ void valid_champ_file(t_list *champ)
     t_list *tmp;
     int i;
 
-    if (!valid_head(champ))
+    tmp = valid_head(champ);
+    if (!tmp)
         show_error("Head file error", -1);
-    tmp = champ->next->next;
-    i = 2;
     while (tmp)
     {
         valid_command_line(tmp->content, i);
+        if (!tmp->next && ft_strlen((char *)(tmp->content)))
+            show_error("Syntax error", -1);
         tmp = tmp->next;
         i++;
     }
 }
+
+int is_exist_label(t_list *code_list, char *label)
+{
+    t_list *mark_list;
+
+    while (code_list)
+    {
+        mark_list = ((t_code *)(code_list->content))->mark;
+        while (mark_list)
+        {
+            if (ft_strequ(mark_list->content, label))
+                return (1);
+            mark_list = mark_list->next;
+        }
+        code_list = code_list->next;
+    }
+    return (0);
+}
+
 void valid_existing_labels(t_list *code_list)
 {
     t_list *tmp;
+    t_code *code;
+    char *lable;
 
     tmp = code_list;
     while (tmp)
     {
+        code = (t_code *)tmp->content;
+        if (code->arg1 && (lable = ft_strchr(code->arg1, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg1[lable - code->arg1]))
+            show_error("Label doesn't exist", -1);
+        if (code->arg2 && (lable = ft_strchr(code->arg2, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg2[lable - code->arg2]))
+            show_error("Label doesn't exist", -1);
+        if (code->arg3 && (lable = ft_strchr(code->arg3, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg3[lable - code->arg3]))
+            show_error("Label doesn't exist", -1);
         tmp = tmp->next;
     }
 }

@@ -28,7 +28,7 @@ void	create_arena(t_vm *vm)
 	t_champ	*ch;
 	int		i;
 
-    vm->arena = (char*)ft_memalloc(MEM_SIZE);
+    vm->arena = (unsigned char*)ft_memalloc(MEM_SIZE);
     // ft_memset(vm->arena, '0', MEM_SIZE * 2);
 	ch = vm->champs;
 	i = 0;
@@ -58,8 +58,9 @@ void	create_carriages(t_vm *vm)
 		car->id = i++;
 		car->registers[0] = ch->id * -1;
 		car->next = tmp;
-		car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
-		car->cycles_to_run = car->op->cycles;
+		car->parent = ch;
+		// car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
+		// car->cycles_to_run = car->op->cycles;
 		tmp = car;
 		ch = ch->next_champ;
 	}
@@ -75,9 +76,10 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	if (!vm || !car)
 		return (NULL);
 	new_car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-	*new_car = (t_carriage){car->id, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0};
+	*new_car = (t_carriage){car->id, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0, 0};
 	new_car->op = car->op;
 	new_car->next = vm->cars;
+	new_car->parent = car->parent;
 	i = -1;
 	while (++i < REG_NUMBER)
 		new_car->registers[i] = car->registers[i];

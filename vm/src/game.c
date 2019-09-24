@@ -55,13 +55,12 @@ int		make_move(t_vm *vm, t_carriage *car)
 	if (car->op && car->op->func)
 	{   
 		car->op->func(vm, car);
-		if (!(ft_strequ(car->op->name, "zjmp") && car->carry == 1))
-			pass_op(vm, car);
+		// if (!(ft_strequ(car->op->name, "zjmp") && car->carry == 1))
+		// 	pass_op(vm, car);
 	}
-	else
-		car->location = calc_i(car->location + 1);
-	car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
-	car->cycles_to_run = car->op ? car->op->cycles : 0;
+	// else
+	// 	car->location = calc_i(car->location + 1);
+	
 	return (1);
 }
 
@@ -70,14 +69,24 @@ int		cycle(t_vm *vm)
 	t_carriage	*car;
 
 	car = vm->cars;
+	vm->cycles_counter++;
 	if (all_are_dead(vm))
 		return (0);
 	while (car)
 	{
+		if (car->cycles_to_run == 0)
+		{
+			// if (vm->cycles_counter)
+			// 	pass_op(vm, car);
+			car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
+			car->cycles_to_run = car->op ? car->op->cycles : 0;
+		}
 		if (car->cycles_to_run)
 			car->cycles_to_run--;
-		if (car->cycles_to_run == 0)
+		if (car->cycles_to_run == 0 && car->op)
 			make_move(vm, car);
+		if (car->cycles_to_run == 0)
+			pass_op(vm, car);
 		car = car->next;
 	}
 	vm->cycles_till_next_check--;
@@ -133,6 +142,6 @@ int		check(t_vm *vm)
 	if (!vm->cars)
 		return (0);
 	vm->cycles_till_next_check = vm->cycles_to_die;
-	// ft_printf("Carriages number: %i\n", calc_carriages(vm));
+	ft_printf("Carriages number: %i\n", calc_carriages(vm));
 	return (1);
 }

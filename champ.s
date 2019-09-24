@@ -7,7 +7,3 @@ loop:
 live:   live %0
         ld %0, r2
         zjmp %:loop
-
-live100:	live	%42
-live101:	live	%42
-		zjmp	%:live101

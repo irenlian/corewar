@@ -71,15 +71,13 @@ char	*get_bits(unsigned char octet)
 
 int		calc_i(int i)
 {
-	if (i >= 0 && i < MEM_SIZE)
-		return (i);
 	i %= MEM_SIZE;
 	if (i < 0)
-		i = MEM_SIZE + i;
+		i += MEM_SIZE;
 	return (i);
 }
 
-char	get_i(char *arena, int i)
+char	get_i(unsigned char *arena, int i)
 {
 	return (arena[calc_i(i)]);
 }
@@ -148,9 +146,28 @@ void	pass_op(t_vm *vm, t_carriage *car)
 {
 	char			*arg_code;
 
-	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
-	car->location = calc_i(car->location + OP + car->op->codage_octal + 
-		calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
+	arg_code = NULL;
+	if (!car->op)
+		move_carriage(vm, car, car->location + 1);
+	else if (ft_strequ(car->op->name, "zjmp") && car->carry == 1)
+		return ;
+	else if (car->op->codage_octal)
+	{
+		arg_code = get_bits(get_i(vm->arena, to_codage(car)));
+		move_carriage(vm, car, car->location + OP + car->op->codage_octal + 
+			calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
+	}
+	else
+		move_carriage(vm, car, car->location + OP + car->op->dir_size);
+}
+
+void	move_carriage(t_vm *vm, t_carriage *car, int new_location)
+{
+	if (vm->vs)
+		clear_cursor(vm, car);
+	car->location = calc_i(new_location);
+	if (vm->vs)
+		draw_cursor(vm, car);
 }
 
 int		calc_carriages(t_vm *vm)
