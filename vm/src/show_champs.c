@@ -21,29 +21,26 @@ void		show_champs(t_vm *vm)
 	damn = vm->champs;
 	champ = 0;
 	vm->vs->pixels += 1;
-	while (champ < 1)
+	while (champ < vm->vs->quantity)
 	{
 		//printf("vm->champs->id: %d\n", damn->id);
-		//  wattron(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
+		 wattron(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
+		mvwprintw(vm->vs->info_window,
+				vm->vs->pixels += 1, INDENT,
+				"----------------------------------");
+		wprintw(vm->vs->info_window, "\n");
+		mvwprintw(vm->vs->info_window,vm->vs->pixels += 1, INDENT - 3,
+			"%.50s\n", damn->header->prog_name);
 		// mvwprintw(vm->vs->info_window,
 		// 		vm->vs->pixels += 1, INDENT,
-		// 		"----------------------------------");
-		// // wprintw(vm->vs->info_window, "\n");
-		// mvwprintw(vm->vs->info_window,vm->vs->pixels += 1, INDENT - 3,
-		// 	"%.50s\n", champ->id);
-
-		// // mvwprintw(vm->vs->info_window,vm->vs->pixels += 1, INDENT - 3,
-		// // 	"%.50s\n", damn[champ]->name);
-		// // mvwprintw(vm->vs->info_window,
-		// // 		vm->vs->pixels += 1, INDENT,
-		// // 		"%-32s %zd", "   Last live :", damn[champ]->last_live);
+		// 		"%-32s %zd", "   Last live :", damn[champ]->last_live);
 		// // mvwprintw(vm->vs->info_window,
 		// // 		vm->vs->pixels += 1, INDENT,
 		// // 		"%-32s %zu", "   Lives in current period :",
 		// //		damn[champ]->current_lives_num); 
-
+ 
 		// // NEED DATE
-		//wattroff(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
+		wattroff(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
 		champ++;
 		damn = damn->next_champ;
 	}

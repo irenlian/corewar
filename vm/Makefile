@@ -23,7 +23,10 @@ IFLAGS :=	-I $(INCDIR)
 LFLAGS :=	-lft -lncurses -L $(LIBDIR)
 
 LIB :=		$(LIBDIR)libft.a
+<<<<<<< HEAD
 
+=======
+>>>>>>> f4156c51281d8c3813fcf628a84b0b7fd377fd4a
 INC :=		corewar op visual
 SRC :=		main game initializator arena reading utils command_handle commands arguments offset \
 			vs_broach carriage config draw_vs info_win init_visual map_win show_champs \

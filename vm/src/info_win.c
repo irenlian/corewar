@@ -27,10 +27,8 @@ void		make_info_window(t_vm *vm)
 {
 		show_run_status(vm);
 		show_champs(vm);
-	// show_params(vm);
-	// show_help(vm);
-	// if (!vm->vs->quantity)
-	// 	show_winner(vm); 
+		show_params(vm);
+		show_help(vm);
+	if (!vm->vs->quantity)
+		show_winner(vm); 
 }
-
-

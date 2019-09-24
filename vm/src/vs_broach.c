@@ -13,6 +13,19 @@
 #include "visual.h"
 #include "corewar.h" 
 
+void		update_map(t_vm *vm, t_carriage *carr, int addr, int size)
+{
+	int indicate;
+
+	indicate = ((carr->champs->id - 1) % MAX_PL) + 1;
+	while (size)
+	{
+		vm->vs->map[calc_addr(addr + size - 1)].id = indicate;
+		vm->vs->map[calc_addr(addr + size - 1)].cycle_s = CYCLE_WAIT;
+		size--;
+	}
+}
+
 static void	free_visual(t_vs **vs)
 {
 	delwin((*vs)->info_window);
@@ -21,41 +34,44 @@ static void	free_visual(t_vs **vs)
 	endwin();
 }
 
-// static void	visual_cycle(t_vm *vm)
-// {
-// 	size_t cur_num;
+static void	visual_cycle(t_vm *vm)
+{
+	size_t cur_num;
 
-// 	if (vm->cursors_num)
-// 	{
-// 		cycle(vm);
-// 		if (vm->cycles_to_die == vm->cycles_after_check
-// 			|| vm->cycles_to_die <= 0)
-// 			cur_num = vm->cursors_num;
-// 		if (!vm->cursors_num)
-// 			vm->vs->is_run = false;
-// 	}
-// }
+		int		res;
+		res = 1;
+
+	if (vm->vs->carriages_num)
+	{ 
+		if (vm->cycles_to_die == vm->cycles_till_next_check
+			|| vm->cycles_to_die <= 0)
+			cur_num = vm->vs->carriages_num;
+	if (!vm->vs->carriages_num)
+			vm->vs->is_run = false;
+		if(cycle(vm) && res)
+		{
+			res = check(vm);
+		}
+	}
+}
 
 void		vs_broach(t_vm *vm)
 {
-	vm->vs = init_visual();
+	vm->vs = init_visual()
 	vm->vs->carriages_num = calc_carriages(vm);
-	//printf("carriages_num : %zu\n", vm->vs->carriages_num);
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);
 	vm->vs->microsec = MICROSEC/vm->vs->speed;
 	while ((vm->vs->button = getch()) != 27)
 	{
-		//printf("%i\n",byte_to_int(vm->arena) );
 		button(vm);
-		// if (vm->vs-> button == 'd')
-		// 	visual_cycle(vm);
-		// else if(vm->vs->is_run)
-		// {
-		// 	visual_cycle(vm);
-		// 	usleep(vm->vs->microsec);
-		// }
-		printf("carriages_num : %zu\n", vm->vs->carriages_num);
+		if (vm->vs->button == 'd')
+			visual_cycle(vm);
+		else if(vm->vs->is_run)
+		{
+			visual_cycle(vm);
+			usleep(vm->vs->microsec);
+		}
 		draw_vs(vm);
 	}
 	free_visual(&(vm->vs));

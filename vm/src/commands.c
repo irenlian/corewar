@@ -1,4 +1,5 @@
 #include "corewar.h"
+#include "visual.h"
 
 void	live(t_vm *vm, t_carriage *car)
 {
@@ -16,6 +17,11 @@ void	live(t_vm *vm, t_carriage *car)
 	if (player)
 		vm->last_live = player;
 	vm->live_counter++;
+	// if (vm->vs)
+	// {
+	// 	vm->vs->map[car->location].cycle_l = CYCLE_WAIT;
+	// 	vm->vs->map[car->location].champ_live = player;
+	// }
 	car->live = 1;
 }
 
