@@ -57,12 +57,12 @@ static void	visual_cycle(t_vm *vm)
 
 void		vs_broach(t_vm *vm)
 {
-	
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);
 	vm->vs->microsec = MICROSEC/vm->vs->speed;
 	while ((vm->vs->button = getch()) != 27)
 	{
+		vm->vs->carriages_num = calc_carriages(vm);
 		button(vm);
 		if (vm->vs->button == 'd')
 			visual_cycle(vm);
