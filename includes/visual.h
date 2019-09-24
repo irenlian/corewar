@@ -100,10 +100,6 @@ typedef struct		s_vs
 void		vs_broach(t_vm *vm);
 void		config(t_vm *vm);
 
-
-
-void	clear_cursor(t_vm *vm, t_carriage *cursor);
-
 int		calc_addr(int addr);
 
 void	handle_buttons(t_vm *vm);

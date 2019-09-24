@@ -56,8 +56,9 @@ void	create_carriages(t_vm *vm)
 		car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
 		car->location = i * MEM_SIZE / get_quantity_players(vm->champs);
 		car->id = i++;
-		car->registers[0] = ch->id;
+		car->registers[0] = ch->id * -1;
 		car->next = tmp;
+		car->parent = ch;
 		// car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
 		// car->cycles_to_run = car->op->cycles;
 		tmp = car;
@@ -110,6 +111,6 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 	str_champ->code += COMMENT_LENGTH + 4;
 	str_champ->length -= PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4;
     champ = (t_champ*)malloc(sizeof(t_champ));
-    *champ = (t_champ){id * -1, header, str_champ, NULL, NULL};
+    *champ = (t_champ){id, header, str_champ, NULL, NULL};
     return (champ);
 }

@@ -64,8 +64,8 @@ void	store(t_vm *vm, t_carriage *car)
 	{
 		arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, SECOND));
 		write_t_dir(vm->arena, calc_i(car->location + arg_sh_int), car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST)) - 1]);
-		// if (vm->vs)
-		// 	update_map(vm, car, calc_i(car->location + arg_sh_int), car->op->dir_size);
+		if (vm->vs)
+			update_map(vm, car, calc_i(car->location + arg_sh_int), car->op->dir_size);
 	}
 	else if (is_t_reg(arg_code, SECOND))
 		car->registers[get_i(vm->arena, arg_index(car, arg_code, SECOND)) - 1] = car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST)) - 1];
@@ -133,14 +133,14 @@ void	zjmp(t_vm *vm, t_carriage *car)
 	if (car->carry != 1)
 		return ;
 	arg_int = read_t_dir(vm->arena, to_codage(car), car);
-	car->location = calc_i(car->location + arg_int % IDX_MOD);
+	move_carriage(vm, car, car->location + arg_int % IDX_MOD);
 }
 
 void	load_index(t_vm *vm, t_carriage *car)
 {
 	char			*arg_code;
 	long			pos;
-	short			res;
+	unsigned int	res;
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	pos = 0;
@@ -152,7 +152,7 @@ void	load_index(t_vm *vm, t_carriage *car)
 	if (ft_strequ(car->op->name, "ldi"))
 		pos %= IDX_MOD;
 	pos = calc_i(pos + car->location);
-	res = read_t_dir(vm->arena, pos, car);
+	res = read_u_int(vm->arena, pos, car);
 	car->registers[get_i(vm->arena, arg_index(car, arg_code, THIRD)) - 1] = res;
 	if (ft_strequ(car->op->name, "lldi"))
 		car->carry = (res == 0) ? 1 : 0;
@@ -172,8 +172,8 @@ void	store_index(t_vm *vm, t_carriage *car)
 		return ;
 	pos = calc_i(((get_arg(vm, car, SECOND, arg_code) + get_arg(vm, car, THIRD, arg_code)) % IDX_MOD) + car->location);
 	write_t_dir(vm->arena, pos, get_arg(vm, car, FIRST, arg_code));
-	// if (vm->vs)
-	// 	update_map(vm, car, pos, car->op->dir_size);
+	if (vm->vs)
+		update_map(vm, car, pos, car->op->dir_size);
 }
 
 void	lfork(t_vm *vm, t_carriage *car)

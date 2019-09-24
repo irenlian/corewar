@@ -134,17 +134,19 @@ int					calc_i(int i);
 long				read_t_dir(unsigned char *arena, int arg_location, t_carriage *car);
 short				read_t_ind(unsigned char *arena, int arg_location);
 short				read_clean_t_ind(unsigned char *arena, int arg_location);
+unsigned int		read_u_int(unsigned char *arena, int arg_location, t_carriage *car);
 void				write_t_ind(unsigned char *arena, unsigned int arg_location, short value);
 void				write_t_dir(unsigned char *arena, unsigned int arg_location, unsigned int value);
 int					is_t_dir(char *arg_code, int arg_pos);
 int					is_t_ind(char *arg_code, int arg_pos);
 int					is_t_reg(char *arg_code, int arg_pos);
-unsigned int		get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code);
+long				get_arg(t_vm *vm, t_carriage *car, int arg_i, char *arg_code);
 int					calc_args_length(char *arg_code, unsigned int num, int dir_size);
 void				pass_op(t_vm *vm, t_carriage *car);
 int					is_valid_reg(t_vm *vm, int loc);
 t_carriage			*copy_carriage(t_vm *vm, t_carriage *car);
 int					calc_carriages(t_vm *vm);
+void	            move_carriage(t_vm *vm, t_carriage *car, int new_location);
 
 void				live(t_vm *vm, t_carriage *car);
 void				load(t_vm *vm, t_carriage *car);
@@ -168,7 +170,8 @@ int					arg_index(t_carriage *car, char *arg_code, int arg_pos);
 **  Visual functions
 */
 
-void	draw_cursor(t_vm *vm, t_carriage *cursor);
+void	            draw_cursor(t_vm *vm, t_carriage *cursor);
+void	            clear_cursor(t_vm *vm, t_carriage *cursor);
 void				update_map(t_vm *vm,
 								t_carriage *cursor,
 								int addr,
