@@ -192,5 +192,6 @@ void            write_exec_code(int fd, t_list *code_list, t_command *catalog);
 int             get_int_from_bytes(char *byte_code);
 void            valid_operation(char *line, int line_index);
 void            valid_champ_file(t_list *champ);
+void            valid_existing_labels(t_list *code_list);
 
 #endif
