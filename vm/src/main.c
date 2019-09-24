@@ -25,12 +25,12 @@ void	introducing(t_champ *ch)
 	
 }
 
-void	game(t_vm *vm, t_bool b)
+void	game(t_vm *vm)
 {
 	int		res;
 	
 	res = 1;
-	if(b)
+	if (vm->vs)
 		vs_broach(vm);
 	else
 	{		
@@ -56,11 +56,10 @@ int     main(int argc, char **argv)
 	t_vm	*vm;
 	t_champ	*last;
 	int		i;
-	t_bool b;
 
-	b = false;
 	vm = create_game();
 	vm->champs = get_champs(argc, argv);
+	vm->vs = init_visual();
 	last = vm->champs;
 	printf("first: \\%s/\n", argv[2] );
 	while (last->next_champ)
@@ -68,11 +67,9 @@ int     main(int argc, char **argv)
 	vm->last_live = last;
 	create_arena(vm);
 	create_carriages(vm);
-	if(!ft_strcmp(argv[3], "-v"))
-		b = true;
 	// system("leaks -q corewar");
 	introducing(vm->champs);
-	game(vm, b);
+	game(vm);
 	winner(vm);
 	return (0);
 }

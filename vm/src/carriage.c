@@ -22,6 +22,7 @@ void	clear_cursor(t_vm *vm, t_carriage *cursor)
 
 void	draw_cursor(t_vm *vm, t_carriage *cursor)
 {
+	clear_cursor(vm, cursor);
 	if (vm->vs->map[cursor->location].id >= 0 && vm->vs->map[cursor->location].id <= MAX_PL)
 		
 		vm->vs->map[cursor->location].id = CARRIAGE_NUM(vm->vs->map[cursor->location].id);

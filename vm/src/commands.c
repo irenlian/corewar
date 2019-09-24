@@ -10,18 +10,19 @@ void	live(t_vm *vm, t_carriage *car)
 	player = vm->champs;
 	while (player)
 	{
-		if (player->id == arg_int)
+		if (player->id * -1 == arg_int)
 			break ;
 		player = player->next_champ;
 	}
 	if (player)
 		vm->last_live = player;
 	vm->live_counter++;
-	// if (vm->vs)
-	// {
-	// 	vm->vs->map[car->location].cycle_l = CYCLE_WAIT;
-	// 	vm->vs->map[car->location].champ_live = player;
-	// }
+	if (vm->vs)
+	{
+		// update_map(vm, car, 0, 1);
+		// vm->vs->map[car->location].cycle_l = CYCLE_WAIT;
+		// vm->vs->map[car->location].champ_live = player;
+	}
 	car->live = 1;
 }
 
@@ -63,9 +64,12 @@ void	store(t_vm *vm, t_carriage *car)
 	{
 		arg_sh_int = read_t_ind(vm->arena, arg_index(car, arg_code, SECOND));
 		write_t_dir(vm->arena, calc_i(car->location + arg_sh_int), car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST)) - 1]);
+		// if (vm->vs)
+		// 	update_map(vm, car, calc_i(car->location + arg_sh_int), car->op->dir_size);
 	}
 	else if (is_t_reg(arg_code, SECOND))
 		car->registers[get_i(vm->arena, arg_index(car, arg_code, SECOND)) - 1] = car->registers[get_i(vm->arena, arg_index(car, arg_code, FIRST)) - 1];
+	
 }
 
 void	addition(t_vm *vm, t_carriage *car)
@@ -168,6 +172,8 @@ void	store_index(t_vm *vm, t_carriage *car)
 		return ;
 	pos = calc_i(((get_arg(vm, car, SECOND, arg_code) + get_arg(vm, car, THIRD, arg_code)) % IDX_MOD) + car->location);
 	write_t_dir(vm->arena, pos, get_arg(vm, car, FIRST, arg_code));
+	// if (vm->vs)
+	// 	update_map(vm, car, pos, car->op->dir_size);
 }
 
 void	lfork(t_vm *vm, t_carriage *car)

@@ -17,7 +17,7 @@ void		update_map(t_vm *vm, t_carriage *carr, int addr, int size)
 {
 	int indicate;
 
-	indicate = ((carr->champs->id - 1) % MAX_PL) + 1;
+	indicate = ((carr->parent->id - 1) % MAX_PL) + 1;
 	while (size)
 	{
 		vm->vs->map[calc_addr(addr + size - 1)].id = indicate;
@@ -57,7 +57,7 @@ static void	visual_cycle(t_vm *vm)
 
 void		vs_broach(t_vm *vm)
 {
-	vm->vs = init_visual()
+	
 	vm->vs->carriages_num = calc_carriages(vm);
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);

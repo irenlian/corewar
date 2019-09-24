@@ -49,7 +49,7 @@ void		show_data_status(t_vm *vm)
 			INDENT_CENTER, "SPEED: %d", vm->vs->speed);
 	wattron(vm->vs->info_window, COLOR_PAIR(CYAN_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
-			INDENT, "CYCLES : %zd", vm->cycles_counter);
+			INDENT, "CYCLES : %10zd", vm->cycles_counter);
 	wattron(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
 			INDENT, "CARRIAGES : %zu", vm->vs->carriages_num);

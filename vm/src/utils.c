@@ -71,15 +71,13 @@ char	*get_bits(unsigned char octet)
 
 int		calc_i(int i)
 {
-	if (i >= 0 && i < MEM_SIZE)
-		return (i);
 	i %= MEM_SIZE;
 	if (i < 0)
-		i = MEM_SIZE + i;
+		i += MEM_SIZE;
 	return (i);
 }
 
-char	get_i(char *arena, int i)
+char	get_i(unsigned char *arena, int i)
 {
 	return (arena[calc_i(i)]);
 }
@@ -163,6 +161,7 @@ void	pass_op(t_vm *vm, t_carriage *car)
 	{
 		car->location = calc_i(car->location + OP + car->op->dir_size);
 	}
+	draw_cursor(vm, car);
 }
 
 int		calc_carriages(t_vm *vm)
