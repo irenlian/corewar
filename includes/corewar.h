@@ -20,6 +20,7 @@
 
 # include "../libft/includes/libft.h"
 
+# define SPACE !is_whitespace(line[end])
 # define MAX_FILE_LENGTH		(CHAMP_MAX_SIZE + PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 8)
 #define OP						1
 #define ARG						1

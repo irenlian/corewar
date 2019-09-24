@@ -16,36 +16,70 @@
 **	Getting name of champion
 */
 
-void			get_name(t_champ *champ, char *line)
+void			get_name(t_champ *champ, char **line, int fd)
 {
 	int		i;
 	int		start;
 
 	start = -1;
-	while (line[++start])
+	if (champ->header->prog_name[0])
+		show_error("Why so many names? Don't do that!", -1);
+	while ((*line)[++start])
 	{
-		if (line[start] == '"')
+		if ((*line)[start] == COMMENT_CHAR || (*line)[start] == ALT_COMMENT_CHAR)
+			show_error("It is no name of champion!", -1);
+		if ((*line)[start] == '"')
 			break ;
 	}
 	i = -1;
-	while (line[++start] != '"')
-		champ->header->prog_name[++i] = line[start];
+	while ((*line)[++start] != '"')
+	{
+		champ->header->prog_name[++i] = (*line)[start];
+		if (i > PROG_NAME_LENGTH)
+			show_error("Too long prog_name", -1);
+		if ((*line)[start + 1] == '\0')
+		{
+			champ->header->prog_name[++i] = '\n';
+			ft_strdel(line);
+			get_next_line(fd, line);
+			if (ft_strstr((*line), ".comment"))
+				show_error("Your name is invalid!", -1);
+			start = -1;
+		}
+	}
 }
 
-void			get_comment(t_champ *champ, char *line)
+void			get_comment(t_champ *champ, char **line, int fd)
 {
 	int		i;
 	int		start;
 
+	if (champ->header->comment[0])
+		show_error("Why so many comment? Don't do that!", -1);
 	start = -1;
-	while (line[++start])
+	while ((*line)[++start])
 	{
-		if (line[start] == '"')
+		if ((*line)[start] == '#')
+			show_error("It is no comment of champion!", -1);
+		if ((*line)[start] == '"')
 			break ;
 	}
 	i = -1;
-	while (line[++start] != '"')
-		champ->header->comment[++i] = line[start];
+	while ((*line)[++start] != '"')
+	{
+		champ->header->comment[++i] = (*line)[start];
+		if (i >= COMMENT_LENGTH)
+			show_error("Too long comment", -1);
+		if ((*line)[start + 1] == '\0')
+		{
+			champ->header->comment[++i] = '\n';
+			ft_strdel(line);
+			get_next_line(fd, line);
+			if (!(*line))
+				show_error("Your comment is invalid!", -1);
+			start = -1;
+		}
+	}
 }
 
 /*
@@ -72,16 +106,21 @@ int				read_asm(t_champ *champ, int fd)
 		show_error("Something wrong with file", -1);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (ft_strstr(line, ".name"))
-			get_name(champ, line);
-		if (ft_strstr(line, ".comment"))
-			get_comment(champ, line);
+		if (ft_strnequ(line, ".name", 5))
+			get_name(champ, &line, fd);
+		if (ft_strnequ(line, ".comment", 8))
+			get_comment(champ, &line, fd);
 		trim_line = ft_strtrim(line);
 		if (trim_line)
-			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line, ft_strlen(trim_line) + 1));
+			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line,
+				ft_strlen(trim_line) + 1));
 		ft_strdel(&line);
 		ft_strdel(&trim_line);
 	}
+	if (!champ->header->prog_name[0])
+		show_error("You have no name of your champ!", -1);
+	else if (!champ->header->comment[0])
+		show_error("You have no comment of your champ!", -1);
 	champ->header->magic = COREWAR_EXEC_MAGIC;
 	return (1);
 }

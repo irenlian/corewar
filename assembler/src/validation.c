@@ -4,7 +4,7 @@ int			show_error(const char *error, int err_index)
 {
     // system("leaks asm");
     if (err_index < 0)
-	    ft_printf("%t%s%t\n", B_RED, error, EOC);
+	    ft_printf("%tERROR: %t%s%t\n", B_RED, B_WHITE, error, EOC);
     else
         ft_printf("%t%s%i%t\n", B_RED, error, err_index + 1, EOC);
 	exit(0);

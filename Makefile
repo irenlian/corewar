@@ -40,4 +40,33 @@ fclean:	clean
 
 re:		fclean all
 
+hui:
+	@printf "\x1b[38;5;160m"
+	@echo "                        ██"
+	@echo "                     ████████"
+	@echo "                    ██      █"
+	@echo "                   ██       ██"
+	@echo "                  ██         █"
+	@echo "                  █          █"
+	@echo "                  █████████  █"
+	@echo "                  █       ████"
+	@echo "                 ██          █"
+	@echo "                 █           █"
+	@echo "                 █           █"
+	@echo "                 █           █"
+	@echo "                  █         ██"
+	@echo "                  █         █"
+	@echo "                  █         █"
+	@echo "                  █         █"
+	@echo "             ██████        █████"
+	@echo "           ███    ███    ███    ███"
+	@echo "           █         █ ██         ██"
+	@echo "          █          █ █           █"
+	@echo "          █          █             █"
+	@echo "          █         ██             █"
+	@echo "          ███   ███████           ██"
+	@echo "             █████    ████    ████"
+	@echo "                         ██████"
+	@printf "\x1b[32;0m"	
+
 .PHONY:		all clean fclean re

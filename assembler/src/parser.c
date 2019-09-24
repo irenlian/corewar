@@ -15,14 +15,19 @@
 /*
 **	Save name of command to the structure and return start position of args
 */
-int			save_name(t_code *code, t_list **list, int end)
-{
-	char	*line;
-	int		start;
 
+int				save_name(t_code *code, t_list **list, int end)
+{
+	char		*line;
+	int			start;
+
+<<<<<<< HEAD
 	while (is_comment(((char*)(*list)->content)[0]))
+=======
+	while (((char *)(*list)->content)[0] == COMMENT_CHAR)
+>>>>>>> Some validation
 		(*list) = (*list)->next;
-	line = (char*)(*list)->content;
+	line = (char *)(*list)->content;
 	while (line[end] < 'a' || line[end] > 'z')
 	{
 		if (!line[end])
@@ -30,14 +35,14 @@ int			save_name(t_code *code, t_list **list, int end)
 			if (!(*list)->next)
 				return (0);
 			(*list) = (*list)->next;
-			line = (char*)(*list)->content;
+			line = (char *)(*list)->content;
 			end = 0;
 		}
 		else
 			end++;
 	}
 	start = end;
-	while (line[end]&& !is_whitespace(line[end]))
+	while (line[end] && !is_whitespace(line[end]))
 		end++;
 	code->name = ft_strndup(line + start, end - start);
 	while (is_whitespace(line[end]))
@@ -48,10 +53,11 @@ int			save_name(t_code *code, t_list **list, int end)
 /*
 **	Parse args of command to struct t_code: min 1, max 3
 */
-void		save_args(t_code *code, char *line)
+
+void			save_args(t_code *code, char *line)
 {
-	int		start;
-	int		end;
+	int			start;
+	int			end;
 
 	end = 0;
 	while (line[end])
@@ -61,10 +67,15 @@ void		save_args(t_code *code, char *line)
 		while (is_whitespace(line[end]))
 			end++;
 		start = end;
-		while (line[end] && ft_isascii(line[end]) && line[end] != SEPARATOR_CHAR && !is_whitespace(line[end]))
+		while (line[end] && line[end] != SEPARATOR_CHAR && SPACE)
 		{
+<<<<<<< HEAD
 			if (is_comment(line[end]))
 				return ;	
+=======
+			if (line[end] == COMMENT_CHAR || line[end] == ALT_COMMENT_CHAR)
+				return ;
+>>>>>>> Some validation
 			end++;
 		}
 		if (!code->arg1)
@@ -80,6 +91,7 @@ void		save_args(t_code *code, char *line)
 /*
 **	Check command after label in line, return 1 or 0
 */
+
 int				check_commad_after(char *line, int i)
 {
 	while (line[++i])
@@ -95,6 +107,7 @@ int				check_commad_after(char *line, int i)
 /*
 **	Save all marks if there are more than 1 to the list
 */
+
 void			save_all_marks(t_code *code, t_list **list, int *car)
 {
 	t_list		*marks;
@@ -103,10 +116,10 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 
 	end = car[1];
 	marks = NULL;
-	while (((char*)(*list)->content)[end - 1] == LABEL_CHAR)
+	while (((char *)(*list)->content)[end - 1] == LABEL_CHAR)
 	{
-		line = (char*)(*list)->content;
-		line[car[1] - car[0] - 1] = '\0';
+		line = (char *)(*list)->content;
+		line[end - car[0] - 1] = '\0';
 		ft_lstpush(&code->mark, ft_lstnew(line, ft_strlen(line) + 1));
 		end = 0;
 		car[0] = end;
@@ -114,9 +127,10 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 			return ;
 		if (check_commad_after(line, car[1]))
 			return ;
-		while (((char*)(*list)->next->content)[end] && !is_whitespace(((char*)(*list)->next->content)[end]))
+		while (((char *)(*list)->next->content)[end] &&
+			!is_whitespace(((char *)(*list)->next->content)[end]))
 			end++;
-		if (((char*)(*list)->next->content)[end - 1] == LABEL_CHAR)
+		if (((char *)(*list)->next->content)[end - 1] == LABEL_CHAR)
 			*list = (*list)->next;
 	}
 }
@@ -124,46 +138,47 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 /*
 **	Create t_code struct for adding to the list
 */
+
 t_code			*make_code(t_list **list, int *car)
 {
 	static int		i = 0;
 	t_code			*code;
 	char			*line;
-	
-	line = (char*)(*list)->content;
-	code = (t_code*)ft_memalloc(sizeof(t_code));
+
+	line = (char *)(*list)->content;
+	code = (t_code *)ft_memalloc(sizeof(t_code));
 	code->id = ++i;
 	if (line[car[1] - 1] == LABEL_CHAR)
 		save_all_marks(code, list, car);
 	car[0] = save_name(code, list, (code->mark) ? car[1] : car[0]);
 	if (!code->name)
 		return (0);
-	save_args(code, (char*)(*list)->content + car[0]);
+	save_args(code, (char *)(*list)->content + car[0]);
 	return (code);
 }
 
 /*
 **	Save asm code in t_code structure
 */
+
 void			parse_code(t_champ *champ, t_list **code)
 {
-    int			car[2];
-    t_list		*list;
+	int			car[2];
+	t_list		*list;
 	char		*line;
 	t_code		*for_free;
 
-	*code = NULL;
 	list = champ->asm_code;
 	while (list)
 	{
-		line = (char*)list->content;
+		line = (char *)list->content;
 		car[0] = 0;
 		car[1] = 0;
 		while (line[car[1]] && !is_whitespace(line[car[1]]))
 			car[1]++;
 		if (!ft_strnequ(line + car[0], NAME_CMD_STRING, car[1] - car[0]) &&
-		!ft_strnequ(line + car[0], COMMENT_CMD_STRING, car[1] - car[0]) && line[0] &&
-		!is_comment(line[car[0]]))
+			!ft_strnequ(line + car[0], COMMENT_CMD_STRING, car[1] - car[0])
+			&& line[0] && !is_comment(line[car[0]]) && !ft_strchr(line, '"'))
 		{
 			for_free = make_code(&list, car);
 			if (for_free)
