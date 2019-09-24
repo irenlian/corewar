@@ -27,3 +27,10 @@ void	draw_cursor(t_vm *vm, t_carriage *cursor)
 		vm->vs->map[cursor->location].id = CARRIAGE_NUM(vm->vs->map[cursor->location].id);
 }
 
+int		calc_addr(int addr)
+{
+	addr %= MEM_SIZE;
+	if (addr < 0)
+		addr += MEM_SIZE;
+	return (addr);
+}
