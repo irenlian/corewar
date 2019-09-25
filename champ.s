@@ -13,7 +13,6 @@ loop:
 
 avantdebut:	sti   r1,%:code,%1  # 		#7	
 
-
 live:   live %0
         ld %0, r2
         zjmp %:loop
@@ -23,6 +22,7 @@ live:   live %0
         live %0
         ld %0, r2
         zjmp %:loop
+		
         live %0
         ld %0, r2
         zjmp %:loop

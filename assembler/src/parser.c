@@ -21,16 +21,12 @@ int				save_name(t_code *code, t_list **list, int end)
 	char		*line;
 	int			start;
 
-<<<<<<< HEAD
 	while (is_comment(((char*)(*list)->content)[0]))
-=======
-	while (((char *)(*list)->content)[0] == COMMENT_CHAR)
->>>>>>> Some validation
 		(*list) = (*list)->next;
 	line = (char *)(*list)->content;
 	while (line[end] < 'a' || line[end] > 'z')
 	{
-		if (!line[end])
+		if (!line[end] || line[end] == COMMENT_CHAR || line[end] == ALT_COMMENT_CHAR)
 		{
 			if (!(*list)->next)
 				return (0);
@@ -43,7 +39,10 @@ int				save_name(t_code *code, t_list **list, int end)
 	}
 	start = end;
 	while (line[end] && !is_whitespace(line[end]))
+	{
+		
 		end++;
+	}
 	code->name = ft_strndup(line + start, end - start);
 	while (is_whitespace(line[end]))
 		end++;
@@ -67,15 +66,10 @@ void			save_args(t_code *code, char *line)
 		while (is_whitespace(line[end]))
 			end++;
 		start = end;
-		while (line[end] && line[end] != SEPARATOR_CHAR && SPACE)
+		while (line[end] && line[end] != SEPARATOR_CHAR && SPACES)
 		{
-<<<<<<< HEAD
 			if (is_comment(line[end]))
 				return ;	
-=======
-			if (line[end] == COMMENT_CHAR || line[end] == ALT_COMMENT_CHAR)
-				return ;
->>>>>>> Some validation
 			end++;
 		}
 		if (!code->arg1)
@@ -151,10 +145,44 @@ t_code			*make_code(t_list **list, int *car)
 	if (line[car[1] - 1] == LABEL_CHAR)
 		save_all_marks(code, list, car);
 	car[0] = save_name(code, list, (code->mark) ? car[1] : car[0]);
-	if (!code->name)
-		return (0);
 	save_args(code, (char *)(*list)->content + car[0]);
+	if (!code->name || !code->arg1)
+		return (0);
 	return (code);
+}
+
+/*
+**	Skip such lines as: "".name..."", "".comment..."
+*/
+
+void			skip_head(t_list **list)
+{
+	char	*line;
+	int		i;
+
+	line = (char*)(*list)->content;
+	while (!ft_strnequ(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
+	{
+		(*list) = (*list)->next;
+		line = (char*)(*list)->content;
+	}
+	i = 0;
+	while (line[i] != '"')
+		i++;
+	while (line[++i])
+	{
+		if (line[i] == '"')
+		{
+			(*list) = (*list)->next;			
+			return ;
+		}
+		else if (line[i + 1] == '\0')
+		{
+			(*list) = (*list)->next;
+			line = (char*)(*list)->content;
+			i = 0;
+		}
+	}
 }
 
 /*
@@ -171,9 +199,12 @@ void			parse_code(t_champ *champ, t_list **code)
 	list = champ->asm_code;
 	while (list)
 	{
-		line = (char *)list->content;
 		car[0] = 0;
 		car[1] = 0;
+		line = (char *)list->content;
+		if (ft_strnequ(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
+			skip_head(&list);
+		line = (char *)list->content;
 		while (line[car[1]] && !is_whitespace(line[car[1]]))
 			car[1]++;
 		if (!ft_strnequ(line + car[0], NAME_CMD_STRING, car[1] - car[0]) &&

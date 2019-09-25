@@ -119,6 +119,7 @@ int     main(int argc, char **argv)
     set_int(fd, champ->header->prog_size, 4);
     set_name(fd, champ->header->comment, COMMENT_LENGTH);
     write_exec_code(fd, code, catalog);
+	ft_printf("%tOutput to .cor file%t\n", B_WHITE, EOC);
     // system("leaks asm");
     return (0);
 }

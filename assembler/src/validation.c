@@ -6,7 +6,7 @@ int			show_error(const char *error, int err_index)
     if (err_index < 0)
 	    ft_printf("%tERROR: %t%s%t\n", B_RED, B_WHITE, error, EOC);
     else
-        ft_printf("%t%s%i%t\n", B_RED, error, err_index + 1, EOC);
+        ft_printf("%t%s%d%t\n", B_RED, error, err_index + 1, EOC);
 	exit(0);
 }
 
@@ -42,7 +42,7 @@ int count_char(char *line, char c)
     return (count);
 }
 
-t_list *valid_head(t_list *champ)
+int valid_head(t_list *champ)
 {
     int i;
     int count_ch;
@@ -54,6 +54,7 @@ t_list *valid_head(t_list *champ)
     is_comment = 0;
     while (champ)
     {
+        char *test = champ->content;
         if (is_head == 2)
         {
             count_ch = count_char(champ->content, '"');
@@ -66,7 +67,7 @@ t_list *valid_head(t_list *champ)
             if (count_ch)
                 is_comment = 3;
         }
-        else if (ft_strstr(champ->content, NAME_CMD_STRING))
+        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ft_strstr(champ->content, NAME_CMD_STRING))
         {
             is_head = 1;
             count_ch = count_char(champ->content, '"');
@@ -75,7 +76,7 @@ t_list *valid_head(t_list *champ)
             else if (count_ch == 1)
                 is_head = 2;
         }
-        else if (ft_strstr(champ->content, COMMENT_CMD_STRING))
+        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ft_strstr(champ->content, COMMENT_CMD_STRING))
         {
             is_comment = 1;
             count_ch = count_char(champ->content, '"');
@@ -84,12 +85,15 @@ t_list *valid_head(t_list *champ)
             else if (count_ch == 1)
                 is_comment = 2;
         }
+        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ((char *)(champ->content))[0] != '\0' && !is_head && !is_comment)
+            show_error("Not valid head at line: ", i);
         if (is_head == 3 && is_comment == 3)
-            return (champ->next);
+            return (++i);
         champ = champ->next;
         i++;
     }
-    return (champ);
+    show_error("Not valid head", -1);
+    return (i);
 }
 
 void    valid_label(char *line, int pos_label_char, int line_index)
@@ -139,10 +143,13 @@ void valid_champ_file(t_list *champ, t_command *catalog)
 {
     t_list *tmp;
     int i;
+    int j;
 
-    tmp = valid_head(champ);
-    if (!tmp)
-        show_error("Head file error", -1);
+    i = -1;
+    tmp = champ;
+    j = valid_head(champ);
+    while (++i <= j)
+        tmp = tmp->next;
     while (tmp)
     {
         valid_command_line(tmp->content, i, catalog);

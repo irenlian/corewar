@@ -42,7 +42,7 @@ void			get_name(t_champ *champ, char **line, int fd)
 			champ->header->prog_name[++i] = '\n';
 			ft_strdel(line);
 			get_next_line(fd, line);
-			if (ft_strstr((*line), ".comment"))
+			if (ft_strstr((*line), COMMENT_CMD_STRING))
 				show_error("Your name is invalid!", -1);
 			start = -1;
 		}
@@ -53,6 +53,7 @@ void			get_comment(t_champ *champ, char **line, int fd)
 {
 	int		i;
 	int		start;
+	char	*trim_line;
 
 	if (champ->header->comment[0])
 		show_error("Why so many comment? Don't do that!", -1);
@@ -75,8 +76,12 @@ void			get_comment(t_champ *champ, char **line, int fd)
 			champ->header->comment[++i] = '\n';
 			ft_strdel(line);
 			get_next_line(fd, line);
+			trim_line = ft_strtrim(*line);
 			if (!(*line))
 				show_error("Your comment is invalid!", -1);
+			if ((*line))
+				ft_lstpush(&champ->asm_code, ft_lstnew(trim_line,
+					ft_strlen(trim_line) + 1));
 			start = -1;
 		}
 	}
@@ -106,12 +111,22 @@ int				read_asm(t_champ *champ, int fd)
 		show_error("Something wrong with file", -1);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (ft_strnequ(line, ".name", 5))
-			get_name(champ, &line, fd);
-		if (ft_strnequ(line, ".comment", 8))
-			get_comment(champ, &line, fd);
 		trim_line = ft_strtrim(line);
-		if (trim_line)
+		if (ft_strnequ(trim_line, NAME_CMD_STRING, 5))
+		{
+			if (trim_line)
+			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line,
+				ft_strlen(trim_line) + 1));
+			get_name(champ, &line, fd);
+		}
+		else if (ft_strnequ(trim_line, COMMENT_CMD_STRING, 8))
+		{
+			if (trim_line)
+			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line,
+				ft_strlen(trim_line) + 1));
+			get_comment(champ, &line, fd);
+		}
+		else if (trim_line)
 			ft_lstpush(&champ->asm_code, ft_lstnew(trim_line,
 				ft_strlen(trim_line) + 1));
 		ft_strdel(&line);
