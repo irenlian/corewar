@@ -133,7 +133,8 @@ void    valid_command_line(char *line, int line_index)
             break;
         }
     }
-    while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'));
+    while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
+        ;
     if (line[i] != COMMENT_CHAR && line[i] != '\0')
         valid_operation(&line[i], line_index);
 }
