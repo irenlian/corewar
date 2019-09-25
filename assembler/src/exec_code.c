@@ -31,6 +31,8 @@ int     get_byte_size_to_marked(t_list *curr_code, t_list *marked_code)
     int size;
 
     size = 0;
+    if (!((t_code *)marked_code->content)->name)
+        return (size);
     if (((t_code *)curr_code->content)->id > ((t_code *)marked_code->content)->id)
     {
         while (marked_code)

@@ -1,5 +1,6 @@
 .name    "Survivor"
 .comment "Invincible"
+.extend
 
 	live	%1
 	fork	%:f1
