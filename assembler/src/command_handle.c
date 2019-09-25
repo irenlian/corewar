@@ -60,6 +60,17 @@ t_command *get_com_byname(t_command *all, char *name)
     return (NULL);
 }
 
+char *find_comm_name(t_command *all, char *name, int n)
+{
+    while (all)
+    {
+        if (ft_strnequ(all->name, name, n))
+            return (all->name);
+        all = all->next;
+    }
+    return (NULL);
+}
+
 void    free_com_catalog(t_command *all)
 {
     t_command *tmp;

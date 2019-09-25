@@ -1,6 +1,5 @@
 #include "corewar.h"
 
-
 int			show_error(const char *error, int err_index)
 {
     // system("leaks asm");
@@ -109,37 +108,42 @@ void    valid_label(char *line, int pos_label_char, int line_index)
     }
 }
 
-void    valid_command_line(char *line, int line_index)
+void    valid_command_line(char *line, int line_index, t_command *catalog)
 {
     int i;
     int j;
-    int is_print;
+    char *pos;
 
     i = -1;
     j = -1;
-    is_print = 0;
     while (line[++j] != '\0')
     {
-        if (line[j] == COMMENT_CHAR)
-            break;
-        else if (is_print && (line[j] == ' ' || line[j] == '\t'))
+        if (is_comment(line[j]))
             break;
         else if (line[j] != ' ' && line[j] != '\t')
-            is_print = 1;
-        if (line[j] == LABEL_CHAR)
         {
-            valid_label(line, j, line_index);
-            i = j;
+            pos = ft_strchr(&line[j], LABEL_CHAR);
+            if (pos && find_comm_name(catalog, &line[j], pos - &line[j])){
+                valid_label(line, j, line_index);
+                i = pos - &line[j];
+            }
             break;
         }
+        // if (line[j] == LABEL_CHAR)
+        // {
+            
+        //     valid_label(line, j, line_index);
+        //     i = j;
+        //     break;
+        // }
     }
     while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
         ;
-    if (line[i] != COMMENT_CHAR && line[i] != '\0')
+    if (!is_comment(line[i]) && line[i] != '\0')
         valid_operation(&line[i], line_index);
 }
 
-void valid_champ_file(t_list *champ)
+void valid_champ_file(t_list *champ, t_command *catalog)
 {
     t_list *tmp;
     int i;
@@ -149,7 +153,7 @@ void valid_champ_file(t_list *champ)
         show_error("Head file error", -1);
     while (tmp)
     {
-        valid_command_line(tmp->content, i);
+        valid_command_line(tmp->content, i, catalog);
         if (!tmp->next && ft_strlen((char *)(tmp->content)))
             show_error("Syntax error", -1);
         tmp = tmp->next;

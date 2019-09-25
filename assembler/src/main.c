@@ -107,7 +107,7 @@ int     main(int argc, char **argv)
     champ->header = (t_header*)ft_memalloc(sizeof(t_header));
     read_code(champ, argv[1]);
     catalog = get_commad_catalog();
-    valid_champ_file(champ->asm_code);
+    valid_champ_file(champ->asm_code, catalog);
 	parse_code(champ, &code);
     valid_existing_labels(code);
     champ->header->prog_size = count_bytes(code, catalog);
