@@ -126,14 +126,16 @@ void    valid_command_line(char *line, int line_index, t_command *catalog)
             break;
         else if (line[j] != ' ' && line[j] != '\t')
         {
-            if (pos && ft_strchr(LABEL_CHARS, line[pos - &line[j] - 1])){
+            pos = ft_strchr(&line[j], LABEL_CHAR);
+            if (pos && ft_strchr(LABEL_CHARS, line[pos - &line[j] - 1]))
+            {
                 valid_label(line, j, line_index);
-                i = pos - &line[j] + 1;
+                i = pos - &line[j];
             }
             break;
         }
     }
-    while (line[i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
+    while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
         i++;
     if (!is_comment(line[i]) && line[i] != '\0')
         valid_operation(&line[i], line_index);
@@ -153,8 +155,8 @@ void valid_champ_file(t_list *champ, t_command *catalog)
     while (tmp)
     {
         valid_command_line(tmp->content, i, catalog);
-        if (!tmp->next && ft_strlen((char *)(tmp->content)))
-            show_error("Syntax error", -1);
+        // if (!tmp->next && ft_strlen((char *)(tmp->content)))
+        //     show_error("Syntax error", -1);
         tmp = tmp->next;
         i++;
     }

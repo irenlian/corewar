@@ -18,12 +18,7 @@ char	*ft_strchr(const char *s, int c)
 	while (*str)
 	{
 		if (*str == (char)c)
-		{
-			if (*str + 1 == '\0')
-				return (0);
-			else
-				return (str);
-		}
+			return (str);
 		str++;
 	}
 	if ((char)c == *str)

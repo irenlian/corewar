@@ -28,7 +28,7 @@ int    valid_dir_arg(char *dir)
     }
     while (dir[i] != '\0' && (dir[i] == ' ' || dir[i] == '\t'))
         i++;
-    if ((is_comment(dir[i]) && dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
+    if ((!is_comment(dir[i]) && dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
         return (0);
     return (1);
 }

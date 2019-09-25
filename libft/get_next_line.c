@@ -90,7 +90,7 @@ int					get_next_line(const int fd, char **line)
 	work->content = tmp;
 	if (tmp[ret])
 	{
-		work->content = ft_strdup(ft_strchr(tmp, '\n'));
+		work->content = ft_strdup(ft_strchr(tmp, '\n') + 1);
 		free(tmp);
 	}
 	else
