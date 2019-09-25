@@ -54,17 +54,16 @@ int valid_head(t_list *champ)
     is_comment = 0;
     while (champ)
     {
-        char *test = champ->content;
-        if (is_head == 2)
+		if (is_head == 2)
         {
-            count_ch = count_char(champ->content, '"');
-            if (count_ch)
+            // count_ch = count_char(champ->content, '"');
+            if (ft_strchr(champ->content, '"'))
                 is_head = 3;
         }
         else if (is_comment == 2)
         {
-            count_ch = count_char(champ->content, '"');
-            if (count_ch)
+            // count_ch = count_char(champ->content, '"');
+            if (ft_strchr(champ->content, '"'))
                 is_comment = 3;
         }
         else if (((char *)(champ->content))[0] != COMMENT_CHAR && ft_strstr(champ->content, NAME_CMD_STRING))
