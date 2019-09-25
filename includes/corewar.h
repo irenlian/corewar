@@ -34,6 +34,8 @@
 #define IND						2
 #define DIR						4
 
+#define DUMP_LENGTH				32
+
 #define FIRST					1
 #define SECOND					2
 #define THIRD					3
@@ -96,6 +98,7 @@ typedef struct		s_carriage
 **	checks_from_start - number of checks from the beginning
 **	id_cars_autoincrement - number of last given id to carriage
 **	vs - structure of visualization, created only if needed
+**	dump - number of cycles to stop after and print memory
 **	leaks - boolean to show leaks
 */
 
@@ -112,6 +115,7 @@ typedef struct		s_vm
 	int				check_counter;
 	int				checks_from_start;
 	int				id_cars_autoincrement;
+	int				dump;
 	int				leaks;
     struct s_vs     *vs;
 	t_command		*catalog;
@@ -161,6 +165,7 @@ int					calc_carriages(t_vm *vm);
 void	            move_carriage(t_vm *vm, t_carriage *car, int new_location);
 int					is_str_digits(char *str);
 int					show_error_vm(const char *error, t_vm *vm);
+void				print_arena(t_vm *vm);
 
 void				live(t_vm *vm, t_carriage *car);
 void				load(t_vm *vm, t_carriage *car);

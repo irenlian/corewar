@@ -118,12 +118,10 @@ int		autoincrement_id(int *order, t_champ *champ)
 void	read_arguments(t_vm *vm, int argc, char **argv)
 {
     t_champ	*tmp;
-	int		has_order;
 	int		order;
     int 	i;
 
     i = 0;
-	has_order = 0;
 	order = 0;
     while (++i < argc)
     {
@@ -131,15 +129,14 @@ void	read_arguments(t_vm *vm, int argc, char **argv)
 			vm->vs = init_visual();
 		else if (ft_strequ(argv[i], "-l"))
 			vm->leaks = 1;
-		else if (has_order)
+		else if (ft_strequ(argv[i], "-dump"))
+			vm->dump = ft_atoi(argv[++i]);
+		else if (ft_strequ(argv[i], "-n"))
 		{
-			order = ft_atoi(argv[i]);
+			order = ft_atoi(argv[++i]);
 			if (!is_str_digits(argv[i]) || order < 1 || order > MAX_PLAYERS)
 				show_error_vm("Usage of flag [[-n number] player_name]\n\"number\" is from 1 to maximum players quantity\n", vm);
-			has_order = 0;
 		}
-		else if (ft_strequ(argv[i], "-n"))
-			has_order = 1;
 		else if (vm->champs)
 		{
 			tmp = create_champ(read_file(argv[i]), autoincrement_id(&order, vm->champs));

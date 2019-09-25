@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include "stdio.h"
 
 int get_quantity_players(t_champ *champ)
 {
@@ -202,4 +203,25 @@ int		is_str_digits(char *str)
 		str++;
 	}
 	return (1);
+}
+
+void	print_arena(t_vm *vm)
+{
+	int		i;
+
+	i = 0;
+	ft_printf("0x%#0.4x : ", i);
+	while (i < MEM_SIZE)
+	{
+		if (i % DUMP_LENGTH == 0 && i)
+			ft_printf("%#0.4x : ", i);
+		ft_printf("%02x", vm->arena[i++]);
+		if (i % DUMP_LENGTH == 0)
+			ft_printf("\n");
+		else
+			ft_printf(" ");
+	}
+	if (vm->leaks)
+		system("leaks -q corewar");
+	exit(0);
 }

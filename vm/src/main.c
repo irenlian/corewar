@@ -22,7 +22,14 @@ void	introducing(t_champ *ch)
 			ch->id, ch->byte_code->length, ch->header->prog_name, ch->header->comment);
 		ch = ch->next_champ;
 	}
-	
+}
+
+void	winner(t_vm *vm)
+{
+	if (vm->last_live)
+		ft_printf("Contestant %i, \"%s\", has won !\n", vm->last_live->id, &(vm->last_live->header->prog_name[0]));
+	else
+		ft_printf("There is no winner.\n");
 }
 
 void	game(t_vm *vm)
@@ -33,22 +40,16 @@ void	game(t_vm *vm)
 	if (vm->vs)
 		vs_broach(vm);
 	else
-	{		
-		while (cycle(vm) && res)
+	{
+		introducing(vm->champs);
+		while (cycle(vm) && res && vm->cycles_counter != vm->dump)
 		{
 			res = check(vm);
 		}
+		if (vm->cycles_counter == vm->dump)
+			print_arena(vm);
+		winner(vm);
 	}
-}
-
-void	winner(t_vm *vm)
-{
-	if (vm->last_live)
-	{
-		ft_printf("Contestant %i, \"%s\", has won !\n", vm->last_live->id, &(vm->last_live->header->prog_name[0]));
-	}
-	else
-		ft_printf("There is no winner.\n");
 }
 
 int     main(int argc, char **argv)
@@ -65,9 +66,7 @@ int     main(int argc, char **argv)
 	vm->last_live = last;
 	create_arena(vm);
 	create_carriages(vm);
-	introducing(vm->champs);
 	game(vm);
-	winner(vm);
 	if (vm->leaks)
 		system("leaks -q corewar");
 	return (0);
