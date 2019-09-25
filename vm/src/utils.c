@@ -184,3 +184,22 @@ int		calc_carriages(t_vm *vm)
 	}
 	return (num);
 }
+
+int			show_error_vm(const char *error, t_vm *vm)
+{
+    ft_printf("%t%s%t\n", B_RED, error, EOC);
+	if (vm && vm->leaks)
+		system("leaks -q corewar");
+	exit(1);
+}
+
+int		is_str_digits(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}

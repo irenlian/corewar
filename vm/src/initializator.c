@@ -29,7 +29,6 @@ void	create_arena(t_vm *vm)
 	int		i;
 
     vm->arena = (unsigned char*)ft_memalloc(MEM_SIZE);
-    // ft_memset(vm->arena, '0', MEM_SIZE * 2);
 	ch = vm->champs;
 	i = 0;
 	while (ch)

@@ -97,14 +97,14 @@ typedef struct		s_vs
 	int				carriages_num;
 }					t_vs;
 
-void		vs_broach(t_vm *vm);
+
 void		config(t_vm *vm);
 
 int		calc_addr(int addr);
 
 void	handle_buttons(t_vm *vm);
 
-t_vs	*init_visual(void);
+
 
 
 

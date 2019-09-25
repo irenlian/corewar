@@ -9,3 +9,5 @@ champ.cor
 asm
 corewar
 .DS_Store
+vm_champs/*
+vm_champs/.DS_Store

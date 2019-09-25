@@ -123,6 +123,7 @@ void	and_or_xor(t_vm *vm, t_carriage *car)
 	else if (ft_strequ(car->op->name, "xor"))
 		res = res ^ get_arg(vm, car, SECOND, arg_code);
 	car->registers[get_i(vm->arena, arg_index(car, arg_code, THIRD)) - 1] = res;
+	car->carry = (res == 0) ? 1 : 0;
 }
 
 void	zjmp(t_vm *vm, t_carriage *car)

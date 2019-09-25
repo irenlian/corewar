@@ -58,7 +58,6 @@ static void	visual_cycle(t_vm *vm)
 void		vs_broach(t_vm *vm)
 {
 	
-	vm->vs->carriages_num = calc_carriages(vm);
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);
 	vm->vs->microsec = MICROSEC/vm->vs->speed;
@@ -72,6 +71,7 @@ void		vs_broach(t_vm *vm)
 			visual_cycle(vm);
 			usleep(vm->vs->microsec);
 		}
+		vm->vs->carriages_num = calc_carriages(vm);
 		draw_vs(vm);
 	}
 	free_visual(&(vm->vs));

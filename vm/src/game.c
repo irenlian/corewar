@@ -17,49 +17,12 @@ int		all_are_dead(t_vm *vm)
 	return (0);
 }
 
-// void	read_args(t_vm *vm, t_carriage *car, t_command *com)
-// {
-// 	char			*arg_code;
-// 	unsigned int	*arg_int;
-// 	short			*arg_sh_int;
-// 	int				i;
-
-// 	i = 1;
-// 	arg_int = 0;
-// 	arg_sh_int = 0;
-// 	arg_code = get_bits(vm->arena[car->location + i]);
-// 	if (arg_code[0] == 1 && arg_code[1] == 0 && com->dir_size == 4)
-// 	{
-// 		i++;
-// 		arg_int = (unsigned int*)ft_memalloc(sizeof(unsigned int));
-// 		ft_memcpy(arg_int, car->location + i, com->dir_size);
-// 		i += com->dir_size;
-// 	}
-// 	if ((arg_code[0] == 1 && arg_code[1] == 0 && com->dir_size == 2) || (arg_code[0] == 1 && arg_code[1] == 1))
-// 	{
-// 		i++;
-// 		arg_sh_int = (short*)ft_memalloc(sizeof(short));
-// 		ft_memcpy(arg_sh_int, car->location + i, com->dir_size);
-// 		i += com->dir_size;
-// 	}
-// 	if (arg_code[2] == 0 && arg_code[3] == 1)
-// 	{
-// 		car->registers[car->location + i] = arg_int;
-// 	}
-// }
-
 int		make_move(t_vm *vm, t_carriage *car)
 {
-	t_command	*com;
-	
 	if (car->op && car->op->func)
 	{   
 		car->op->func(vm, car);
-		// if (!(ft_strequ(car->op->name, "zjmp") && car->carry == 1))
-		// 	pass_op(vm, car);
 	}
-	// else
-	// 	car->location = calc_i(car->location + 1);
 	
 	return (1);
 }
@@ -72,6 +35,8 @@ int		cycle(t_vm *vm)
 	vm->cycles_counter++;
 	if (all_are_dead(vm))
 		return (0);
+	// if (vm->cycles_counter == 11950)
+	// 	car = vm->cars;;
 	while (car)
 	{
 		if (car->cycles_to_run == 0)
@@ -142,6 +107,5 @@ int		check(t_vm *vm)
 	if (!vm->cars)
 		return (0);
 	vm->cycles_till_next_check = vm->cycles_to_die;
-	ft_printf("Carriages number: %i\n", calc_carriages(vm));
 	return (1);
 }

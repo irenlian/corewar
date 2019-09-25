@@ -58,8 +58,7 @@ int     main(int argc, char **argv)
 	int		i;
 
 	vm = create_game();
-	vm->champs = get_champs(argc, argv);
-	vm->vs = init_visual();
+	read_arguments(vm, argc, argv);
 	last = vm->champs;
 	printf("first: \\%s/\n", argv[2] );
 	while (last->next_champ)
@@ -67,9 +66,10 @@ int     main(int argc, char **argv)
 	vm->last_live = last;
 	create_arena(vm);
 	create_carriages(vm);
-	// system("leaks -q corewar");
 	introducing(vm->champs);
 	game(vm);
 	winner(vm);
+	if (vm->leaks)
+		system("leaks -q corewar");
 	return (0);
 }

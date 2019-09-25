@@ -103,6 +103,8 @@ typedef struct		s_vm
 	int				live_counter;
 	int				check_counter;
 	int				checks_from_start;
+	int				id_cars_autoincrement;
+	int				leaks;
     struct s_vs     *vs;
 	t_command		*catalog;
 }					t_vm;
@@ -125,7 +127,7 @@ t_vm				*create_game();
 void				create_arena(t_vm *vm);
 t_champ 			*create_champ(t_byte_code *str_champ, int id);
 void				create_carriages(t_vm *vm);
-t_champ				*get_champs(int argc, char **argv);
+void	            read_arguments(t_vm *vm, int argc, char **argv);
 int					get_quantity_players(t_champ *champ);
 int					byte_to_int(char *str);
 int					check(t_vm *vm);
@@ -149,6 +151,8 @@ int					is_valid_reg(t_vm *vm, int loc);
 t_carriage			*copy_carriage(t_vm *vm, t_carriage *car);
 int					calc_carriages(t_vm *vm);
 void	            move_carriage(t_vm *vm, t_carriage *car, int new_location);
+int					is_str_digits(char *str);
+int					show_error_vm(const char *error, t_vm *vm);
 
 void				live(t_vm *vm, t_carriage *car);
 void				load(t_vm *vm, t_carriage *car);
@@ -172,6 +176,8 @@ int					arg_index(t_carriage *car, char *arg_code, int arg_pos);
 **  Visual functions
 */
 
+struct s_vs			*init_visual(void);
+void				vs_broach(t_vm *vm);
 void	            draw_cursor(t_vm *vm, t_carriage *cursor);
 void	            clear_cursor(t_vm *vm, t_carriage *cursor);
 void				update_map(t_vm *vm,
