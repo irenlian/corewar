@@ -38,15 +38,19 @@ int				save_name(t_code *code, t_list **list, int end)
 			end++;
 	}
 	start = end;
-	while (line[end] && !is_whitespace(line[end]))
+	while (line[end] && !is_whitespace(line[end]) && line[end] != LABEL_CHAR
+		&& line[end] != DIRECT_CHAR && line[end] != '-' && !ft_isdigit(line[end]))
 	{
 		
 		end++;
 	}
 	code->name = ft_strndup(line + start, end - start);
-	while (is_whitespace(line[end]) && line[end] != LABEL_CHAR
-	&& line[end] != DIRECT_CHAR && line[end] != '-' && !ft_isdigit(line[end]))
+	while (is_whitespace(line[end]) && line[end])
+	{
 		end++;
+		if (line[end - 1] == 'r' && line[end - 2] == 'o')
+			break ;
+	}
 	return (end);
 }
 
@@ -206,7 +210,8 @@ void			parse_code(t_champ *champ, t_list **code)
 		if (ft_strnequ(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 			skip_head(&list);
 		line = (char *)list->content;
-		while (line[car[1]] && !is_whitespace(line[car[1]]))
+		while (line[car[1]] && !is_whitespace(line[car[1]]) && line[car[1] - 1] != LABEL_CHAR
+		&& line[car[1]] != DIRECT_CHAR)
 			car[1]++;
 		if (!ft_strnequ(line + car[0], NAME_CMD_STRING, car[1] - car[0]) &&
 			!ft_strnequ(line + car[0], COMMENT_CMD_STRING, car[1] - car[0])

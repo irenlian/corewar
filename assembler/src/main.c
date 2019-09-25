@@ -109,7 +109,7 @@ int     main(int argc, char **argv)
     catalog = get_commad_catalog();
     valid_champ_file(champ->asm_code, catalog);
 	parse_code(champ, &code);
-    valid_existing_labels(code);
+    // valid_existing_labels(code);
     champ->header->prog_size = count_bytes(code, catalog);
     champ_cor_name = get_corname(argv[1]);
     fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
