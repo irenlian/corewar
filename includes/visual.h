@@ -111,6 +111,7 @@ void				handle_buttons(t_vm *vm);
 
 t_vs				*init_visual(void);
 void				draw_winner(t_vm *vm, int index);
+<<<<<<< HEAD
 
 
 void				voice_of_game(t_vm *vm);
