@@ -27,8 +27,6 @@ void	button(t_vm *vm)
 		vm->vs->speed -= 10;
 	else if (vm->vs->button == 't')
 		vm->vs->speed -= 100;
-	//vm->vs->is_run = (!vm->cursors_num) ? false : vm->vs->is_run; 
-	//DATA
 	vm->vs->speed = (vm->vs->speed < 1) ? 1 : vm->vs->speed;
 	vm->vs->speed = (vm->vs->speed > 1000) ? 1000 : vm->vs->speed;
 	vm->vs->microsec = MICROSEC / vm->vs->speed;

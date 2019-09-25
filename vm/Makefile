@@ -27,7 +27,7 @@ LIB :=		$(LIBDIR)libft.a
 INC :=		corewar op visual
 SRC :=		main game initializator arena reading utils command_handle commands arguments offset \
 			vs_broach carriage config draw_vs info_win init_visual map_win show_champs \
-			status_info show_help utils2 
+			status_info show_help utils2 sounds main_words
 
 INCS :=		$(addprefix $(INCDIR), $(addsuffix .h, $(INC)))
 SRCS :=		$(addprefix $(SRCDIR), $(addsuffix .c, $(SRC)))

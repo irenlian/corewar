@@ -60,7 +60,6 @@ int     main(int argc, char **argv)
 	vm = create_game();
 	read_arguments(vm, argc, argv);
 	last = vm->champs;
-	printf("first: \\%s/\n", argv[2] );
 	while (last->next_champ)
 		last = last->next_champ;
 	vm->last_live = last;

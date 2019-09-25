@@ -23,11 +23,15 @@
 # include <unistd.h>
 # include <string.h>
 
+
+# define ONE 1
+
 # define GREEN_COL 3
 # define BLUE_COL 4
 # define YELLOW_COL 1
 # define CYAN_COL 5
 # define RED_COL 2
+# define GREY 12
 
 # define BORDER 9
 # define EMPTY 10
@@ -44,8 +48,9 @@
 # define HEIGHT					(MEM_SIZE / 64)
 # define WIDTH					(64 * 3 + 5)
 # define INDENT					5
+# define INDENT_ONE				1
 # define INDENT_CENTER			12
-# define BAR_LENGTH				50
+# define INDENT_THREE			8
 # define TAB_LEN				4
 
 
@@ -97,25 +102,42 @@ typedef struct		s_vs
 	int				carriages_num;
 }					t_vs;
 
+void				vs_broach(t_vm *vm);
+void				config(t_vm *vm);
 
-void		config(t_vm *vm);
+int					calc_addr(int addr);
 
-int		calc_addr(int addr);
+void				handle_buttons(t_vm *vm);
 
-void	handle_buttons(t_vm *vm);
-
-
-
+t_vs				*init_visual(void);
+void				draw_winner(t_vm *vm, int index);
 
 
-void		button(t_vm *vm);
-void		draw_vs(t_vm *vm);
-void 		make_map(t_vm *vm);
-void		show_run_status(t_vm *vm);
-void		show_params(t_vm *vm);
-void		make_info_window(t_vm *vm);
-void		show_champs(t_vm *vm);
-void		show_help(t_vm *vm);
+void				voice_of_game(t_vm *vm);
+void				voice_of_victory(t_vm *vm);
+
+
+void				draw_info_win(t_vm *vm);
+void				draw_help_win(t_vm *vm);
+void				show_authors(t_vm *vm);
+
+/*
+Main big words
+*/
+void				show_pause_win(t_vm *vm);
+void				show_end_win(t_vm *vm);
+void				show_fighting_win(t_vm *vm);
+void				show_players_win(t_vm *vm);
+
+
+void				button(t_vm *vm);
+void				draw_vs(t_vm *vm);
+void				make_map(t_vm *vm);
+void				show_run_status(t_vm *vm);
+void				show_params(t_vm *vm);
+void				make_info_window(t_vm *vm);
+void				show_champs(t_vm *vm);
+void				show_help(t_vm *vm);
 
 
 #endif
