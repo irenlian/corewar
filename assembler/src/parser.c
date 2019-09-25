@@ -44,7 +44,8 @@ int				save_name(t_code *code, t_list **list, int end)
 		end++;
 	}
 	code->name = ft_strndup(line + start, end - start);
-	while (is_whitespace(line[end]))
+	while (is_whitespace(line[end]) && line[end] != LABEL_CHAR
+	&& line[end] != DIRECT_CHAR && line[end] != '-' && !ft_isdigit(line[end]))
 		end++;
 	return (end);
 }
