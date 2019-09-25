@@ -136,7 +136,7 @@ void    valid_command_line(char *line, int line_index, t_command *catalog)
         }
     }
     while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
-        i++;
+        ;
     if (!is_comment(line[i]) && line[i] != '\0')
         valid_operation(&line[i], line_index);
 }
@@ -190,11 +190,11 @@ void valid_existing_labels(t_list *code_list)
     while (tmp)
     {
         code = (t_code *)tmp->content;
-        if (code->arg1 && (lable = ft_strchr(code->arg1, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg1[lable - code->arg1]))
+        if (code->arg1 && (lable = ft_strchr(code->arg1, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg1[lable - code->arg1 + 1]))
             show_error("Label doesn't exist", -1);
-        if (code->arg2 && (lable = ft_strchr(code->arg2, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg2[lable - code->arg2]))
+        if (code->arg2 && (lable = ft_strchr(code->arg2, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg2[lable - code->arg2 + 1]))
             show_error("Label doesn't exist", -1);
-        if (code->arg3 && (lable = ft_strchr(code->arg3, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg3[lable - code->arg3]))
+        if (code->arg3 && (lable = ft_strchr(code->arg3, LABEL_CHAR)) && !is_exist_label(code_list, &code->arg3[lable - code->arg3 + 1]))
             show_error("Label doesn't exist", -1);
         tmp = tmp->next;
     }

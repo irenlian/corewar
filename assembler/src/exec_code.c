@@ -7,7 +7,7 @@ int     get_code_arg_types(t_code *code_line)
     ft_memset(args_byte_code, '0', 8);
     if (code_line->arg1[0] == 'r' || code_line->arg1[0] != DIRECT_CHAR)
         args_byte_code[1] = '1';
-    else
+    if (code_line->arg1[0] != 'r')
         args_byte_code[0] = '1';
     if (code_line->arg2)
     {

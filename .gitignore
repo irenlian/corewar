@@ -1,5 +1,6 @@
 .obj/*
 libft/.obj/*
+libft/libft.a
 assembler/.obj/*
 vm/champs
 vm/.obj/*
