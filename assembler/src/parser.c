@@ -20,7 +20,7 @@ int			save_name(t_code *code, t_list **list, int end)
 	char	*line;
 	int		start;
 
-	while (((char*)(*list)->content)[0] == COMMENT_CHAR)
+	while (is_comment(((char*)(*list)->content)[0]))
 		(*list) = (*list)->next;
 	line = (char*)(*list)->content;
 	while (line[end] < 'a' || line[end] > 'z')
@@ -63,7 +63,7 @@ void		save_args(t_code *code, char *line)
 		start = end;
 		while (line[end] && ft_isascii(line[end]) && line[end] != SEPARATOR_CHAR && !is_whitespace(line[end]))
 		{
-			if (line[end] == COMMENT_CHAR)
+			if (is_comment(line[end]))
 				return ;	
 			end++;
 		}
@@ -163,7 +163,7 @@ void			parse_code(t_champ *champ, t_list **code)
 			car[1]++;
 		if (!ft_strnequ(line + car[0], NAME_CMD_STRING, car[1] - car[0]) &&
 		!ft_strnequ(line + car[0], COMMENT_CMD_STRING, car[1] - car[0]) && line[0] &&
-		line[car[0]] != COMMENT_CHAR)
+		!is_comment(line[car[0]]))
 		{
 			for_free = make_code(&list, car);
 			if (for_free)

@@ -51,3 +51,10 @@ void set_name(int fd, char *name, int max_length)
     write(fd, &c, 1);
     write(fd, &c, 1);
 }
+
+int is_comment(char c)
+{
+    if (c == COMMENT_CHAR || c == ALT_COMMENT_CHAR)
+        return (1);
+    return (0);
+}

@@ -28,7 +28,7 @@ int    valid_dir_arg(char *dir)
     }
     while (dir[i] != '\0' && (dir[i] == ' ' || dir[i] == '\t'))
         i++;
-    if ((dir[i] != COMMENT_CHAR && dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
+    if ((is_comment(dir[i]) && dir[i] != SEPARATOR_CHAR && dir[i] != '\0') || (status != 3 && status != 4))
         return (0);
     return (1);
 }
@@ -57,7 +57,7 @@ int    valid_ind_arg(char *arg)
     }
     while (arg[i] != '\0' && (arg[i] == ' ' || arg[i] == '\t'))
         i++;
-    if ((arg[i] != COMMENT_CHAR && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || (status != 2 && status != 3))
+    if ((!is_comment(arg[i]) && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || (status != 2 && status != 3))
         return (0);
     return (1);
 }
@@ -82,7 +82,7 @@ int    valid_reg_arg(char *arg)
     }
     while (arg[i] != '\0' && (arg[i] == ' ' || arg[i] == '\t'))
         i++;
-    if ((arg[i] != COMMENT_CHAR && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || status != 2)
+    if ((!is_comment(arg[i]) && arg[i] != SEPARATOR_CHAR && arg[i] != '\0') || status != 2)
         return (0);
     return (1);
 }
@@ -96,7 +96,7 @@ void    valid_type_live(char *args, int line_index)
     i = -1;
     if (!valid_dir_arg(args))
         show_error("Arg error at line: ", line_index);
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -118,7 +118,7 @@ void    valid_type_ld(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -140,7 +140,7 @@ void    valid_type_st(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]) && !valid_ind_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -165,7 +165,7 @@ void    valid_type_add(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -190,7 +190,7 @@ void    valid_type_and(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -215,7 +215,7 @@ void    valid_type_ldi(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -240,7 +240,7 @@ void    valid_type_sti(char *args, int line_index)
     if (!valid_reg_arg(&args[i + 1]) && !valid_dir_arg(&args[i + 1]))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -259,7 +259,7 @@ void    valid_type_aff(char *args, int line_index)
     if (!valid_reg_arg(args))
         show_error("Arg error at line: ", line_index);
     i = -1;
-    while (args[++i] != '\0' && args[i] != COMMENT_CHAR)
+    while (args[++i] != '\0' && !is_comment(args[i]))
     {
         if (args[i] == SEPARATOR_CHAR)
             count_sep_ch++;
@@ -301,11 +301,11 @@ void valid_operation(char *line, int line_index)
     ft_memset(operation_name, '\0', 6);
     while (line[++i] != '\0')
     {
-        if (line[i] == COMMENT_CHAR)
+        if (is_comment(line[i]))
             break;
         if ((line[i] == ' ' || line[i] == '\t') && j == 0)
             continue;
-        else if (line[i] == ' ' || line[i] == '\t' || line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR || ft_strchr("-0123456789", line[i]))
+        else if (line[i] == ' ' || line[i] == '\t' || line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR || ft_strchr("-0123456789", line[i]) || (line[i] == 'r' && line[i - 1] != 'o'))
             break;
         if (j == 6)
             show_error("Not valid operation in line:", line_index);
