@@ -305,7 +305,7 @@ void valid_operation(char *line, int line_index)
             break;
         if ((line[i] == ' ' || line[i] == '\t') && j == 0)
             continue;
-        else if (line[i] == ' ' || line[i] == '\t')
+        else if (line[i] == ' ' || line[i] == '\t' || line[i] == LABEL_CHAR || line[i] == DIRECT_CHAR || ft_strchr("-0123456789"))
             break;
         if (j == 6)
             show_error("Not valid operation in line:", line_index);
