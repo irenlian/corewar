@@ -1,6 +1,6 @@
 #include "corewar.h"
 
-int     get_code_arg_types(t_code *code_line)
+int      get_code_arg_types(t_code *code_line)
 {
     char args_byte_code[9];
 
@@ -13,14 +13,14 @@ int     get_code_arg_types(t_code *code_line)
     {
         if (code_line->arg2[0] == 'r' || code_line->arg2[0] != DIRECT_CHAR)
             args_byte_code[3] = '1';
-        else
+        if (code_line->arg2[0] != 'r')
             args_byte_code[2] = '1';
     }
     if (code_line->arg3)
     {
         if (code_line->arg3[0] == 'r' || code_line->arg3[0] != DIRECT_CHAR)
             args_byte_code[5] = '1';
-        else
+        if (code_line->arg3[0] != 'r')
             args_byte_code[4] = '1';
     }
     return (get_int_from_bytes(args_byte_code));

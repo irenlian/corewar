@@ -168,6 +168,7 @@ int is_exist_label(t_list *code_list, char *label)
 
     while (code_list)
     {
+        // char *del = (char*)(((t_code *)(code_list->content))->mark)->content;
         mark_list = ((t_code *)(code_list->content))->mark;
         while (mark_list)
         {

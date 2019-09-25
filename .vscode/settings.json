@@ -6,7 +6,19 @@
         "fcntl.h": "c",
         "typeinfo": "c",
         "system_error": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "string": "c",
+        "vector": "c",
+        "array": "c",
+        "hashtable": "c",
+        "__bit_reference": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ios": "c",
+        "iterator": "c",
+        "unordered_map": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

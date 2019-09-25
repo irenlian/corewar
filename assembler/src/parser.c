@@ -63,13 +63,19 @@ void			save_args(t_code *code, char *line)
 			return ;
 		while (is_whitespace(line[end]))
 			end++;
+		if (SPACES || line[end] == SEPARATOR_CHAR)
+		{
+			while (line[end] && (SPACES || line[end] == SEPARATOR_CHAR))
+				end++;
+		}
 		start = end;
-		while (line[end] && line[end] != SEPARATOR_CHAR && SPACES)
+		while (line[end] && line[end] != SEPARATOR_CHAR && !SPACES)
 		{
 			if (is_comment(line[end]))
-				return ;	
+				return ;
 			end++;
 		}
+
 		if (!code->arg1)
 			code->arg1 = ft_strndup(line + start, end - start);
 		else if (!code->arg2 && line + start)
@@ -111,10 +117,10 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 	while (((char *)(*list)->content)[end - 1] == LABEL_CHAR)
 	{
 		line = (char *)(*list)->content;
-		line[end - car[0] - 1] = '\0';
+		line[end - 1] = '\0';
 		ft_lstpush(&code->mark, ft_lstnew(line, ft_strlen(line) + 1));
+		car[1] = end;
 		end = 0;
-		car[0] = end;
 		if (!(*list)->next)
 			return ;
 		if (check_commad_after(line, car[1]))
@@ -167,14 +173,14 @@ void			skip_head(t_list **list)
 	i = 0;
 	while (line[i] != '"')
 		i++;
-	while (line[++i])
+	while (line[++i] || line[i - 1] || line)
 	{
 		if (line[i] == '"')
 		{
 			(*list) = (*list)->next;			
 			return ;
 		}
-		else if (line[i + 1] == '\0')
+		else if (line[i + 1] == '\0' || line[i] == '\0')
 		{
 			(*list) = (*list)->next;
 			line = (char*)(*list)->content;

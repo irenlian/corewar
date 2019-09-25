@@ -132,10 +132,6 @@ int				read_asm(t_champ *champ, int fd)
 		ft_strdel(&line);
 		ft_strdel(&trim_line);
 	}
-	if (!champ->header->prog_name[0])
-		show_error("You have no name of your champ!", -1);
-	else if (!champ->header->comment[0])
-		show_error("You have no comment of your champ!", -1);
 	champ->header->magic = COREWAR_EXEC_MAGIC;
 	return (1);
 }

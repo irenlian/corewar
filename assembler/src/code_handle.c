@@ -3,17 +3,19 @@
 t_list  *get_code_by_mark(t_list  *code_list, char *mark)
 {
     t_code *code;
+    t_list *mark_list;
 
     while (code_list)
     {
         code = (t_code *)(code_list->content);
-        if (code->mark)
+        mark_list = code->mark;
+        if (mark_list)
         {
-            while (code->mark)
+            while (mark_list)
             {
-                if (ft_strequ(code->mark->content, mark))
+                if (ft_strequ(mark_list->content, mark))
                     return (code_list);
-                code->mark = code->mark->next;
+                mark_list = mark_list->next;
             }
         }
         code_list = code_list->next;
