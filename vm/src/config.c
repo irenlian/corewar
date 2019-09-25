@@ -30,7 +30,6 @@ static void		do_map(t_vm *vm)
 		i = sit;
 		while (i < champ->byte_code->length + sit)
 		{
-			//printf("%i\n", champ->byte_code->length);
 			vm->vs->map[i].id = val;
 			i++;
 		}
@@ -62,7 +61,6 @@ static void		set_view(t_vm *vm)
 {
 	vm->vs->map_window = newwin(HEIGHT + 3, WIDTH, 1, 2);
 	vm->vs->info_window = newwin(HEIGHT + 3, WIDTH / 4 + 3, 1, WIDTH + 6);
-	//vm->vs->help_window = newwin(HEIGHT / 5, WIDTH, HEIGHT + 2, 2);
 }
 
 static void	init_carriage(t_vm *vm)

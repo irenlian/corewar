@@ -36,28 +36,25 @@ static void	free_visual(t_vs **vs)
 
 static void	visual_cycle(t_vm *vm)
 {
-	size_t cur_num;
+	int		res;
 
-		int		res;
-		res = 1;
-
-	if (vm->vs->carriages_num)
-	{ 
-		if (vm->cycles_to_die == vm->cycles_till_next_check
-			|| vm->cycles_to_die <= 0)
-			cur_num = vm->vs->carriages_num;
+	res = 1;
 	if (!vm->vs->carriages_num)
-			vm->vs->is_run = false;
-		if(cycle(vm) && res)
-		{
-			res = check(vm);
-		}
+	{
+		//system("pkill afplay");
+		vm->vs->is_run = false;
+		//vm->vs->button = MUSIC;
+		//voice_of_victory(vm);
+	}
+	if(cycle(vm) && res)
+	{
+		voice_of_game(vm);
+		res = check(vm);
 	}
 }
 
 void		vs_broach(t_vm *vm)
 {
-	vm->vs->carriages_num = calc_carriages(vm);
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);
 	vm->vs->microsec = MICROSEC/vm->vs->speed;
@@ -73,6 +70,9 @@ void		vs_broach(t_vm *vm)
 			usleep(vm->vs->microsec);
 		}
 		draw_vs(vm);
+		if(vm->vs->button == SPACE)
+			system("pkill afplay");
 	}
+	system("pkill afplay");
 	free_visual(&(vm->vs));
 }

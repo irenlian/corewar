@@ -14,46 +14,49 @@
 
 void		show_run_status(t_vm *vm)
 {
-	vm->vs->pixels = 2;
+	vm->vs->pixels = ONE;
 	if(!vm->vs->is_run)
 	{
-		
-		wattron(vm->vs->info_window, COLOR_PAIR((vm->vs->carriages_num) ? CYAN_COL : BLUE_COL));
-		mvwprintw(vm->vs->info_window,
-			vm->vs->pixels, INDENT, "%s",(vm->vs->quantity) ? "PAUSED" : "ISN'T RUN");
-		wattroff(vm->vs->info_window, COLOR_PAIR((vm->vs->carriages_num) ? CYAN_COL : BLUE_COL));
+		if (vm->vs->carriages_num)
+			show_pause_win(vm);
+		else
+			show_end_win(vm);
 	}
 	else
-	{
-		wattron(vm->vs->info_window, COLOR_PAIR(RED_COL) | A_BOLD);
-		mvwprintw(vm->vs->info_window, vm->vs->pixels += 0,
-				1, "%s", " ______ _____ _____  _   _ _____ _____ _   _ _____ ");
-			mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-				1, "%s", "|  ___|_   _|  __ \\| | | |_   _|_   _| \\ | |  __ \\"); 
-			mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-				1, "%s", "| |_    | | | |  \\/| |_| | | |   | | |  \\| | |  \\/");
-			mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-				1, "%s", "|  _|   | | | | __ |  _  | | |   | | | . ` | | __ ");
-			mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-				1, "%s", "| |    _| |_| |_\\ \\| | | | | |  _| |_| |\\  | |_\\ \\");
-			mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-				1, "%s", "\\_|    \\___/ \\____/\\_| |_/ \\_/  \\___/\\_| \\_/\\____/");
-		wattroff(vm->vs->info_window, COLOR_PAIR(RED_COL) | A_BOLD);
-	}
+		show_fighting_win(vm);
+}
+
+void		draw_info_win(t_vm *vm)
+{
+	wattron(vm->vs->info_window, COLOR_PAIR(CYAN_COL) | A_BOLD);
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
+		0, "%s", "_____________________________________________________");
+	wattron(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
+		INDENT_THREE, "%s", "           __       ");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_THREE, "%s", " (_)_ __  / _| ___  "); 
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_THREE, "%s", " | | '_ \\| |_ / _ \\ ");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_THREE, "%s", " | | | | |  _| (_) |");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_THREE, "%s", " |_|_| |_|_|  \\___/ ");
+	wattroff(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
 }
 
 void		show_data_status(t_vm *vm)
 {
+	vm->vs->pixels += 1;
 	wattron(vm->vs->info_window, COLOR_PAIR(RED_COL) | A_BOLD);
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
 			INDENT_CENTER, "SPEED: %d", vm->vs->speed);
 	wattron(vm->vs->info_window, COLOR_PAIR(CYAN_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
-			INDENT, "CYCLES : %10zd", vm->cycles_counter);
+			INDENT, "CYCLES : %13zd", vm->cycles_counter);
 	wattron(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
-			INDENT, "CARRIAGES : %zu", vm->vs->carriages_num);
-	//NEED DATA
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+			INDENT, "CARRIAGES : %10zu", vm->vs->carriages_num);
 	wattroff(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
 }
 

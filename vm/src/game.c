@@ -142,6 +142,5 @@ int		check(t_vm *vm)
 	if (!vm->cars)
 		return (0);
 	vm->cycles_till_next_check = vm->cycles_to_die;
-	ft_printf("Carriages number: %i\n", calc_carriages(vm));
 	return (1);
 }

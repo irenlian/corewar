@@ -61,7 +61,6 @@ int     main(int argc, char **argv)
 	vm->champs = get_champs(argc, argv);
 	vm->vs = init_visual();
 	last = vm->champs;
-	printf("first: \\%s/\n", argv[2] );
 	while (last->next_champ)
 		last = last->next_champ;
 	vm->last_live = last;
