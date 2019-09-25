@@ -89,6 +89,9 @@ typedef struct		s_carriage
 **	live_counter - number of live command from all carriages from last check
 **	check_counter - number of checks from the last decreasing of cycles_to_die
 **	checks_from_start - number of checks from the beginning
+**	id_cars_autoincrement - number of last given id to carriage
+**	vs - structure of visualization, created only if needed
+**	leaks - boolean to show leaks
 */
 
 typedef struct		s_vm

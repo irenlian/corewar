@@ -53,8 +53,8 @@ void	create_carriages(t_vm *vm)
 	while (ch)
 	{
 		car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-		car->location = i * MEM_SIZE / get_quantity_players(vm->champs);
-		car->id = i++;
+		car->location = i++ * MEM_SIZE / get_quantity_players(vm->champs);
+		car->id = ++vm->id_cars_autoincrement;
 		car->registers[0] = ch->id * -1;
 		car->next = tmp;
 		car->parent = ch;
@@ -75,7 +75,7 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	if (!vm || !car)
 		return (NULL);
 	new_car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-	*new_car = (t_carriage){car->id, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0, 0};
+	*new_car = (t_carriage){++vm->id_cars_autoincrement, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0, 0};
 	new_car->op = car->op;
 	new_car->next = vm->cars;
 	new_car->parent = car->parent;
