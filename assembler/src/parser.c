@@ -128,7 +128,7 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 		while (((char *)(*list)->next->content)[end] &&
 			!is_whitespace(((char *)(*list)->next->content)[end]))
 			end++;
-		if (((char *)(*list)->next->content)[end - 1] == LABEL_CHAR)
+		if (((char *)(*list)->next->content)[end - 1] == LABEL_CHAR || ((char *)(*list)->next->content)[0] == '\0')
 			*list = (*list)->next;
 	}
 }
@@ -151,7 +151,11 @@ t_code			*make_code(t_list **list, int *car)
 	car[0] = save_name(code, list, (code->mark) ? car[1] : car[0]);
 	save_args(code, (char *)(*list)->content + car[0]);
 	if (!code->name || !code->arg1)
+	{
+		if (!code->name && code->mark)
+			return (code);
 		return (0);
+	}
 	return (code);
 }
 

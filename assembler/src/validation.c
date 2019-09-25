@@ -47,11 +47,11 @@ int valid_head(t_list *champ)
     int i;
     int count_ch;
     int is_head;
-    int is_comment;
+    int is_that_comment;
 
     i = 0;
     is_head = 0;
-    is_comment = 0;
+    is_that_comment = 0;
     while (champ)
     {
 		if (is_head == 2)
@@ -60,13 +60,13 @@ int valid_head(t_list *champ)
             if (ft_strchr(champ->content, '"'))
                 is_head = 3;
         }
-        else if (is_comment == 2)
+        else if (is_that_comment == 2)
         {
             // count_ch = count_char(champ->content, '"');
             if (ft_strchr(champ->content, '"'))
                 is_comment = 3;
         }
-        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ft_strstr(champ->content, NAME_CMD_STRING))
+        else if (!is_comment(((char *)(champ->content))[0]) && ft_strstr(champ->content, NAME_CMD_STRING))
         {
             is_head = 1;
             count_ch = count_char(champ->content, '"');
@@ -75,18 +75,18 @@ int valid_head(t_list *champ)
             else if (count_ch == 1)
                 is_head = 2;
         }
-        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ft_strstr(champ->content, COMMENT_CMD_STRING))
+        else if (!is_comment(((char *)(champ->content))[0]) && ft_strstr(champ->content, COMMENT_CMD_STRING))
         {
-            is_comment = 1;
+            is_that_comment = 1;
             count_ch = count_char(champ->content, '"');
             if (count_ch == 2)
-                is_comment = 3;
+                is_that_comment = 3;
             else if (count_ch == 1)
-                is_comment = 2;
+                is_that_comment = 2;
         }
-        else if (((char *)(champ->content))[0] != COMMENT_CHAR && ((char *)(champ->content))[0] != '\0' && !is_head && !is_comment)
+        else if (!is_comment(((char *)(champ->content))[0]) && ((char *)(champ->content))[0] != '\0' && !is_head && !is_that_comment)
             show_error("Not valid head at line: ", i);
-        if (is_head == 3 && is_comment == 3)
+        if (is_head == 3 && is_that_comment == 3)
             return (++i);
         champ = champ->next;
         i++;
