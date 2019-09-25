@@ -68,12 +68,19 @@ void			get_comment(t_champ *champ, char **line, int fd)
 	i = -1;
 	while ((*line)[++start] != '"')
 	{
-		champ->header->comment[++i] = (*line)[start];
+		if ((*line)[start])
+			champ->header->comment[++i] = (*line)[start];
 		if (i >= COMMENT_LENGTH)
 			show_error("Too long comment", -1);
 		if ((*line)[start + 1] == '\0')
 		{
-			champ->header->comment[++i] = '\n';
+			if (champ->header->comment[0] == '\0')
+			{
+				i = -1;
+				champ->header->comment[++i] = '\n';
+			}
+			else
+				champ->header->comment[++i] = '\n';
 			ft_strdel(line);
 			get_next_line(fd, line);
 			trim_line = ft_strtrim(*line);

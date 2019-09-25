@@ -64,7 +64,7 @@ int valid_head(t_list *champ)
         {
             // count_ch = count_char(champ->content, '"');
             if (ft_strchr(champ->content, '"'))
-                is_comment = 3;
+                is_that_comment = 3;
         }
         else if (!is_comment(((char *)(champ->content))[0]) && ft_strstr(champ->content, NAME_CMD_STRING))
         {
@@ -149,7 +149,7 @@ void valid_champ_file(t_list *champ, t_command *catalog)
     i = -1;
     tmp = champ;
     j = valid_head(champ);
-    while (++i <= j)
+    while (++i < j)
         tmp = tmp->next;
     while (tmp)
     {

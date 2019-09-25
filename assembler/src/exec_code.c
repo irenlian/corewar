@@ -31,8 +31,8 @@ int     get_byte_size_to_marked(t_list *curr_code, t_list *marked_code)
     int size;
 
     size = 0;
-    if (!((t_code *)marked_code->content)->name)
-        return (size);
+    // if (!((t_code *)marked_code->content)->name)
+    //     return (size);
     if (((t_code *)curr_code->content)->id > ((t_code *)marked_code->content)->id)
     {
         while (marked_code)
@@ -114,7 +114,8 @@ void    write_exec_code(int fd, t_list *code_list, t_command *catalog)
     tmp = code_list;
     while (tmp)
     {
-        write_command_line(fd, code_list, tmp, catalog);
+        if (((t_code *)(tmp->content))->name)
+            write_command_line(fd, code_list, tmp, catalog);
         tmp = tmp->next;
     }
 }

@@ -51,7 +51,7 @@ int				get_byte_size(t_code *code, t_command *catalog)
 	t_command *com;
 
 	com = get_com_byname(catalog, code->name);
-	if (!com)
+	if (!code->name || !com)
 		return (0);
 	count = 1;
 	if (code->arg1)
