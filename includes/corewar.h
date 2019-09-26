@@ -21,6 +21,11 @@
 # include "../libft/includes/libft.h"
 
 # define SPACES is_whitespace(line[end])
+# define LINE ((char*)(*list)->content)
+# define LINP ((char*)list->content)
+# define NORM1 !ft_strnequ(LINP + car[0], NAME_CMD_STRING, car[1] - car[0]) 
+# define NORM2 !ft_strnequ(LINP + car[0], COMMENT_CMD_STRING, car[1] - car[0])
+# define NORM3 LINP[0] && !is_comment(LINP[car[0]]) && !ft_strchr(LINP, '"')
 
 # define MAX_FILE_LENGTH		(CHAMP_MAX_SIZE + PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 8)
 #define OP						1
@@ -209,6 +214,7 @@ void            valid_champ_file(t_list *champ);
 void            valid_existing_labels(t_list *code_list);
 int             is_comment(char c);
 char            *find_comm_name(t_command *all, char *name, int n);
+<<<<<<< HEAD
 int				get_size_arg(char *arg, t_command *com);
 int				get_byte_size_to_marked(t_list *curr_code, t_list *marked_code);
 int				valid_dir_arg(char *dir);
@@ -222,5 +228,12 @@ void			valid_type_aff(char *args, int line_index);
 int				count_char(char *line, char c);
 void			valid_label(char *line, int pos_label_char, int line_index);
 int 			valid_head(t_list *champ);
+=======
+void			norm_error(t_champ *champ, char **line, int *start);
+void			skip_head(t_list **list);
+void			save_args(t_code *code, char *line);
+int				check_commad_after(char *line, int i);
+int				read_asm(t_champ *champ, int fd);
+>>>>>>> Normed read and parser
 
 #endif

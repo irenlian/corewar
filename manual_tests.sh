@@ -34,7 +34,7 @@ cor_array=("$path/adenis/*$end" "$path/agregoir/*$end" "$path/gnebie/*$end"
 for i in ${!s_array[@]}; do
     ./asm ${s_array[$i]} && xxd ${cor_array[$i]} > t1
 	./vm_champs/asm ${s_array[$i]} && xxd ${cor_array[$i]} > t2
-	if diff t1 t2 > 0.txt; then
+	if diff t1 t2  ; then
 		echo GOOD, MAN!!!
 	else
 		echo Damn

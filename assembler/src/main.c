@@ -76,15 +76,17 @@ int		main(int argc, char **argv)
 	catalog = get_commad_catalog();
 	valid_champ_file(champ->asm_code);
 	parse_code(champ, &code);
-	valid_existing_labels(code);
-	champ->header->prog_size = count_bytes(code, catalog);
-	champ_cor_name = get_corname(argv[1]);
-	fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
-	set_int(fd, champ->header->magic, 4);
-	set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
-	set_int(fd, champ->header->prog_size, 4);
-	set_name(fd, champ->header->comment, COMMENT_LENGTH);
-	write_exec_code(fd, code, catalog);
+    valid_existing_labels(code);
+    champ->header->prog_size = count_bytes(code, catalog);
+	champ->header->magic = COREWAR_EXEC_MAGIC;
+    champ_cor_name = get_corname(argv[1]);
+    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
+    free(champ_cor_name);
+    set_int(fd, champ->header->magic, 4);
+    set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
+    set_int(fd, champ->header->prog_size, 4);
+    set_name(fd, champ->header->comment, COMMENT_LENGTH);
+    write_exec_code(fd, code, catalog);
 	ft_printf("%tOutput to .cor file%t\n", B_WHITE, EOC);
-	return (0);
+    return (0);
 }

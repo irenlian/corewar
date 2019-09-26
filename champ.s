@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .name "Kittystrophic"
 .comment "Jan-ken-pon (じゃんけんぽん)
 Ce qui reste éternellement incompréhensible dans la nature, c’est qu’on puisse la comprendre.
@@ -102,3 +103,17 @@ kittyrritable:
 kittyrecuperable:
 	st r9, 12
 	zjmp %7
+=======
+.name "zork"
+.comment "I'M ]ALIIIIVE"
+
+
+#hash(#) at the end + tab at the end of the file cau
+
+le_12:
+
+live	%1
+
+liv: live %1	#
+
+>>>>>>> Normed read and parser
