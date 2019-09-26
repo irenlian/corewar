@@ -209,5 +209,18 @@ void            valid_champ_file(t_list *champ, t_command *catalog);
 void            valid_existing_labels(t_list *code_list);
 int             is_comment(char c);
 char            *find_comm_name(t_command *all, char *name, int n);
+int				get_size_arg(char *arg, t_command *com);
+int				get_byte_size_to_marked(t_list *curr_code, t_list *marked_code);
+int				valid_dir_arg(char *dir);
+int				valid_ind_arg(char *arg);
+int				valid_reg_arg(char *arg);
+void			valid_type_add(char *args, int line_index);
+void			valid_type_and(char *args, int line_index);
+void			valid_type_ldi(char *args, int line_index);
+void			valid_type_sti(char *args, int line_index);
+void			valid_type_aff(char *args, int line_index);
+int				count_char(char *line, char c);
+void			valid_label(char *line, int pos_label_char, int line_index);
+int 			valid_head(t_list *champ);
 
 #endif
