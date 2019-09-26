@@ -214,7 +214,6 @@ void            valid_champ_file(t_list *champ);
 void            valid_existing_labels(t_list *code_list);
 int             is_comment(char c);
 char            *find_comm_name(t_command *all, char *name, int n);
-<<<<<<< HEAD
 int				get_size_arg(char *arg, t_command *com);
 int				get_byte_size_to_marked(t_list *curr_code, t_list *marked_code);
 int				valid_dir_arg(char *dir);
@@ -228,12 +227,10 @@ void			valid_type_aff(char *args, int line_index);
 int				count_char(char *line, char c);
 void			valid_label(char *line, int pos_label_char, int line_index);
 int 			valid_head(t_list *champ);
-=======
 void			norm_error(t_champ *champ, char **line, int *start);
 void			skip_head(t_list **list);
 void			save_args(t_code *code, char *line);
 int				check_commad_after(char *line, int i);
 int				read_asm(t_champ *champ, int fd);
->>>>>>> Normed read and parser
 
 #endif

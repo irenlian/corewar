@@ -120,7 +120,6 @@ void			parse_code(t_champ *champ, t_list **code)
 {
 	int			car[2];
 	t_list		*list;
-	char		*line;
 	t_code		*for_free;
 
 	list = champ->asm_code;

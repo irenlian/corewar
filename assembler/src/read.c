@@ -18,6 +18,8 @@
 
 int				read_cor(t_champ *champ, int fd)
 {
+	(void)champ;
+	(void)fd;
 	show_error("It's .cor file", -1);
 	return (2);
 }

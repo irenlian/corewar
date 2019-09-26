@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    manual_tests.sh                                    :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pdemian <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/09/26 20:31:22 by pdemian           #+#    #+#              #
+#    Updated: 2019/09/26 20:31:25 by pdemian          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 path=vm_champs/champs/championships/2017
 path2=vm_champs/champs
 path3=vm_champs/champs/examples
@@ -34,7 +46,7 @@ cor_array=("$path/adenis/*$end" "$path/agregoir/*$end" "$path/gnebie/*$end"
 for i in ${!s_array[@]}; do
     ./asm ${s_array[$i]} && xxd ${cor_array[$i]} > t1
 	./vm_champs/asm ${s_array[$i]} && xxd ${cor_array[$i]} > t2
-	if diff t1 t2  ; then
+	if diff t1 t2 ; then
 		echo GOOD, MAN!!!
 	else
 		echo Damn

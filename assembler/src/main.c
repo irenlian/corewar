@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int		get_byte_size(t_code *code, t_command *catalog)
+int			get_byte_size(t_code *code, t_command *catalog)
 {
 	int			count;
 	t_command	*com;
@@ -32,7 +32,7 @@ int		get_byte_size(t_code *code, t_command *catalog)
 	return (count);
 }
 
-int		count_bytes(t_list *code_list, t_command *catalog)
+int			count_bytes(t_list *code_list, t_command *catalog)
 {
 	int		count;
 	t_code	*code;
@@ -48,7 +48,7 @@ int		count_bytes(t_list *code_list, t_command *catalog)
 	return (count);
 }
 
-char	*get_corname(char *file_name)
+char		*get_corname(char *file_name)
 {
 	int		len;
 	char	*result;
@@ -60,7 +60,15 @@ char	*get_corname(char *file_name)
 	return (result);
 }
 
-int		main(int argc, char **argv)
+void		set_magic(t_champ *champ, int fd)
+{
+	set_int(fd, champ->header->magic, 4);
+	set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
+	set_int(fd, champ->header->prog_size, 4);
+	set_name(fd, champ->header->comment, COMMENT_LENGTH);
+}
+
+int			main(int argc, char **argv)
 {
 	int			fd;
 	t_champ		*champ;
@@ -76,17 +84,14 @@ int		main(int argc, char **argv)
 	catalog = get_commad_catalog();
 	valid_champ_file(champ->asm_code);
 	parse_code(champ, &code);
-    valid_existing_labels(code);
-    champ->header->prog_size = count_bytes(code, catalog);
+	valid_existing_labels(code);
+	champ->header->prog_size = count_bytes(code, catalog);
 	champ->header->magic = COREWAR_EXEC_MAGIC;
-    champ_cor_name = get_corname(argv[1]);
-    fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
-    free(champ_cor_name);
-    set_int(fd, champ->header->magic, 4);
-    set_name(fd, champ->header->prog_name, PROG_NAME_LENGTH);
-    set_int(fd, champ->header->prog_size, 4);
-    set_name(fd, champ->header->comment, COMMENT_LENGTH);
-    write_exec_code(fd, code, catalog);
+	champ_cor_name = get_corname(argv[1]);
+	fd = open(champ_cor_name, O_RDWR | O_CREAT | O_TRUNC, 777);
+	free(champ_cor_name);
+	set_magic(champ, fd);
+	write_exec_code(fd, code, catalog);
 	ft_printf("%tOutput to .cor file%t\n", B_WHITE, EOC);
-    return (0);
+	return (0);
 }
