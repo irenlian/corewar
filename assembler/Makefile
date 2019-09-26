@@ -18,7 +18,7 @@ LIBDIR :=	../libft/
 OBJDIR :=	.obj/
 
 CC :=		clang
-CFLAGS :=	-g #-Wall -Wextra -Werror
+CFLAGS :=	-g -Wall -Wextra -Werror
 IFLAGS :=	-I $(INCDIR)
 LFLAGS :=	-lft -L $(LIBDIR)
 

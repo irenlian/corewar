@@ -44,11 +44,10 @@ int		count_char(char *line, char c)
 	return (count);
 }
 
-void	valid_command_line(char *line, int line_index, t_command *catalog)
+void	valid_command_line(char *line, int line_index)
 {
 	int		i;
 	int		j;
-	char	*pos;
 
 	i = -1;
 	j = -1;
@@ -71,7 +70,7 @@ void	valid_command_line(char *line, int line_index, t_command *catalog)
 		valid_operation(&line[i], line_index);
 }
 
-void	valid_champ_file(t_list *champ, t_command *catalog)
+void	valid_champ_file(t_list *champ)
 {
 	t_list	*tmp;
 	int		i;
@@ -84,7 +83,7 @@ void	valid_champ_file(t_list *champ, t_command *catalog)
 		tmp = tmp->next;
 	while (tmp)
 	{
-		valid_command_line(tmp->content, i, catalog);
+		valid_command_line(tmp->content, i);
 		tmp = tmp->next;
 		i++;
 	}
