@@ -1,6 +1,5 @@
 .name		"Varimathras"
 .comment	"If I have wings, why am I always walking?"
-.extend
 
 piege:
 	st		r1, r9 #/ ld nous, r9

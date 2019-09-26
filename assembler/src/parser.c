@@ -112,7 +112,7 @@ void			save_all_marks(t_code *code, t_list **list, int *car)
 
 	end = car[1];
 	marks = NULL;
-	while (((char *)(*list)->content)[end - 1] == LABEL_CHAR)
+	while (((char *)(*list)->content)[end - 1] == LABEL_CHAR || ((char *)(*list)->content)[0] == '\0')
 	{
 		line = (char *)(*list)->content;
 		line[end - 1] = '\0';
