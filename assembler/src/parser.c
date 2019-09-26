@@ -61,18 +61,16 @@ void			save_args(t_code *code, char *line)
 	{
 		if (end > ft_strlen(line))
 			return ;
-		while (is_whitespace(line[end]))
-			end++;
 		if (SPACES || line[end] == SEPARATOR_CHAR)
 		{
 			while (line[end] && (SPACES || line[end] == SEPARATOR_CHAR))
 				end++;
 		}
+		if (is_comment(line[end]))
+			return ;
 		start = end;
-		while (line[end] && line[end] != SEPARATOR_CHAR && !SPACES)
+		while (line[end] && line[end] != SEPARATOR_CHAR && !SPACES && !is_comment(line[end]))
 		{
-			if (is_comment(line[end]))
-				return ;
 			end++;
 		}
 

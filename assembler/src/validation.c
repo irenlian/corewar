@@ -121,18 +121,31 @@ void    valid_command_line(char *line, int line_index, t_command *catalog)
     j = -1;
     while (line[++j] != '\0')
     {
-        if (is_comment(line[j]))
-            break;
-        else if (line[j] != ' ' && line[j] != '\t')
+        if(is_comment(line[j]))
+        // if ((ft_strchr(line, COMMENT_CHAR) && ft_strchr(line, LABEL_CHAR)) || (ft_strchr(line, ALT_COMMENT_CHAR) && ft_strchr(line, LABEL_CHAR)))
         {
-            pos = ft_strchr(&line[j], LABEL_CHAR);
-            if (pos && ft_strchr(LABEL_CHARS, line[pos - &line[j] - 1]))
+            // if (ft_strlen(ft_strchr(line, COMMENT_CHAR)) > ft_strlen(ft_strchr(line, LABEL_CHAR))
+            // || ft_strlen(ft_strchr(line, ALT_COMMENT_CHAR)) > ft_strlen(ft_strchr(line, LABEL_CHAR)))
+                break;
+        }
+        // else if (line[j] != ' ' && line[j] != '\t')
+        // {
+            else if (line[j] == LABEL_CHAR)
             {
                 valid_label(line, j, line_index);
-                i = pos - &line[j];
+                i = j;
+                break;
             }
-            break;
-        }
+            else if (!ft_strchr(LABEL_CHARS, line[j]))
+                break;
+            // pos = ft_strchr(&line[j], LABEL_CHAR);
+            // if (pos && ft_strchr(LABEL_CHARS, line[pos - &line[j] - 1]))
+            // {
+            //     valid_label(line, j, line_index);
+            //     i = pos - &line[j];
+            // }
+            // break;
+        // }
     }
     while (line[++i] != '\0' && (line[i] == ' ' || line[i] == '\t'))
         ;
