@@ -42,57 +42,48 @@ int count_char(char *line, char c)
     return (count);
 }
 
+int	get_status_head(char *line)
+{
+	int status;
+	int count_ch;
+
+	status = 1;
+	count_ch = count_char(line, '"');
+	if (count_ch == 2)
+		status = 3;
+	else if (count_ch == 1)
+		status = 2;
+	return (status);
+}
+
 int valid_head(t_list *champ)
 {
     int i;
-    int count_ch;
-    int is_head;
-    int is_that_comment;
+	int head_status[2];
 
     i = 0;
-    is_head = 0;
-    is_that_comment = 0;
-    while (champ)
+	head_status[0] = 0;
+	head_status[1] = 1;
+    while (champ && ++i)
     {
-		if (is_head == 2)
-        {
-            // count_ch = count_char(champ->content, '"');
-            if (ft_strchr(champ->content, '"'))
-                is_head = 3;
-        }
-        else if (is_that_comment == 2)
-        {
-            // count_ch = count_char(champ->content, '"');
-            if (ft_strchr(champ->content, '"'))
-                is_that_comment = 3;
-        }
-        else if (!is_comment(((char *)(champ->content))[0]) && ft_strstr(champ->content, NAME_CMD_STRING))
-        {
-            is_head = 1;
-            count_ch = count_char(champ->content, '"');
-            if (count_ch == 2)
-                is_head = 3;
-            else if (count_ch == 1)
-                is_head = 2;
-        }
-        else if (!is_comment(((char *)(champ->content))[0]) && ft_strstr(champ->content, COMMENT_CMD_STRING))
-        {
-            is_that_comment = 1;
-            count_ch = count_char(champ->content, '"');
-            if (count_ch == 2)
-                is_that_comment = 3;
-            else if (count_ch == 1)
-                is_that_comment = 2;
-        }
-        else if (!is_comment(((char *)(champ->content))[0]) && ((char *)(champ->content))[0] != '\0' && !is_head && !is_that_comment)
-            show_error("Not valid head at line: ", i);
-        if (is_head == 3 && is_that_comment == 3)
-            return (++i);
+		if (head_status[0] == 2 && ft_strchr(champ->content, '"'))
+            head_status[0] = 3;
+        else if (head_status[1] == 2 && ft_strchr(champ->content, '"'))
+            head_status[1] = 3;
+		else if (!is_comment(((char *)(champ->content))[0]))
+		{
+			if (ft_strstr(champ->content, NAME_CMD_STRING))
+				head_status[0] = get_status_head(champ->content);
+			else if (ft_strstr(champ->content, COMMENT_CMD_STRING))
+				head_status[1] = get_status_head(champ->content);
+			else if (((char *)(champ->content))[0] != '\0' && !head_status[0] && !head_status[1])
+				show_error("Not valid head at line: ", i);
+		}
+        if (head_status[0] == 3 && head_status[1] == 3)
+            return (i);
         champ = champ->next;
-        i++;
     }
-    show_error("Not valid head", -1);
-    return (i);
+    return (show_error("Not valid head", -1));
 }
 
 void    valid_label(char *line, int pos_label_char, int line_index)
