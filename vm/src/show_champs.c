@@ -12,7 +12,26 @@
 
 #include "visual.h"
 
+<<<<<<< HEAD
 void			show_players_win(t_vm *vm)
+=======
+void		show_players_win(t_vm *vm)
+{
+		wattron(vm->vs->info_window, COLOR_PAIR(CYAN_COL) | A_BOLD);
+		mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
+			0, "%s", "_____________________________________________________");
+	wattron(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
+		INDENT_CENTER, "%s", ".-.| .-. . ..-,.-..-");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER, "%s", "|-''-`-`-'-|`'-'  -'"); 
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER, "%s", "'        `-'        ");
+	wattroff(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
+}
+
+void		show_champs(t_vm *vm) 
+>>>>>>> 6e3ba2a7eddd62331ef44eedccbfbecacae834a0
 {
 	wattron(vm->vs->info_window, COLOR_PAIR(CYAN_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
@@ -37,8 +56,13 @@ void			show_champs(t_vm *vm)
 	champ = 0;
 	while (champ < vm->vs->quantity)
 	{
+<<<<<<< HEAD
 		name = damn->header->prog_name;
 		wattron(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
+=======
+		//printf("vm->champs->id: %d\n", damn->id);
+		 wattron(vm->vs->info_window, COLOR_PAIR(damn->id) | A_BOLD);
+>>>>>>> 6e3ba2a7eddd62331ef44eedccbfbecacae834a0
 		wprintw(vm->vs->info_window, "\n");
 		mvwprintw(vm->vs->info_window, vm->vs->pixels += 1, INDENT - 3,
 			"%.32s\n", name);

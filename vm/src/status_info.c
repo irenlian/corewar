@@ -15,6 +15,7 @@
 void		show_run_status(t_vm *vm)
 {
 	vm->vs->pixels = ONE;
+
 	if (!vm->vs->is_run)
 	{
 		if (vm->vs->carriages_num && !vm->vs->winner)
