@@ -11,3 +11,6 @@ corewar
 .DS_Store
 vm_champs/*
 vm_champs/.DS_Store
+champ.s
+corewar
+asm

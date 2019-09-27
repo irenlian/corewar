@@ -1,5 +1,6 @@
 .name "Kittystrophic"
 .comment "Jan-ken-pon (じゃんけんぽん)
+
 Ce qui reste éternellement incompréhensible dans la nature, c’est qu’on puisse la comprendre.
 Celui qui ne peut plus éprouver ni étonnement ni surprise, est pour ainsi dire mort : ses yeux sont éteints. – Albert Einstein
 .comment
