@@ -16,7 +16,7 @@ void		show_authors(t_vm *vm)
 {
 	wattron(vm->vs->info_window, COLOR_PAIR(RED_COL));
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
-		INDENT_CENTER + 19, "%s", " A U T O R S :"); 
+		INDENT_CENTER + 19, "%s", " A U T O R S :");
 	wattron(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
 		INDENT_CENTER + 20, "%s", "ILIAN DLIAN");
@@ -25,7 +25,7 @@ void		show_authors(t_vm *vm)
 	wattroff(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
 }
 
-void	draw_winner(t_vm *vm, int index)
+void		draw_winner(t_vm *vm, int index)
 {
 	wattron(vm->vs->info_window, COLOR_PAIR(index) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
@@ -35,9 +35,14 @@ void	draw_winner(t_vm *vm, int index)
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
 		INDENT_CENTER - 4, "%s", "  \\_/\\/ |_||_|\\__||_|\\__||____||_|\\_\\");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 2,
-		INDENT_CENTER + 8, "%s", (index != GREY) ? 
+		INDENT_CENTER + 8, "%s", (index != GREY) ?
 			(vm->last_live->header->prog_name) : ".....");
 	wattroff(vm->vs->info_window, COLOR_PAIR(index) | A_BOLD);
+	if (index != GREY)
+	{
+		vm->vs->is_run = false;
+		vm->vs->winner = true;
+	}
 }
 
 void		make_info_window(t_vm *vm)

@@ -27,9 +27,7 @@ t_vs	*init_visual(void)
 	vs->button = 0;
 	vs->quantity = 0;
 	vs->carriages_num = 0;
-	vs->aff_symbol = 0;
-	vs->aff_player = NULL;
+	vs->winner = false;
 	vs->sounds = false;
-	vs->display_help = false;
 	return (vs);
 }
