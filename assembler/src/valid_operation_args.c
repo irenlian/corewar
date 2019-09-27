@@ -113,9 +113,8 @@ int		valid_reg_arg(char *arg)
 			continue ;
 		else if (status == 0 && arg[i] == 'r')
 			status = 1;
-		else if ((status == 1 || status == 2) &&
-		ft_strchr("0123456789", arg[i]))
-			status = 2;
+		else if ((status >= 1) && ft_isdigit(arg[i]))
+			status++;
 		else
 			break ;
 	}
@@ -123,7 +122,7 @@ int		valid_reg_arg(char *arg)
 		i++;
 	if ((!is_comment(arg[i]) &&
 		arg[i] != SEPARATOR_CHAR && arg[i] != '\0') ||
-		status != 2)
+		status < 2 || status > 3)
 		return (0);
 	return (1);
 }

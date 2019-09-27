@@ -27,6 +27,10 @@
 # define MALLCHECK(x) if (!x) return (-1);
 # define IS_SPACE(x) (x == ' ' || x == '\t' || x == '\r' || x == '\f')
 
+# define FT_ULONG_MAX	((unsigned long)(~0L))
+# define FT_LONG_MAX	((long)(FT_ULONG_MAX >> 1))
+# define FT_LONG_MIN	((long)(~FT_LONG_MAX))
+
 void				ft_putchar(char c);
 void				ft_putstr(char const *str);
 void				ft_putendl(char const *str);
@@ -176,10 +180,10 @@ typedef struct		s_orgi
 	char			type;
 }					t_orgi;
 
-typedef enum
+typedef enum		e_bool
 {
-	true,
-	false
+	false,
+	true
 }					t_bool;
 
 int					ft_printf(const char *format, ...);

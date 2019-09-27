@@ -32,7 +32,8 @@ void	fill_head_status(int *h_status, char *line, int i)
 		h_status[0] = 3;
 	else if (h_status[1] == 2 && ft_strchr(line, '"'))
 		h_status[1] = 3;
-	else if (!is_comment(((char *)(line))[0]))
+	else if (!is_comment(((char *)(line))[0]) &&
+	h_status[0] != 2 && h_status[1] != 2)
 	{
 		if (ft_strstr(line, NAME_CMD_STRING))
 			h_status[0] = get_status_head(line);

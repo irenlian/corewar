@@ -77,7 +77,7 @@ int			main(int argc, char **argv)
 	t_command	*catalog;
 
 	if (argc != 2 || !valid_champ_name(argv[1]))
-		return (0);
+		show_error("Incorrect number of arguments", -1);
 	champ = (t_champ *)ft_memalloc(sizeof(t_champ));
 	champ->header = (t_header *)ft_memalloc(sizeof(t_header));
 	read_code(champ, argv[1]);

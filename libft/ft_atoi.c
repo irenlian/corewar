@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/libft.h"
+
 int						ft_atoi(const char *str)
 {
 	int					minus;
-	unsigned long int	r;
+	unsigned long		r;
 
 	r = 0;
 	minus = 1;
@@ -26,9 +28,9 @@ int						ft_atoi(const char *str)
 	while (*str >= '0' && *str <= '9')
 	{
 		r = r * 10 + *str - 48;
-		if (r >= 9223372036854775807 && minus == 1)
+		if (r >= FT_LONG_MAX && minus == 1)
 			return (-1);
-		else if (r > 9223372036854775807 && minus == -1)
+		else if (r > FT_LONG_MAX && minus == -1)
 			return (0);
 		str++;
 	}

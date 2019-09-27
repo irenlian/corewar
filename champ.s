@@ -1,13 +1,15 @@
-<<<<<<< HEAD
 .name "Kittystrophic"
 .comment "Jan-ken-pon (じゃんけんぽん)
 Ce qui reste éternellement incompréhensible dans la nature, c’est qu’on puisse la comprendre.
 Celui qui ne peut plus éprouver ni étonnement ni surprise, est pour ainsi dire mort : ses yeux sont éteints. – Albert Einstein
-Si vous voulez trouver les secrets de l'univers pensez en termes de fréquences, d'énergies et de vibrations. - Nikola Tesla
+.comment
+./Si vous voulez trouver les secrets de l'univers pensez en termes de fréquences, d'énergies et de vibrations. - Nikola Tesla
 Pas la pour etre ici. - Silicon Val[list]
 Dieu est la plus belle invention.
 Tapis dans l'ombre je veille. - Minou"
 
+hui:
+huy:
 magic_poney:
 	fork%:g00dbye_kitty
 	live %252645135
@@ -22,7 +24,7 @@ magic_poney:
 	st r15, r14
 	st r2, r1
 	st r15, r8
-	ld %190056971, r9
+	ld %44546849746456009789, r3
 	ld %190057744, r10
 	ld %507, r11
 	ld %139725068, r13
@@ -103,17 +105,3 @@ kittyrritable:
 kittyrecuperable:
 	st r9, 12
 	zjmp %7
-=======
-.name "zork"
-.comment "I'M ]ALIIIIVE"
-
-
-#hash(#) at the end + tab at the end of the file cau
-
-le_12:
-
-live	%1
-
-liv: live %1	#
-
->>>>>>> Normed read and parser

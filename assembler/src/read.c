@@ -38,8 +38,6 @@ int				read_code(t_champ *champ, char *f_name)
 	f_name = ft_strrchr(f_name, '.');
 	if (ft_strequ(f_name + 1, "s"))
 		return (read_asm(champ, fd));
-	else if (ft_strequ(f_name + 1, "cor"))
-		return (read_cor(champ, fd));
 	else
 		show_error("Wrong file format", -1);
 	return (0);
