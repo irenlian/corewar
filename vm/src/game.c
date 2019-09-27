@@ -22,6 +22,8 @@ int		make_move(t_vm *vm, t_carriage *car)
 	if (car->op && car->op->func)
 	{   
 		car->op->func(vm, car);
+		// if (car->id == 102 + 1)
+		// 	ft_printf("%i\n", car->location);
 	}
 	
 	return (1);
@@ -35,8 +37,8 @@ int		cycle(t_vm *vm)
 	vm->cycles_counter++;
 	if (all_are_dead(vm))
 		return (0);
-	// if (vm->cycles_counter == 11950)
-	// 	car = vm->cars;;
+	// if (vm->cycles_counter == 8878)
+	// 	car = vm->cars;
 	while (car)
 	{
 		if (car->cycles_to_run == 0)
@@ -67,8 +69,11 @@ void	clean_carriages(t_vm *vm)
 	prev = NULL;
 	while (car)
 	{
+		// if (car->id == 103)
+		// 	ft_printf("%i\n", car->live);
 		if (!car->live)
 		{
+			// ft_printf("%i ", car->id);
 			if (prev)
 			{
 				prev->next = car->next;
@@ -87,6 +92,7 @@ void	clean_carriages(t_vm *vm)
 			car = car->next;
 		}
 	}
+	// ft_printf("\n");
 }
 
 int		check(t_vm *vm)

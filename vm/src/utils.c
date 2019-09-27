@@ -26,24 +26,7 @@ int get_quantity_players(t_champ *champ)
     return (size);
 }
 
-int	byte_to_int(char *str)
-{
-	char	*tmp;
-	int		*num;
-	int		res;
 
-	tmp = ft_strnew(sizeof(int) - 1);
-	tmp[0] = str[3];
-	tmp[1] = str[2];
-	tmp[2] = str[1];
-	tmp[3] = str[0];
-	num = (int*)ft_memalloc(sizeof(int));
-	ft_memcpy(num, tmp, sizeof(int));
-	free(tmp);
-	res = *num;
-	free(num);
-	return (res);
-}
 
 char	*get_bits(unsigned char octet)
 {
@@ -215,11 +198,9 @@ void	print_arena(t_vm *vm)
 	{
 		if (i % DUMP_LENGTH == 0 && i)
 			ft_printf("%#0.4x : ", i);
-		ft_printf("%02x", vm->arena[i++]);
+		ft_printf("%02x ", vm->arena[i++]);
 		if (i % DUMP_LENGTH == 0)
 			ft_printf("\n");
-		else
-			ft_printf(" ");
 	}
 	if (vm->leaks)
 		system("leaks -q corewar");

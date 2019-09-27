@@ -20,6 +20,7 @@ t_vm	*create_game()
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->cycles_till_next_check = CYCLE_TO_DIE;
 	vm->catalog = get_commad_catalog();
+	vm->dump = -1;
 	return (vm);
 }
 
@@ -75,7 +76,12 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	if (!vm || !car)
 		return (NULL);
 	new_car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-	*new_car = (t_carriage){++vm->id_cars_autoincrement, car->location, car->carry, car->registers[0], car->live, 0, car->cycles_to_run, 0, 0};
+	// if (vm->id_cars_autoincrement == 102)
+	// 	ft_printf("%i\n", vm->id_cars_autoincrement);
+	new_car->id = ++vm->id_cars_autoincrement;
+	new_car->carry = car->carry;
+	new_car->live = car->live;
+	new_car->cycles_to_run = car->cycles_to_run;
 	new_car->op = car->op;
 	new_car->next = vm->cars;
 	new_car->parent = car->parent;
@@ -96,7 +102,7 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 
 	if (!str_champ)
 		return NULL;
-	magic = byte_to_int(str_champ->code);
+	magic = byte_to_int(str_champ->code, DIR);
 	if (magic != COREWAR_EXEC_MAGIC)
 		return NULL;
     header = (t_header*)ft_memalloc(sizeof(t_header));
@@ -104,7 +110,7 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 	str_champ->code += 4;
 	ft_memcpy(header->prog_name, str_champ->code, PROG_NAME_LENGTH);
 	str_champ->code += PROG_NAME_LENGTH + 4;
-	header->prog_size = byte_to_int(str_champ->code);
+	header->prog_size = byte_to_int(str_champ->code, DIR);
 	str_champ->code += 4;
 	ft_memcpy(header->comment, str_champ->code, COMMENT_LENGTH);
 	str_champ->code += COMMENT_LENGTH + 4;

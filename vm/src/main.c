@@ -42,6 +42,8 @@ void	game(t_vm *vm)
 	else
 	{
 		introducing(vm->champs);
+		if (vm->cycles_counter == vm->dump)
+			print_arena(vm);
 		while (cycle(vm) && res && vm->cycles_counter != vm->dump)
 		{
 			res = check(vm);
