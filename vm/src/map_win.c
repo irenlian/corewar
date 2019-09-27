@@ -14,7 +14,7 @@
 
 static int		live_color(t_champ *player)
 {
-	if (MODULO(player->id) == MIN_PL) 
+	if (MODULO(player->id) == MIN_PL)
 		return (COLOR_PAIR(LIVE(YELLOW_COL)) | A_UNDERLINE);
 	else if (MODULO(player->id) == MIN_PL + 1)
 		return (COLOR_PAIR(LIVE(RED_COL)) | A_UNDERLINE);
@@ -24,11 +24,11 @@ static int		live_color(t_champ *player)
 		return (COLOR_PAIR(LIVE(BLUE_COL)) | A_UNDERLINE);
 }
 
-static int		g_attr(t_vm * vm, t_moves *mv, ssize_t cycle)
+static int		g_attr(t_vm *vm, t_moves *mv, ssize_t cycle)
 {
 	if (cycle != vm->cycles_counter
-	 	&& vm->cycles_to_die > 0
-	 	&& mv->cycle_l > 0)
+		&& vm->cycles_to_die > 0
+		&& mv->cycle_l > 0)
 		mv->cycle_l--;
 	if (cycle != vm->cycles_counter
 		&& vm->cycles_to_die > 0
@@ -58,12 +58,12 @@ void			make_map(t_vm *vm)
 		{
 			attr = g_attr(vm, &vm->vs->map[i * BYTE_PER_LINE + j], cycle);
 			wattron(vm->vs->map_window, attr);
-			wprintw(vm->vs->map_window, "%02x", vm->arena[i * BYTE_PER_LINE + j]);
+			wprintw(vm->vs->map_window, "%02x",
+				vm->arena[i * BYTE_PER_LINE + j]);
 			wattroff(vm->vs->map_window, attr);
 			waddch(vm->vs->map_window, ' ');
 			j++;
 		}
-		//wprintw(vm->vs->map_window, "\n");
 		i++;
 	}
 	cycle = vm->cycles_counter;
