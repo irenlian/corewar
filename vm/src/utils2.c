@@ -21,7 +21,7 @@ void	button(t_vm *vm)
 		vm->vs->sounds = !(vm->vs->sounds);
 	else if (vm->vs->button == 'i')
 		vm->vs->speed += 10;
-	else if (vm->vs->button == 'u') 
+	else if (vm->vs->button == 'u')
 		vm->vs->speed += 100;
 	else if (vm->vs->button == 'y')
 		vm->vs->speed -= 10;

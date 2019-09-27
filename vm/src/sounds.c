@@ -12,7 +12,7 @@
 
 #include "visual.h"
 
-void voice_of_game(t_vm *vm)
+void	voice_of_game(t_vm *vm)
 {
 	if (vm->vs->sounds)
 	{
@@ -21,7 +21,7 @@ void voice_of_game(t_vm *vm)
 	}
 }
 
-void voice_of_victory(t_vm *vm)
+void	voice_of_victory(t_vm *vm)
 {
 	if (!vm->vs->sounds)
 	{
