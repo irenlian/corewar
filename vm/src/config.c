@@ -43,18 +43,18 @@ static void		vs_color_init(void)
 {
 	start_color();
 	init_color(COLOR_MAGENTA, 230, 230, 230);
-	init_pair(GREEN_COL, COLOR_GREEN, COLOR_BLACK);
-	init_pair(BLUE_COL, COLOR_BLUE, COLOR_BLACK);
-	init_pair(YELLOW_COL, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(CYAN_COL, COLOR_CYAN, COLOR_BLACK);
-	init_pair(RED_COL, COLOR_RED, COLOR_BLACK);
+	init_pair(GREEN_COL, COLOR_GREEN, -1);
+	init_pair(BLUE_COL, COLOR_BLUE, -1);
+	init_pair(YELLOW_COL, COLOR_YELLOW, -1);
+	init_pair(CYAN_COL, COLOR_CYAN, -1);
+	init_pair(RED_COL, COLOR_RED, -1);
 	init_pair(LIVE(YELLOW_COL), COLOR_YELLOW, COLOR_RED);
 	init_pair(LIVE(RED_COL), COLOR_RED, COLOR_WHITE);
 	init_pair(LIVE(GREEN_COL), COLOR_GREEN, COLOR_WHITE);
 	init_pair(LIVE(BLUE_COL), COLOR_BLUE, COLOR_WHITE);
 	init_pair(LIVE(CYAN_COL), COLOR_CYAN, COLOR_WHITE);
 	init_pair(BORDER, COLOR_BLACK, COLOR_MAGENTA);
-	init_pair(EMPTY, COLOR_MAGENTA, COLOR_BLACK);
+	init_pair(EMPTY, -1, -1);
 }
 
 static void		set_view(t_vm *vm)
@@ -63,9 +63,9 @@ static void		set_view(t_vm *vm)
 	vm->vs->info_window = newwin(HEIGHT + 3, WIDTH / 4 + 3, 1, WIDTH + 6);
 }
 
-static void	init_carriage(t_vm *vm)
+static void		init_carriage(t_vm *vm)
 {
-	t_carriage *current;
+	t_carriage	*current;
 
 	current = vm->cars;
 	while (current)
@@ -75,7 +75,7 @@ static void	init_carriage(t_vm *vm)
 	}
 }
 
-void		config(t_vm *vm)
+void			config(t_vm *vm)
 {
 	initscr();
 	refresh();
