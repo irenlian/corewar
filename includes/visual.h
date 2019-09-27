@@ -131,6 +131,7 @@ void				make_info_window(t_vm *vm);
 ** Information
 
 */
+
 void				show_pause_win(t_vm *vm);
 void				show_end_win(t_vm *vm);
 void				show_fighting_win(t_vm *vm);
