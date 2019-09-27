@@ -12,7 +12,6 @@
 
 #include "visual.h"
 
-
 static void	show_border(WINDOW *win)
 {
 	wattron(win, COLOR_PAIR(CYAN_COL));

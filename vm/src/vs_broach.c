@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "visual.h"
-#include "corewar.h" 
+#include "corewar.h"
 
 void		update_map(t_vm *vm, t_carriage *carr, int addr, int size)
 {
@@ -40,13 +40,8 @@ static void	visual_cycle(t_vm *vm)
 
 	res = 1;
 	if (!vm->vs->carriages_num)
-	{
-		//system("pkill afplay");
 		vm->vs->is_run = false;
-		//vm->vs->button = MUSIC;
-		//voice_of_victory(vm);
-	}
-	if(cycle(vm) && res)
+	if (cycle(vm) && res)
 	{
 		voice_of_game(vm);
 		res = check(vm);
@@ -57,21 +52,21 @@ void		vs_broach(t_vm *vm)
 {
 	vm->vs->quantity = get_quantity_players(vm->champs);
 	config(vm);
-	vm->vs->microsec = MICROSEC/vm->vs->speed;
+	vm->vs->microsec = MICROSEC / vm->vs->speed;
 	while ((vm->vs->button = getch()) != 27)
 	{
 		vm->vs->carriages_num = calc_carriages(vm);
 		button(vm);
 		if (vm->vs->button == 'd')
 			visual_cycle(vm);
-		else if(vm->vs->is_run)
+		else if (vm->vs->is_run)
 		{
 			visual_cycle(vm);
 			usleep(vm->vs->microsec);
 		}
 		vm->vs->carriages_num = calc_carriages(vm);
 		draw_vs(vm);
-		if(vm->vs->button == SPACE)
+		if (vm->vs->button == SPACE)
 			system("pkill afplay");
 	}
 	system("pkill afplay");
