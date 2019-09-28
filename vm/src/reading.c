@@ -79,6 +79,11 @@ int				set_flags(t_vm *vm, char **argv, int *index)
 		vm->leaks = 1;
 		return (1);
 	}
+	else if (ft_strequ(argv[i], "-a"))
+	{
+		vm->show_aff = 1;
+		return (1);
+	}
 	else if (ft_strequ(argv[i], "-dump"))
 	{
 		vm->dump = ft_atoi(argv[++*index]);

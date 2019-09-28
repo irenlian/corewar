@@ -69,6 +69,7 @@ void	aff(t_vm *vm, t_carriage *car)
 	is_valid_reg(vm, arg_i(car, arg_code, FIRST))))
 		return (pass_op(vm, car, arg_code));
 	arg_int = get_arg(vm, car, FIRST, 0);
-	ft_printf("Aff: %c\n", (char)arg_int);
+	if (vm->show_aff)
+		ft_printf("Aff: %c\n", (char)arg_int);
 	pass_op(vm, car, arg_code);
 }

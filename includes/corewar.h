@@ -36,7 +36,7 @@
 # define IND				2
 # define DIR				4
 
-# define DUMP_LENGTH		64
+# define DUMP_LENGTH		32
 
 # define FIRST				1
 # define SECOND				2
@@ -120,6 +120,7 @@ typedef struct				s_vm
 	int						id_cars_autoincrement;
 	int						dump;
 	int						leaks;
+	int						show_aff;
 	struct s_vs				*vs;
 	t_command				*catalog;
 }							t_vm;
