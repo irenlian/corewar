@@ -126,18 +126,15 @@ int		calc_args_length(char *arg_code, unsigned int num, int dir_size)
 	return (res);
 }
 
-void	pass_op(t_vm *vm, t_carriage *car)
+void	pass_op(t_vm *vm, t_carriage *car, char *arg_code)
 {
-	char			*arg_code;
-
-	arg_code = NULL;
 	if (!car->op)
 		move_carriage(vm, car, car->location + 1);
-	else if (ft_strequ(car->op->name, "zjmp") && car->carry == 1)
-		return ;
+	// else if (ft_strequ(car->op->name, "zjmp") && car->carry == 1)
+	// 	return ;
 	else if (car->op->codage_octal)
 	{
-		arg_code = get_bits(get_i(vm->arena, to_codage(car)));
+		// arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 		move_carriage(vm, car, car->location + OP + car->op->codage_octal + 
 			calc_args_length(arg_code, car->op->args_num, car->op->dir_size));
 	}

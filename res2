@@ -1,4 +1,0 @@
-22c22
-< 0x0480 : 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 
----
-> 0x0480 : 00 0f 03 70 03 ff ff 01 ff ff ff fe 00 00 00 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 03 ff ff 01 ff ff ff fe 03 70 02 00 0f 03 70 

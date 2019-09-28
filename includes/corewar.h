@@ -149,7 +149,8 @@ int							cycle(t_vm *vm);
 char						*get_bits(unsigned char octet);
 char						get_i(unsigned char *arena, int i);
 int							calc_i(int i);
-long long					byte_to_int(char *str, int length);
+// long long					byte_to_int(char *str, int length);
+int32_t		byte_to_int(unsigned char *arena, int32_t location, int length);
 unsigned int				read_t_dir(unsigned char *arena,
 										int arg_location, t_carriage *car);
 void						write_int(unsigned char *arena,
@@ -157,11 +158,11 @@ void						write_int(unsigned char *arena,
 int							is_t_dir(char *arg_code, int arg_pos);
 int							is_t_ind(char *arg_code, int arg_pos);
 int							is_t_reg(char *arg_code, int arg_pos);
-unsigned int				get_arg(t_vm *vm, t_carriage *car,
-									int arg_i, char *arg_code);
+int32_t						get_arg(t_vm *vm, t_carriage *car,
+									int arg_i, int idx_mod);
 int							calc_args_length(char *arg_code,
 											unsigned int num, int dir_size);
-void						pass_op(t_vm *vm, t_carriage *car);
+void						pass_op(t_vm *vm, t_carriage *car, char *arg_code);
 int							is_valid_reg(t_vm *vm, int loc);
 t_carriage					*copy_carriage(t_vm *vm, t_carriage *car);
 int							calc_carriages(t_vm *vm);

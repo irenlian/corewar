@@ -12,15 +12,12 @@
 
 #include "corewar.h"
 
-int		all_are_dead(t_vm *vm)
-{
-	return (0);
-}
-
 int		make_move(t_vm *vm, t_carriage *car)
 {
 	if (car->op && car->op->func)
 	{   
+		if (car->id == 6)
+			car->id = 6;
 		car->op->func(vm, car);
 		// if (car->id == 102 + 1)
 		// 	ft_printf("%i\n", car->location);
@@ -35,25 +32,29 @@ int		cycle(t_vm *vm)
 
 	car = vm->cars;
 	vm->cycles_counter++;
-	if (all_are_dead(vm))
-		return (0);
-	// if (vm->cycles_counter == 8878)
-	// 	car = vm->cars;
+	if (vm->cycles_counter == 2535)
+		car = vm->cars;
 	while (car)
 	{
+		// if (car->id == 624)
+		// 	car->id = 624;
 		if (car->cycles_to_run == 0)
 		{
 			// if (vm->cycles_counter)
 			// 	pass_op(vm, car);
 			car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
 			car->cycles_to_run = car->op ? car->op->cycles : 0;
+			if (!car->op)
+				pass_op(vm, car, NULL);
 		}
 		if (car->cycles_to_run)
 			car->cycles_to_run--;
+		// if (car->cycles_to_run == 0)
+		// 	ft_printf("Cycle %i, id %i, location %i\n", vm->cycles_counter, car->id - 1, car->location);
 		if (car->cycles_to_run == 0 && car->op)
 			make_move(vm, car);
-		if (car->cycles_to_run == 0)
-			pass_op(vm, car);
+		// if (car->cycles_to_run == 0)
+		// 	pass_op(vm, car);
 		car = car->next;
 	}
 	vm->cycles_till_next_check--;

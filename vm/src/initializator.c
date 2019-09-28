@@ -102,7 +102,7 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 
 	if (!str_champ)
 		return NULL;
-	magic = byte_to_int(str_champ->code, DIR);
+	magic = byte_to_int((unsigned char*)str_champ->code, 0, DIR);
 	if (magic != COREWAR_EXEC_MAGIC)
 		return NULL;
     header = (t_header*)ft_memalloc(sizeof(t_header));
@@ -110,7 +110,7 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 	str_champ->code += 4;
 	ft_memcpy(header->prog_name, str_champ->code, PROG_NAME_LENGTH);
 	str_champ->code += PROG_NAME_LENGTH + 4;
-	header->prog_size = byte_to_int(str_champ->code, DIR);
+	header->prog_size = byte_to_int((unsigned char*)str_champ->code, 0, DIR);
 	str_champ->code += 4;
 	ft_memcpy(header->comment, str_champ->code, COMMENT_LENGTH);
 	str_champ->code += COMMENT_LENGTH + 4;
