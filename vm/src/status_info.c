@@ -15,9 +15,9 @@
 void		show_run_status(t_vm *vm)
 {
 	vm->vs->pixels = ONE;
-	if(!vm->vs->is_run)
+	if (!vm->vs->is_run)
 	{
-		if (vm->vs->carriages_num)
+		if (vm->vs->carriages_num && !vm->vs->winner)
 			show_pause_win(vm);
 		else
 			show_end_win(vm);
@@ -35,7 +35,7 @@ void		draw_info_win(t_vm *vm)
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 1,
 		INDENT_THREE, "%s", "           __       ");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_THREE, "%s", " (_)_ __  / _| ___  "); 
+		INDENT_THREE, "%s", " (_)_ __  / _| ___  ");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
 		INDENT_THREE, "%s", " | | '_ \\| |_ / _ \\ ");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
@@ -60,19 +60,20 @@ void		show_data_status(t_vm *vm)
 	wattroff(vm->vs->info_window, COLOR_PAIR(YELLOW_COL) | A_BOLD);
 }
 
-void	show_params(t_vm *vm)
+void		show_params(t_vm *vm)
 {
 	show_data_status(vm);
+	if (!vm->vs->winner)
 	mvwprintw(vm->vs->info_window,
-			vm->vs->pixels += 3, INDENT,
-			"%-20s %zd", "Cycle to die :", vm->cycles_to_die);
+			vm->vs->pixels += 2, INDENT,
+			"%-20s %zu", "Cycle to die :", vm->cycles_to_die);
 	mvwprintw(vm->vs->info_window,
 			vm->vs->pixels += 2, INDENT,
 			"%-20s %zu", "Cycle delta :", CYCLE_DELTA);
 	mvwprintw(vm->vs->info_window,
 			vm->vs->pixels += 2, INDENT,
 			"%-20s %zu", "Lives since check :", vm->live_counter);
-		mvwprintw(vm->vs->info_window,
+	mvwprintw(vm->vs->info_window,
 			vm->vs->pixels += 1, INDENT,
 			"%-20s %zu", "number live :", NBR_LIVE);
 	mvwprintw(vm->vs->info_window,

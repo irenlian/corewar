@@ -16,35 +16,41 @@ void		show_fighting_win(t_vm *vm)
 {
 	wattron(vm->vs->info_window, COLOR_PAIR(RED_COL) | A_BOLD);
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += 0,
-		INDENT_ONE, "%s", " ______ _____ _____  _   _ _____ _____ _   _ _____ ");
+		INDENT_ONE, "%s",
+		" ______ _____ _____  _   _ _____ _____ _   _ _____ ");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_ONE, "%s", "|  ___|_   _|  __ \\| | | |_   _|_   _| \\ | |  __ \\"); 
+		INDENT_ONE, "%s",
+		"|  ___|_   _|  __ \\| | | |_   _|_   _| \\ | |  __ \\");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_ONE, "%s", "| |_    | | | |  \\/| |_| | | |   | | |  \\| | |  \\/");
+		INDENT_ONE, "%s",
+		"| |_    | | | |  \\/| |_| | | |   | | |  \\| | |  \\/");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_ONE, "%s", "|  _|   | | | | __ |  _  | | |   | | | . ` | | __ ");
+		INDENT_ONE, "%s",
+		"|  _|   | | | | __ |  _  | | |   | | | . ` | | __ ");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_ONE, "%s", "| |    _| |_| |_\\ \\| | | | | |  _| |_| |\\  | |_\\ \\");
+		INDENT_ONE, "%s",
+		"| |    _| |_| |_\\ \\| | | | | |  _| |_| |\\  | |_\\ \\");
 	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
-		INDENT_ONE, "%s", "\\_|    \\___/ \\____/\\_| |_/ \\_/  \\___/\\_| \\_/\\____/");
+		INDENT_ONE, "%s",
+		"\\_|    \\___/ \\____/\\_| |_/ \\_/  \\___/\\_| \\_/\\____/");
 	wattroff(vm->vs->info_window, COLOR_PAIR(RED_COL) | A_BOLD);
 }
 
 void		show_end_win(t_vm *vm)
 {
 	wattron(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += 0, INDENT_CENTER + 5, "%s",
-		" _____ _   _______ ");
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE, INDENT_CENTER + 5, "%s",
-		"|  ___| \\ | |  _  \\");
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE, INDENT_CENTER + 5, "%s",
-		"| |__ |  \\| | | | |");
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE, INDENT_CENTER + 5, "%s",
-		"|  __|| . ` | | | |");
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE, INDENT_CENTER + 5, "%s",
-		"| |___| |\\  | |/ / ");
-	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE, INDENT_CENTER + 5, "%s",
-		"\\____/\\_| \\_/___/  ");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += 0,
+		INDENT_CENTER + 5, "%s", " _____ _   _______ ");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER + 5, "%s", "|  ___| \\ | |  _  \\");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER + 5, "%s", "| |__ |  \\| | | | |");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER + 5, "%s", "|  __|| . ` | | | |");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER + 5, "%s", "| |___| |\\  | |/ / ");
+	mvwprintw(vm->vs->info_window, vm->vs->pixels += ONE,
+		INDENT_CENTER + 5, "%s", "\\____/\\_| \\_/___/  ");
 	wattroff(vm->vs->info_window, COLOR_PAIR(BLUE_COL) | A_BOLD);
 }
 

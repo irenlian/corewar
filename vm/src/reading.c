@@ -115,6 +115,14 @@ int		autoincrement_id(int *order, t_champ *champ)
 	return (++res);
 }
 
+int		set_flags(char *str t_vm *vm)
+{
+	if (ft_strequ(str, "-v") && !vm->vs)
+		vm->vs = init_visual();
+	else if (ft_strequ(str, "-l"))
+		vm->leaks = 1;
+}
+
 void	read_arguments(t_vm *vm, int argc, char **argv)
 {
     t_champ	*tmp;
@@ -145,7 +153,6 @@ void	read_arguments(t_vm *vm, int argc, char **argv)
 		}
 		else
 			vm->champs = create_champ(read_file(argv[i]), autoincrement_id(&order, vm->champs));
-		
     }
 	normalize_id(vm->champs);
 }
