@@ -64,9 +64,9 @@ void		show_params(t_vm *vm)
 {
 	show_data_status(vm);
 	if (!vm->vs->winner)
-	mvwprintw(vm->vs->info_window,
-			vm->vs->pixels += 2, INDENT,
-			"%-20s %zu", "Cycle to die :", vm->cycles_to_die);
+		mvwprintw(vm->vs->info_window,
+				vm->vs->pixels += 2, INDENT,
+				"%-20s %zu", "Cycle to die :", vm->cycles_to_die);
 	mvwprintw(vm->vs->info_window,
 			vm->vs->pixels += 2, INDENT,
 			"%-20s %zu", "Cycle delta :", CYCLE_DELTA);

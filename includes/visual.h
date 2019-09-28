@@ -12,7 +12,7 @@
 
 #ifndef VISUAL_H
 
-#define VISUAL_H
+# define VISUAL_H
 
 # include "../libft/includes/libft.h"
 # include "op.h"
@@ -22,7 +22,6 @@
 # include <stdint.h>
 # include <unistd.h>
 # include <string.h>
-
 
 # define ONE 1
 
@@ -40,7 +39,6 @@
 # define MODULO(x) (((x) % 4) + 1)
 # define PAIR(x) (COLOR_PAIR (MODULO(x)))
 
-
 # define MIN_PL 1
 # define MAX_PL 4
 # define BYTE_PER_LINE 64
@@ -53,13 +51,11 @@
 # define INDENT_THREE			8
 # define TAB_LEN				4
 
-
 # define HELP 'h'
 # define MUSIC 'm'
 # define SPACE ' '
 
 # define MICROSEC 1000000
-
 
 # define CARRIAGE_NUM(X)		((X) + 5)
 # define CYCLE_LIMIT			50
@@ -93,7 +89,6 @@ typedef struct		s_vs
 	t_moves			map[MEM_SIZE];
 	int				button;
 	unsigned		microsec;
-	//char			aff;
 	t_champ			*aff;
 	t_bool			sounds;
 	t_bool			winner;
@@ -129,7 +124,6 @@ void				make_info_window(t_vm *vm);
 
 /*
 ** Information
-
 */
 
 void				show_pause_win(t_vm *vm);

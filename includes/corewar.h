@@ -23,7 +23,7 @@
 # define SPACES is_whitespace(line[end])
 # define LINE ((char*)(*list)->content)
 # define LINP ((char*)list->content)
-# define NORM1 !ft_strnequ(LINP + car[0], NAME_CMD_STRING, car[1] - car[0]) 
+# define NORM1 !ft_strnequ(LINP + car[0], NAME_CMD_STRING, car[1] - car[0])
 # define NORM2 !ft_strnequ(LINP + car[0], COMMENT_CMD_STRING, car[1] - car[0])
 # define NORM3 LINP[0] && !is_comment(LINP[car[0]]) && !ft_strchr(LINP, '"')
 
@@ -89,22 +89,6 @@ typedef struct				s_carriage
 	struct s_carriage		*next;
 }							t_carriage;
 
-/*
-**	VM - is a basic structure with main variables to hold the game
-**
-**	cycles_to_die - number of cycles that should
-**	past till check and is decreasing during game
-**	cycles_till_next_check - number of cycles that should past till next check
-**	cycles_counter - number of cycles from the beginning
-**	live_counter - number of live command from all carriages from last check
-**	check_counter - number of checks from the last decreasing of cycles_to_die
-**	checks_from_start - number of checks from the beginning
-**	id_cars_autoincrement - number of last given id to carriage
-**	vs - structure of visualization, created only if needed
-**	dump - number of cycles to stop after and print memory
-**	leaks - boolean to show leaks
-*/
-
 typedef struct				s_vm
 {
 	t_champ					*champs;
@@ -135,9 +119,6 @@ typedef struct				s_code
 	char					*arg2;
 	char					*arg3;
 }							t_code;
-/*
-**	VM functions
-*/
 
 t_vm						*create_game();
 void						create_arena(t_vm *vm);
@@ -150,7 +131,8 @@ int							cycle(t_vm *vm);
 char						*get_bits(unsigned char octet);
 char						get_i(unsigned char *arena, int i);
 int							calc_i(int i);
-int32_t		byte_to_int(unsigned char *arena, int32_t location, int length);
+int32_t						byte_to_int(unsigned char *arena,
+										int32_t location, int length);
 unsigned int				read_t_dir(unsigned char *arena,
 										int arg_location, t_carriage *car);
 void						write_int(unsigned char *arena,
@@ -161,21 +143,20 @@ int							is_t_reg(char *arg_code, int arg_pos);
 int32_t						get_arg(t_vm *vm, t_carriage *car,
 									int arg_i, int idx_mod);
 int							calc_args_length(char *arg_code,
-											unsigned int num, int dir_size);
+									unsigned int num, int dir_size);
 void						pass_op(t_vm *vm, t_carriage *car, char *arg_code);
 int							is_valid_reg(t_vm *vm, int loc);
 t_carriage					*copy_carriage(t_vm *vm, t_carriage *car);
 int							calc_carriages(t_vm *vm);
 void						move_carriage(t_vm *vm, t_carriage *car,
-										int new_location);
+									int new_location);
 int							is_str_digits(char *str);
 int							show_error_vm(const char *error,
-										t_vm *vm, int code);
+									t_vm *vm, int code);
 void						print_arena(t_vm *vm);
 int							push_champ(t_vm *vm, t_champ *champ);
 int							insert_champ(t_vm *vm, t_champ *champ);
 void						normalize_id(t_champ *champ);
-
 void						live(t_vm *vm, t_carriage *car);
 void						load(t_vm *vm, t_carriage *car);
 void						store(t_vm *vm, t_carriage *car);
@@ -187,65 +168,58 @@ void						load_index(t_vm *vm, t_carriage *car);
 void						store_index(t_vm *vm, t_carriage *car);
 void						lfork(t_vm *vm, t_carriage *car);
 void						aff(t_vm *vm, t_carriage *car);
-
 int							to_codage(t_carriage *car);
 int							to_first_arg(t_carriage *car);
 int							to_second_arg(t_carriage *car, char *arg_code);
 int							to_third_arg(t_carriage *car, char *arg_code);
 int							arg_i(t_carriage *car, char *arg_code,
 									int arg_pos);
-
-/*
-**  Visual functions
-*/
-
 struct s_vs					*init_visual(void);
 void						vs_broach(t_vm *vm);
 void						draw_cursor(t_vm *vm, t_carriage *cursor);
 void						clear_cursor(t_vm *vm, t_carriage *cursor);
 void						update_map(t_vm *vm,
-										t_carriage *cursor,
-										int addr,
-										int size);
-/*
-**	Assembler functions
-*/
-
-int				show_error(const char *error, int err_line);
-int				read_code(t_champ *champ, char *f_name);
-void            parse_code(t_champ *champ, t_list **code);
-t_command       *get_commad_catalog();
-t_command       *get_com_byname(t_command *all, char *name);
-t_command 		*get_com_by_code(t_command *all, char code);
-void            free_com_catalog(t_command *all);
-int             valid_champ_name(char *name);
-void            set_int(int fd, int code, int bytes);
-void            set_name(int fd, char *name, int max_length);
-t_list          *get_code_by_mark(t_list  *code_list, char *mark);
-void            write_exec_code(int fd, t_list *code_list, t_command *catalog);
-int             get_int_from_bytes(char *byte_code);
-void            valid_operation(char *line, int line_index);
-void            valid_champ_file(t_list *champ);
-void            valid_existing_labels(t_list *code_list);
-int             is_comment(char c);
-char            *find_comm_name(t_command *all, char *name, int n);
-int				get_size_arg(char *arg, t_command *com);
-int				get_byte_size_to_marked(t_list *curr_code, t_list *marked_code);
-int				valid_dir_arg(char *dir);
-int				valid_ind_arg(char *arg);
-int				valid_reg_arg(char *arg);
-void			valid_type_add(char *args, int line_index);
-void			valid_type_and(char *args, int line_index);
-void			valid_type_ldi(char *args, int line_index);
-void			valid_type_sti(char *args, int line_index);
-void			valid_type_aff(char *args, int line_index);
-int				count_char(char *line, char c);
-void			valid_label(char *line, int pos_label_char, int line_index);
-int 			valid_head(t_list *champ);
-void			norm_error(t_champ *champ, char **line, int *start);
-void			skip_head(t_list **list);
-void			save_args(t_code *code, char *line);
-int				check_commad_after(char *line, int i);
-int				read_asm(t_champ *champ, int fd);
+									t_carriage *cursor,
+									int addr,
+									int size);
+int							show_error(const char *error, int err_line);
+int							read_code(t_champ *champ, char *f_name);
+void						parse_code(t_champ *champ, t_list **code);
+t_command					*get_commad_catalog();
+t_command					*get_com_byname(t_command *all, char *name);
+t_command					*get_com_by_code(t_command *all, char code);
+void						free_com_catalog(t_command *all);
+int							valid_champ_name(char *name);
+void						set_int(int fd, int code, int bytes);
+void						set_name(int fd, char *name, int max_length);
+t_list						*get_code_by_mark(t_list *code_list, char *mark);
+void						write_exec_code(int fd, t_list *code_list,
+									t_command *catalog);
+int							get_int_from_bytes(char *byte_code);
+void						valid_operation(char *line, int line_index);
+void						valid_champ_file(t_list *champ);
+void						valid_existing_labels(t_list *code_list);
+int							is_comment(char c);
+char						*find_comm_name(t_command *all, char *name, int n);
+int							get_size_arg(char *arg, t_command *com);
+int							get_byte_size_to_marked(t_list *curr_code,
+									t_list *marked_code);
+int							valid_dir_arg(char *dir);
+int							valid_ind_arg(char *arg);
+int							valid_reg_arg(char *arg);
+void						valid_type_add(char *args, int line_index);
+void						valid_type_and(char *args, int line_index);
+void						valid_type_ldi(char *args, int line_index);
+void						valid_type_sti(char *args, int line_index);
+void						valid_type_aff(char *args, int line_index);
+int							count_char(char *line, char c);
+void						valid_label(char *line, int pos_label_char,
+									int line_index);
+int							valid_head(t_list *champ);
+void						norm_error(t_champ *champ, char **line, int *start);
+void						skip_head(t_list **list);
+void						save_args(t_code *code, char *line);
+int							check_commad_after(char *line, int i);
+int							read_asm(t_champ *champ, int fd);
 
 #endif
