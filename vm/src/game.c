@@ -65,6 +65,7 @@ void	clean_carriages(t_vm *vm)
 {
 	t_carriage	*car;
 	t_carriage	*prev;
+	t_carriage	*tmp;
 
 	car = vm->cars;
 	prev = NULL;
@@ -75,6 +76,7 @@ void	clean_carriages(t_vm *vm)
 		if (!car->live)
 		{
 			// ft_printf("%i ", car->id);
+			tmp = car;
 			if (prev)
 			{
 				prev->next = car->next;
@@ -84,6 +86,7 @@ void	clean_carriages(t_vm *vm)
 				vm->cars = car->next;
 			}
 			car = car->next;
+			free(tmp);
 			//TODO: clean
 		}
 		else

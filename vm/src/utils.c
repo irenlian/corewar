@@ -140,6 +140,8 @@ void	pass_op(t_vm *vm, t_carriage *car, char *arg_code)
 	}
 	else
 		move_carriage(vm, car, car->location + OP + car->op->dir_size);
+	if (arg_code)
+		free(arg_code);
 }
 
 void	move_carriage(t_vm *vm, t_carriage *car, int new_location)

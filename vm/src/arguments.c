@@ -88,18 +88,21 @@ void		write_int(unsigned char *arena, unsigned int arg_location, unsigned int va
 int32_t	get_arg(t_vm *vm, t_carriage *car, int arg_i, int idx_mod)
 {
 	int32_t			arg_int;
+	int32_t			value;
 	char			*arg_code;
 
 	arg_code = get_bits(get_i(vm->arena, to_codage(car)));
 	if (car->op->codage_octal && is_t_reg(arg_code, arg_i) && is_valid_reg(vm, arg_index(car, arg_code, arg_i)))
-		return (car->registers[get_i(vm->arena, arg_index(car, arg_code, arg_i)) - 1]);
+		value = car->registers[get_i(vm->arena, arg_index(car, arg_code, arg_i)) - 1];
 	else if (car->op->codage_octal && is_t_dir(arg_code, arg_i))
-		return (byte_to_int(vm->arena, arg_index(car, arg_code, arg_i), car->op->dir_size));
+		value = byte_to_int(vm->arena, arg_index(car, arg_code, arg_i), car->op->dir_size);
 	else if (car->op->codage_octal && is_t_ind(arg_code, arg_i))
 	{
 		arg_int = byte_to_int(vm->arena, arg_index(car, arg_code, arg_i), IND);
-		return (byte_to_int(vm->arena, calc_i(car->location + (idx_mod ? (arg_int % IDX_MOD) : arg_int)), DIR));
+		value = byte_to_int(vm->arena, calc_i(car->location + (idx_mod ? (arg_int % IDX_MOD) : arg_int)), DIR);
 	}
 	else
-		return (byte_to_int(vm->arena, to_codage(car), car->op->dir_size));
+		value = byte_to_int(vm->arena, to_codage(car), car->op->dir_size);
+	free(arg_code);
+	return (value);
 }
