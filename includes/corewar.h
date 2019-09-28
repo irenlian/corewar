@@ -149,7 +149,6 @@ int							cycle(t_vm *vm);
 char						*get_bits(unsigned char octet);
 char						get_i(unsigned char *arena, int i);
 int							calc_i(int i);
-// long long					byte_to_int(char *str, int length);
 int32_t		byte_to_int(unsigned char *arena, int32_t location, int length);
 unsigned int				read_t_dir(unsigned char *arena,
 										int arg_location, t_carriage *car);
@@ -169,8 +168,12 @@ int							calc_carriages(t_vm *vm);
 void						move_carriage(t_vm *vm, t_carriage *car,
 										int new_location);
 int							is_str_digits(char *str);
-int							show_error_vm(const char *error, t_vm *vm);
+int							show_error_vm(const char *error,
+										t_vm *vm, int code);
 void						print_arena(t_vm *vm);
+int							push_champ(t_vm *vm, t_champ *champ);
+int							insert_champ(t_vm *vm, t_champ *champ);
+void						normalize_id(t_champ *champ);
 
 void						live(t_vm *vm, t_carriage *car);
 void						load(t_vm *vm, t_carriage *car);
@@ -188,7 +191,7 @@ int							to_codage(t_carriage *car);
 int							to_first_arg(t_carriage *car);
 int							to_second_arg(t_carriage *car, char *arg_code);
 int							to_third_arg(t_carriage *car, char *arg_code);
-int							arg_index(t_carriage *car, char *arg_code,
+int							arg_i(t_carriage *car, char *arg_code,
 									int arg_pos);
 
 /*

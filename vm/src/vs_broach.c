@@ -70,5 +70,5 @@ void		vs_broach(t_vm *vm)
 			system("pkill afplay");
 	}
 	system("pkill afplay");
-	free_visual(&(vm->vs))
+	free_visual(&(vm->vs));
 }

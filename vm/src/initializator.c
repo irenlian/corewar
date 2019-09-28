@@ -6,16 +6,16 @@
 /*   By: ilian <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 13:45:23 by ilian             #+#    #+#             */
-/*   Updated: 2019/09/13 13:45:31 by ilian            ###   ########.fr       */
+/*   Updated: 2019/09/28 16:54:27 by ilian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_vm	*create_game()
+t_vm		*create_game(void)
 {
 	t_vm	*vm;
-	
+
 	vm = (t_vm*)ft_memalloc(sizeof(t_vm));
 	vm->cycles_to_die = CYCLE_TO_DIE;
 	vm->cycles_till_next_check = CYCLE_TO_DIE;
@@ -24,12 +24,12 @@ t_vm	*create_game()
 	return (vm);
 }
 
-void	create_arena(t_vm *vm)
+void		create_arena(t_vm *vm)
 {
 	t_champ	*ch;
 	int		i;
 
-    vm->arena = (unsigned char*)ft_memalloc(MEM_SIZE);
+	vm->arena = (unsigned char*)ft_memalloc(MEM_SIZE);
 	ch = vm->champs;
 	i = 0;
 	while (ch)
@@ -40,7 +40,7 @@ void	create_arena(t_vm *vm)
 	}
 }
 
-void	create_carriages(t_vm *vm)
+void		create_carriages(t_vm *vm)
 {
 	t_carriage	*car;
 	t_carriage	*tmp;
@@ -59,8 +59,6 @@ void	create_carriages(t_vm *vm)
 		car->registers[0] = ch->id * -1;
 		car->next = tmp;
 		car->parent = ch;
-		// car->op = get_com_by_code(vm->catalog, get_i(vm->arena, car->location));
-		// car->cycles_to_run = car->op->cycles;
 		tmp = car;
 		ch = ch->next_champ;
 	}
@@ -76,8 +74,6 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	if (!vm || !car)
 		return (NULL);
 	new_car = (t_carriage*)ft_memalloc(sizeof(t_carriage));
-	// if (vm->id_cars_autoincrement == 102)
-	// 	ft_printf("%i\n", vm->id_cars_autoincrement);
 	new_car->id = ++vm->id_cars_autoincrement;
 	new_car->carry = car->carry;
 	new_car->live = car->live;
@@ -92,20 +88,20 @@ t_carriage	*copy_carriage(t_vm *vm, t_carriage *car)
 	return (new_car);
 }
 
-t_champ *create_champ(t_byte_code *str_champ, int id)
+t_champ		*create_champ(t_byte_code *str_champ, int id)
 {
-    t_champ 		*champ;
+	t_champ			*champ;
 	char			*code;
 	unsigned int	magic;
 	int				res;
 	t_header		*header;
 
 	if (!str_champ)
-		return NULL;
+		return (NULL);
 	magic = byte_to_int((unsigned char*)str_champ->code, 0, DIR);
 	if (magic != COREWAR_EXEC_MAGIC)
-		return NULL;
-    header = (t_header*)ft_memalloc(sizeof(t_header));
+		return (NULL);
+	header = (t_header*)ft_memalloc(sizeof(t_header));
 	header->magic = magic;
 	str_champ->code += 4;
 	ft_memcpy(header->prog_name, str_champ->code, PROG_NAME_LENGTH);
@@ -115,7 +111,7 @@ t_champ *create_champ(t_byte_code *str_champ, int id)
 	ft_memcpy(header->comment, str_champ->code, COMMENT_LENGTH);
 	str_champ->code += COMMENT_LENGTH + 4;
 	str_champ->length -= PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4;
-    champ = (t_champ*)malloc(sizeof(t_champ));
-    *champ = (t_champ){id, header, str_champ, NULL, NULL};
-    return (champ);
+	champ = (t_champ*)malloc(sizeof(t_champ));
+	*champ = (t_champ){id, header, str_champ, NULL, NULL};
+	return (champ);
 }

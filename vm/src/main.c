@@ -6,7 +6,7 @@
 /*   By: ilian <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 13:46:39 by ilian             #+#    #+#             */
-/*   Updated: 2019/09/13 13:46:41 by ilian            ###   ########.fr       */
+/*   Updated: 2019/09/28 16:54:40 by ilian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	introducing(t_champ *ch)
 	while (ch)
 	{
 		ft_printf("* Player %i, weighing %i bytes, \"%s\" (\"%s\") !\n",
-			ch->id, ch->byte_code->length, ch->header->prog_name, ch->header->comment);
+			ch->id, ch->byte_code->length,
+			ch->header->prog_name, ch->header->comment);
 		ch = ch->next_champ;
 	}
 }
@@ -27,7 +28,8 @@ void	introducing(t_champ *ch)
 void	winner(t_vm *vm)
 {
 	if (vm->last_live)
-		ft_printf("Contestant %i, \"%s\", has won !\n", vm->last_live->id, &(vm->last_live->header->prog_name[0]));
+		ft_printf("Contestant %i, \"%s\", has won !\n",
+		vm->last_live->id, &(vm->last_live->header->prog_name[0]));
 	else
 		ft_printf("There is no winner.\n");
 }
@@ -35,7 +37,7 @@ void	winner(t_vm *vm)
 void	game(t_vm *vm)
 {
 	int		res;
-	
+
 	res = 1;
 	if (vm->vs)
 		vs_broach(vm);
@@ -54,7 +56,7 @@ void	game(t_vm *vm)
 	}
 }
 
-int     main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_vm	*vm;
 	t_champ	*last;
@@ -62,6 +64,7 @@ int     main(int argc, char **argv)
 
 	vm = create_game();
 	read_arguments(vm, argc, argv);
+	normalize_id(vm->champs);
 	last = vm->champs;
 	while (last->next_champ)
 		last = last->next_champ;

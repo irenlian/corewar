@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   offset.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilian <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/28 16:54:57 by ilian             #+#    #+#             */
+/*   Updated: 2019/09/28 16:54:59 by ilian            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corewar.h"
 
 /*
-**	Functions return particular command part's index according to carriage location on arena
+**	Functions return particular command
+**	part's index according to carriage location on arena
 */
 
 int		to_codage(t_carriage *car)
@@ -60,7 +73,7 @@ int		to_third_arg(t_carriage *car, char *arg_code)
 	return (res);
 }
 
-int		arg_index(t_carriage *car, char *arg_code, int arg_pos)
+int		arg_i(t_carriage *car, char *arg_code, int arg_pos)
 {
 	if (arg_pos == FIRST)
 		return (to_first_arg(car));

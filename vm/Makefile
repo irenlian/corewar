@@ -25,7 +25,8 @@ LFLAGS :=	-lft -lncurses -L $(LIBDIR)
 LIB :=		$(LIBDIR)libft.a
 
 INC :=		corewar op visual
-SRC :=		main game initializator arena reading utils command_handle commands arguments offset \
+SRC :=		main game initializator arena reading utils command_creating validation champs \
+			commands_ld_st commands_lifetime commands_reg arguments offset \
 			vs_broach carriage config draw_vs info_win init_visual map_win show_champs \
 			status_info show_help utils2 sounds main_words
 
