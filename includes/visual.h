@@ -34,7 +34,7 @@
 # define GREY 12
 
 # define BORDER 9
-# define EMPTY 10
+# define EMPTY 12
 
 # define LIVE(x) (x + 5)
 # define MODULO(x) (((x) % 4) + 1)
@@ -62,7 +62,6 @@
 
 
 # define CARRIAGE_NUM(X)		((X) + 5)
-# define PLAYER_NUM(X)			((X) - 5)
 # define CYCLE_LIMIT			50
 # define CYCLE_WAIT				50
 
@@ -94,50 +93,55 @@ typedef struct		s_vs
 	t_moves			map[MEM_SIZE];
 	int				button;
 	unsigned		microsec;
-	char			aff_symbol;
-	t_champ			*aff_player;
+	//char			aff;
+	t_champ			*aff;
 	t_bool			sounds;
-	t_bool			display_help;
+	t_bool			winner;
 	int				quantity;
 	int				carriages_num;
 }					t_vs;
 
+/*
+** Main functions
+*/
+
 void				vs_broach(t_vm *vm);
 void				config(t_vm *vm);
-
+void				button(t_vm *vm);
 int					calc_addr(int addr);
-
-void				handle_buttons(t_vm *vm);
-
 t_vs				*init_visual(void);
-void				draw_winner(t_vm *vm, int index);
 
+/*
+** Sounds
+*/
 
 void				voice_of_game(t_vm *vm);
 void				voice_of_victory(t_vm *vm);
 
+/*
+** Windows
+*/
 
+void				make_map(t_vm *vm);
 void				draw_info_win(t_vm *vm);
 void				draw_help_win(t_vm *vm);
-void				show_authors(t_vm *vm);
+void				make_info_window(t_vm *vm);
 
 /*
-Main big words
+** Information
+
 */
+
 void				show_pause_win(t_vm *vm);
 void				show_end_win(t_vm *vm);
 void				show_fighting_win(t_vm *vm);
 void				show_players_win(t_vm *vm);
-
-
-void				button(t_vm *vm);
+void				draw_winner(t_vm *vm, int index);
 void				draw_vs(t_vm *vm);
-void				make_map(t_vm *vm);
 void				show_run_status(t_vm *vm);
+void				show_authors(t_vm *vm);
 void				show_params(t_vm *vm);
-void				make_info_window(t_vm *vm);
 void				show_champs(t_vm *vm);
 void				show_help(t_vm *vm);
-
 
 #endif
