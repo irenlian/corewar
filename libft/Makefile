@@ -15,7 +15,7 @@ OBJDIR :=	.obj/
 INCLD :=	includes/libft.h
 
 CC :=		clang
-CFLAGS :=	-g #-Wall -Wextra -Werror
+CFLAGS :=	-g -Wall -Wextra -Werror
 
 SRCS :=		ft_memset.c \
 				ft_bzero.c \
