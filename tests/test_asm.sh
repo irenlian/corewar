@@ -11,6 +11,8 @@
 # **************************************************************************** #
 
 #!/bin/bash -e
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 while getopts "r:" opt
 do
    case "$opt" in
@@ -18,14 +20,20 @@ do
       ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
    esac
 done
-./asm $rivalName.s &&
+$DIR/../asm $rivalName.s &&
 if ! [ -s $rivalName.cor ] ; then
     echo   DAAAAMN! &&
     exit
 fi &&
 xxd $rivalName.cor > t2 &&
 rm -rf $rivalName.cor &&
-./vm_champs/asm $rivalName.s &&
+$DIR/../vm_champs/asm $rivalName.s &&
 xxd $rivalName.cor > t1 &&
 rm -rf $rivalName.cor &&
-vimdiff t1 t2
+diff t1 t2 > res
+if ! [ -s res ] ; then
+	echo "GOOD, MAN!!!";
+	fi
+rm -rf t1
+rm -rf t2
+rm -rf res

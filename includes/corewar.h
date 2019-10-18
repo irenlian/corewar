@@ -36,7 +36,7 @@
 # define IND				2
 # define DIR				4
 
-# define DUMP_LENGTH		32
+# define DUMP_LENGTH		64
 
 # define FIRST				1
 # define SECOND				2

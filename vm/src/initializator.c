@@ -111,6 +111,12 @@ t_champ		*create_champ(t_byte_code *str_champ, int id)
 	ft_memcpy(header->comment, str_champ->code, COMMENT_LENGTH);
 	str_champ->code += COMMENT_LENGTH + 4;
 	str_champ->length -= PROG_NAME_LENGTH + COMMENT_LENGTH + 4 * 4;
+	if (str_champ->length > CHAMP_MAX_SIZE)
+	{
+		free(str_champ);
+		free(header);
+		return (NULL);
+	}
 	champ = (t_champ*)malloc(sizeof(t_champ));
 	*champ = (t_champ){id, header, str_champ, NULL, NULL};
 	return (champ);

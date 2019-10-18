@@ -10,10 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-path=vm_champs/champs/championships/2017
-path2=vm_champs/champs
-path3=vm_champs/champs/examples
-path4=vm_champs/champs/championships/2014
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+path=$DIR/../vm_champs/champs/championships/2017
+path2=$DIR/../vm_champs/champs
+path3=$DIR/../vm_champs/champs/examples
+path4=$DIR/../vm_champs/champs/championships/2014
 end=s
 
 s_array=("$path/adenis/*$end" "$path/agregoir/*$end" "$path/gnebie/*$end"
@@ -44,8 +45,8 @@ cor_array=("$path/adenis/*$end" "$path/agregoir/*$end" "$path/gnebie/*$end"
 		   "$path4/rmasse/*$end")
 
 for i in ${!s_array[@]}; do
-    ./asm ${s_array[$i]} && xxd ${cor_array[$i]} > t1
-	./vm_champs/asm ${s_array[$i]} && xxd ${cor_array[$i]} > t2
+    ../asm ${s_array[$i]} && xxd ${cor_array[$i]} > t1
+	../vm_champs/asm ${s_array[$i]} && xxd ${cor_array[$i]} > t2
 	if diff t1 t2 ; then
 		echo GOOD, MAN!!!
 	else
@@ -59,3 +60,6 @@ for i in ${!s_array[@]}; do
 		echo Damn
 	fi
 done
+
+rm -rf t1
+rm -rf t2

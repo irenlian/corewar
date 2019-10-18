@@ -64,6 +64,8 @@ int		main(int argc, char **argv)
 
 	vm = create_game();
 	read_arguments(vm, argc, argv);
+	if (!vm->champs)
+		show_error_vm(NULL, vm, 1);
 	normalize_id(vm->champs);
 	last = vm->champs;
 	while (last->next_champ)
