@@ -2,7 +2,11 @@
 
 Corewar is a team project that is devoted to building an assembler interpreter of code of external champions and own virtual machine that processes the byte code from assembler interpreter.
 
-The project is divided at three parts:
+## Visualization:
+
+![Screenshot](screenshot.png)
+
+## The project is divided at three parts:
 
 **1. Assembler interpreter: Nikotiner (dlian) and Haski007.**
 
@@ -16,7 +20,7 @@ It’s the “arena” in which champions will be executed. It offers various fu
 
 This is a console window coded with incursis library to show the battle. The native shell (for example, Terminal.app for macos) could show higher permormance than the third-party applications like iTerm. 
 
-How to run:
+## How to run:
 ```
 git clone https://github.com/Somaliika/corewar.git ~/corewar/
 
